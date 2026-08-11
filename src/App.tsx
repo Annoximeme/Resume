@@ -60,6 +60,7 @@ export function App() {
 
   return (
     <TechFocusProvider>
+      <div className="ambient" aria-hidden="true" />
       <div className="spotlight" aria-hidden="true" />
 
       <a className="skip-link" href="#main">

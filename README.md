@@ -212,10 +212,31 @@ file are free text, so parsing is lenient and anything without a year in it is
 left out; below two placeable roles there is nothing to compare and the strip
 renders nothing.
 
+**The ground is four layers.** Ruled graph paper, film grain from an inline
+SVG turbulence filter, an ambient wash, and a second copy of the grid that
+follows the cursor.
+
+The grid is masked at the left and right margins rather than faded downward.
+It's `position: fixed`, so a vertical fade never fades anything as you scroll —
+it parks a dead band across the lower third of every screen and leaves it
+there, which reads as the surface running out rather than continuing behind
+the content. That was the bug this replaced.
+
+The ambient wash is two large soft fields, one in each accent hue, that
+migrate across the window and trade places as the document scrolls. It's what
+gives the page depth below the hero: no section needs a background of its own
+and there are no bands to line up. It runs on the document's scroll timeline,
+so there's no listener, no observer and nothing on the main thread — and where
+scroll timelines are missing, or motion isn't wanted, the same two fields
+simply stay parked.
+
 **The graph paper lights up under the cursor.** A second copy of the grid,
 masked to a circle that follows the pointer, so the page reads as a surface
 being lit rather than a flat image. It costs one mask position per frame and
 never runs without a fine pointer or under reduced motion.
+
+All four are `display: none` in print. They're fixed, so anything left on
+would otherwise repeat on every page of the PDF.
 
 **Card edges light up too.** Anything marked `data-glow` gets a gradient
 hairline that brightens where the cursor is over it. One delegated

@@ -11,6 +11,24 @@
   padding-block: clamp(var(--s-8), 11vh, 7rem) var(--s-6);
 }
 
+/* A soft horizon where the hero meets the page, so the title block ends
+   rather than simply stopping at a hairline. */
+.hero::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 14rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--c-accent) 6%, transparent)
+  );
+  mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+}
+
 .layout {
   position: relative;
   z-index: 1;

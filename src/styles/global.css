@@ -48,8 +48,108 @@ body::before {
       transparent 1px
     );
   background-size: 88px 88px;
-  /* Fades out toward the bottom so the footer stays clean. */
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+  /*
+   * Framed at the left and right margins, and not faded downward.
+   *
+   * This layer is fixed, so a vertical fade never actually fades anything as
+   * you scroll: it parks a dead band across the lower third of every screen
+   * and leaves it there. The surface reads as running out halfway down the
+   * window rather than continuing behind the content, which is the opposite
+   * of what a ground is for.
+   */
+  mask-image: linear-gradient(to right, transparent, #000 13%, #000 87%, transparent);
+}
+
+/*
+ * Ambient wash: two large, very soft fields, one in each accent hue, sitting
+ * under everything.
+ *
+ * They migrate across the window as the document scrolls and trade places on
+ * the way, so the ground under one section is never quite the ground under the
+ * one before it. That is what gives the page depth below the hero — no section
+ * needs a background of its own, and there are no bands to line up.
+ *
+ * Driven by the document's own scroll timeline, so the browser runs it off the
+ * main thread: no listener, no observer, no React. Where scroll timelines are
+ * missing, or motion is not wanted, the same two fields simply stay parked.
+ */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient::before,
+.ambient::after {
+  content: '';
+  position: absolute;
+  width: 78vmax;
+  height: 78vmax;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.ambient::before {
+  top: -26vmax;
+  left: -20vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-accent) 13%, transparent),
+    transparent 64%
+  );
+}
+
+.ambient::after {
+  bottom: -30vmax;
+  right: -22vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-tech) 11%, transparent),
+    transparent 64%
+  );
+}
+
+@supports (animation-timeline: scroll(root block)) {
+  .ambient::before,
+  .ambient::after {
+    animation: linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  .ambient::before {
+    animation-name: ambient-a;
+  }
+
+  .ambient::after {
+    animation-name: ambient-b;
+  }
+
+  @keyframes ambient-a {
+    from {
+      transform: translate3d(0, -4vmax, 0) scale(1);
+    }
+    to {
+      transform: translate3d(30vmax, 46vmax, 0) scale(1.22);
+    }
+  }
+
+  @keyframes ambient-b {
+    from {
+      transform: translate3d(0, 8vmax, 0) scale(1.18);
+    }
+    to {
+      transform: translate3d(-28vmax, -44vmax, 0) scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient::before,
+  .ambient::after {
+    animation: none !important;
+  }
 }
 
 /*
@@ -350,7 +450,8 @@ button {
   /* Screen texture: fixed-position layers otherwise print on every page. */
   body::before,
   body::after,
-  .spotlight {
+  .spotlight,
+  .ambient {
     display: none !important;
   }
 

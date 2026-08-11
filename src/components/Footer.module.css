@@ -1,7 +1,35 @@
+/*
+ * The footer is where the ground ends, so it should not arrive as a flat band
+ * with a rule on top of it. The sunken colour is faded in from transparent
+ * over the first third, which lets the grid and the ambient wash carry through
+ * the join and settle rather than being cut off at a line.
+ */
 .footer {
-  border-top: 1px solid var(--c-border);
-  background: var(--c-bg-sunken);
-  padding-block: var(--s-6);
+  position: relative;
+  padding-block: var(--s-7) var(--s-6);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--c-bg-sunken) 38%,
+    var(--c-bg-sunken)
+  );
+}
+
+/* The rule stays, but fades at both ends like the ones between sections. */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--c-border) 12%,
+    var(--c-border) 88%,
+    transparent
+  );
 }
 
 .inner {

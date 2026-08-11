@@ -1,8 +1,16 @@
+/*
+ * Separation from the ground is a border and a shadow, not a darker fill. The
+ * fill stays exactly --c-bg-sunken, because that is the surface the contrast
+ * script measures these token colours against; tinting it would make the card
+ * a surface nothing is checking, which is how the footer once shipped at
+ * 4.19:1. --c-border-strong is decorative and carries no such obligation.
+ */
 .card {
   margin: var(--s-6) 0 0;
-  border: 1px solid var(--c-border);
+  border: 1px solid var(--c-border-strong);
   border-radius: var(--radius-lg);
   background: var(--c-bg-sunken);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
