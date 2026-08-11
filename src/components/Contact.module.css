@@ -1,17 +1,38 @@
 .panel {
+  position: relative;
+  overflow: hidden;
   padding: clamp(var(--s-5), 5vw, var(--s-7));
-  border: 1px solid var(--c-border);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
   border-radius: var(--radius-lg);
   background:
     radial-gradient(
-      80% 120% at 0% 0%,
-      color-mix(in srgb, var(--c-accent) 9%, transparent),
-      transparent 60%
+      90% 130% at 0% 0%,
+      color-mix(in srgb, var(--c-accent) 13%, transparent),
+      transparent 62%
     ),
     var(--c-bg-raised);
+  box-shadow: var(--shadow-md);
+}
+
+/* Oversized quotation-style glyph bleeding off the top-right corner. */
+.panel::after {
+  content: '';
+  position: absolute;
+  top: -35%;
+  right: -8%;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-accent) 10%, transparent),
+    transparent 65%
+  );
 }
 
 .email {
+  position: relative;
   display: inline-block;
   font-size: var(--t-lg);
   font-weight: 650;
@@ -27,6 +48,7 @@
 }
 
 .row {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

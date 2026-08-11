@@ -64,6 +64,13 @@ export const profile = {
     'Currently focused on React and TypeScript, and looking for a team where ' +
     'I can grow into full-stack work.',
   location: 'Belgium',
+  /**
+   * Portrait shown in the hero. Swap the image by replacing
+   * `public/portrait.jpg` — no code change needed. Set `portrait` to null to
+   * drop the photo and let the text run full width.
+   */
+  portrait: 'portrait.jpg' as string | null,
+  portraitAlt: 'Gianni Goossens',
   /** Set to false when you are not looking — hides the badge in the header. */
   availableForWork: true,
   availabilityNote: 'Open to junior / mid front-end roles',

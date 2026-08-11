@@ -1,24 +1,100 @@
 .hero {
   position: relative;
   overflow: hidden;
-  padding-block: clamp(var(--s-8), 14vh, 9rem) clamp(var(--s-7), 10vh, var(--s-9));
+  /* Tall enough to feel like a title page without pushing the content
+     entirely below the fold. */
+  min-height: min(88vh, 50rem);
+  display: flex;
+  align-items: center;
+  /* Centring already supplies the breathing room, so the bottom padding stays
+     small — otherwise it stacks with the next section's and opens a void. */
+  padding-block: clamp(var(--s-8), 11vh, 7rem) var(--s-6);
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(var(--s-6), 6vw, var(--s-8));
+  align-items: center;
+}
+
+/* Portrait beside the text once there is room; stacked above it on phones. */
+@media (min-width: 56rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  }
 }
 
 .inner {
-  position: relative;
-  z-index: 1;
-  max-width: 46rem;
+  min-width: 0;
 }
 
-/* A soft accent wash behind the hero, clipped to the section. */
+/* ── Portrait ───────────────────────────────────────────────────────────── */
+
+.portraitWrap {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 17rem);
+  aspect-ratio: 1;
+  /* Stacked above the text on small screens. */
+  order: -1;
+}
+
+@media (min-width: 56rem) {
+  .portraitWrap {
+    order: 0;
+    width: 100%;
+    justify-self: end;
+  }
+}
+
+/* Accent halo sitting behind the photo. */
+.portraitWrap::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-accent) 24%, transparent),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-lg);
+  /* The photo is already black and white; this keeps any replacement
+     consistent with it, and warms it very slightly toward the accent. */
+  filter: grayscale(1) contrast(1.04);
+  transition:
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    filter var(--dur) var(--ease-out);
+}
+
+.portraitWrap:hover .portrait {
+  transform: translateY(-4px);
+  filter: grayscale(0.55) contrast(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Accent wash bleeding in from the top-left, clipped to the section. */
 .glow {
   position: absolute;
-  inset: -30% -10% auto -10%;
-  height: 70%;
+  inset: -40% -20% auto -25%;
+  height: 90%;
   background: radial-gradient(
-    60% 60% at 30% 40%,
-    color-mix(in srgb, var(--c-accent) 16%, transparent),
-    transparent 70%
+    50% 55% at 28% 42%,
+    color-mix(in srgb, var(--c-accent) 20%, transparent),
+    transparent 72%
   );
   pointer-events: none;
 }
@@ -29,33 +105,46 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-2);
-  padding: var(--s-1) var(--s-3);
+  padding: var(--s-1) var(--s-3) var(--s-1) var(--s-2);
   margin-bottom: var(--s-5);
-  border: 1px solid color-mix(in srgb, var(--c-positive) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-positive) 32%, transparent);
   border-radius: var(--radius-full);
   background: var(--c-positive-soft);
   color: var(--c-positive);
-  font-size: var(--t-sm);
-  font-weight: 550;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .dot {
+  position: relative;
   width: 0.5rem;
   height: 0.5rem;
+  margin-inline: var(--s-1);
   border-radius: 50%;
   background: currentColor;
-  animation: pulse 2.4s var(--ease-out) infinite;
+  flex: none;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 currentColor;
+/* Expanding ring, rather than pulsing the dot itself. */
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ping 2.6s var(--ease-out) infinite;
+}
+
+@keyframes ping {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
   }
-  50% {
-    opacity: 0.75;
-    box-shadow: 0 0 0 4px transparent;
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
   }
 }
 
@@ -63,34 +152,47 @@
 
 .name {
   font-size: var(--t-2xl);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.045em;
   font-weight: 700;
+  line-height: 0.95;
+  /* Fades the wordmark from full contrast into a softer tone. */
+  background: linear-gradient(
+    170deg,
+    var(--c-text) 30%,
+    color-mix(in srgb, var(--c-text) 62%, var(--c-bg))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .role {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--s-2);
-  margin-top: var(--s-3);
+  gap: var(--s-3);
+  margin-top: var(--s-5);
   font-size: var(--t-lg);
   color: var(--c-accent);
-  font-weight: 550;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 .sep {
   color: var(--c-border-strong);
+  font-weight: 300;
 }
 
 .location {
   color: var(--c-text-faint);
   font-size: var(--t-md);
   font-weight: 400;
+  letter-spacing: 0;
 }
 
 .pitch {
   margin-top: var(--s-5);
-  max-width: var(--measure);
+  max-width: 46ch;
   font-size: var(--t-md);
   color: var(--c-text-muted);
 }
@@ -124,24 +226,37 @@
 .primary {
   background: var(--c-accent);
   color: var(--c-accent-text);
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 0 color-mix(in srgb, var(--c-accent) 45%, transparent);
 }
 
 .primary:hover {
   background: var(--c-accent-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 4px color-mix(in srgb, var(--c-accent) 18%, transparent);
+}
+
+.primary svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.primary:hover svg {
+  transform: translate(2px, -2px);
 }
 
 .secondary {
-  background: var(--c-bg-raised);
+  background: color-mix(in srgb, var(--c-bg-raised) 70%, transparent);
   border-color: var(--c-border);
   color: var(--c-text);
 }
 
 .secondary:hover {
   border-color: var(--c-border-strong);
-  transform: translateY(-1px);
+  background: var(--c-bg-raised);
+  transform: translateY(-2px);
 }
 
 /* ── Profile links ──────────────────────────────────────────────────────── */
@@ -150,7 +265,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-5);
-  margin-top: var(--s-6);
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-border);
+  max-width: 30rem;
 }
 
 .link {
@@ -158,14 +276,38 @@
   align-items: center;
   gap: var(--s-2);
   font-size: var(--t-sm);
-  color: var(--c-text-muted);
-  border-bottom: 1px solid transparent;
-  transition:
-    color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out);
+  color: var(--c-text-faint);
+  transition: color var(--dur-fast) var(--ease-out);
 }
 
 .link:hover {
-  color: var(--c-text);
-  border-bottom-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+@media print {
+  .hero {
+    min-height: 0;
+    padding-block: 0 var(--s-4);
+  }
+
+  .glow,
+  .portraitWrap::before {
+    display: none;
+  }
+
+  /* Keep the photo, but small enough to leave the page to the text. */
+  .portraitWrap {
+    width: 7rem;
+  }
+
+  .portrait {
+    box-shadow: none;
+  }
+
+  /* Gradient text prints as nothing — force a solid colour. */
+  .name {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: #000;
+  }
 }

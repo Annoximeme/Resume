@@ -1,49 +1,68 @@
-/*
- * Two fixed columns rather than auto-fit. The featured card spans the full
- * row, which means no track is ever empty — so auto-fit would have nothing
- * to collapse and a trailing pair of cards would leave a gap on the right.
- */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--s-5);
-}
-
-@media (min-width: 48rem) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  gap: var(--s-4);
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: var(--s-5);
-  background: var(--c-bg-raised);
+  padding: clamp(var(--s-4), 3vw, var(--s-6));
+  background: color-mix(in srgb, var(--c-bg-raised) 75%, transparent);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  overflow: hidden;
   transition:
     transform var(--dur) var(--ease-out),
     box-shadow var(--dur) var(--ease-out),
-    border-color var(--dur) var(--ease-out);
+    border-color var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out);
+}
+
+/* Accent sheen that only appears on hover, wiping in from the left. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--c-accent) 10%, transparent),
+    transparent 55%
+  );
+  transition: opacity var(--dur) var(--ease-out);
 }
 
 .card:hover {
   transform: translateY(-3px);
-  border-color: var(--c-border-strong);
+  border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+  background: var(--c-bg-raised);
   box-shadow: var(--shadow-lg);
 }
 
-/* The featured project takes the full row on wide screens. */
-.card[data-featured='true'] {
-  border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+.card:hover::before {
+  opacity: 1;
 }
 
-@media (min-width: 48rem) {
-  .card[data-featured='true'] {
-    grid-column: 1 / -1;
-  }
+/* The featured project gets a permanent accent edge on its left side. */
+.card[data-featured='true'] {
+  border-color: color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
+}
+
+.card[data-featured='true']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--c-accent),
+    color-mix(in srgb, var(--c-accent) 20%, transparent)
+  );
 }
 
 .cardHead {
@@ -55,16 +74,18 @@
 
 .name {
   font-size: var(--t-lg);
+  letter-spacing: -0.02em;
 }
 
 .flag {
-  padding: 0.125rem var(--s-2);
+  padding: 0.1rem var(--s-2);
   border-radius: var(--radius-full);
   background: var(--c-accent-soft);
   color: var(--c-accent);
-  font-size: var(--t-xs);
-  font-weight: 650;
-  letter-spacing: 0.04em;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -89,7 +110,7 @@
 }
 
 .stack li {
-  padding: 0.125rem var(--s-2);
+  padding: 0.1rem var(--s-2);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
@@ -101,7 +122,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-4);
-  /* Pushes the buttons to the bottom so cards in a row align. */
   margin-top: auto;
   padding-top: var(--s-5);
 }
@@ -123,4 +143,16 @@
 .action:hover {
   color: var(--c-accent);
   border-bottom-color: var(--c-accent);
+}
+
+@media print {
+  .card {
+    background: none;
+    break-inside: avoid;
+  }
+
+  .card::before,
+  .card::after {
+    display: none;
+  }
 }

@@ -115,6 +115,8 @@ export function Header() {
         </div>
       </div>
 
+      <div className={styles.progress} aria-hidden="true" />
+
       <div
         id="mobile-menu"
         className={styles.mobileMenu}

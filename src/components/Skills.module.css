@@ -1,33 +1,45 @@
+/*
+ * Labelled rows rather than boxed cards. Cards in a grid stretch to match the
+ * tallest one, which left visible dead space under the shorter groups; rows
+ * take exactly the height their tags need.
+ */
 .grid {
   display: grid;
-  /* 14rem keeps all four groups on one row at full width; below that they
-     reflow rather than leaving a single card stranded on its own line. */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-  gap: var(--s-5);
+  gap: 0;
 }
 
 .group {
-  padding: var(--s-5);
-  background: var(--c-bg-raised);
-  border: 1px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  transition:
-    border-color var(--dur) var(--ease-out),
-    transform var(--dur) var(--ease-out);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--c-border);
 }
 
-.group:hover {
-  border-color: var(--c-border-strong);
-  transform: translateY(-2px);
+.group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.group:last-child {
+  padding-bottom: 0;
+}
+
+@media (min-width: 40rem) {
+  .group {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--s-5);
+    align-items: baseline;
+  }
 }
 
 .groupTitle {
-  font-size: var(--t-sm);
+  font-size: var(--t-xs);
   font-family: var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--c-text-faint);
-  margin-bottom: var(--s-4);
+  font-weight: 500;
 }
 
 .tags {
@@ -37,10 +49,20 @@
 }
 
 .tag {
-  padding: var(--s-1) var(--s-3);
+  padding: 0.3rem var(--s-3);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-full);
-  background: var(--c-bg-sunken);
+  background: color-mix(in srgb, var(--c-bg-raised) 60%, transparent);
   font-size: var(--t-sm);
   color: var(--c-text-muted);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.tag:hover {
+  border-color: color-mix(in srgb, var(--c-accent) 50%, transparent);
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
 }

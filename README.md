@@ -49,12 +49,15 @@ empty. Sections you do not want at all can be removed from
 [`src/App.tsx`](src/App.tsx) and from `NAV_ITEMS` in
 [`src/components/Header.tsx`](src/components/Header.tsx).
 
-### Two things that are *not* in the content file
+### Three things that are *not* in the content file
 
 1. **`index.html`** — the `<title>`, description, Open Graph and JSON-LD tags.
    Search engines and social previews read these before any JavaScript runs, so
    update them there too when your details change.
 2. **`public/favicon.svg`** — the initials in the browser tab.
+3. **`public/portrait.jpg`** — the hero photo. Replace the file to change the
+   picture; keep it square, since it is cropped to a 1:1 frame. Setting
+   `profile.portrait` to `null` removes it and lets the text run full width.
 
 ### Changing the colours
 
@@ -104,8 +107,14 @@ If you move to a **custom domain** or rename the repo to
 - **Scroll-spy navigation** — the current section stays highlighted in the header.
 - **Accessibility** — skip link, visible focus rings, labelled icon buttons,
   semantic landmarks, and full `prefers-reduced-motion` support.
-- **Responsive** — one column on phones with a slide-down menu, up to a
-  four-column skills grid on desktop.
+- **Editorial two-column layout** — on desktop each section heading sits in a
+  rail on the left and stays put while its content scrolls past, so you always
+  know which part of the resume you are reading. Collapses to one column on
+  narrow screens.
+- **Reading-progress bar** in the header, driven by a CSS scroll-timeline —
+  no JavaScript, no main-thread work, and simply absent where unsupported.
+- **Responsive** — one column on phones with a slide-down menu and the portrait
+  stacked above the text, two columns from 60rem up.
 - **No external requests** — no font CDN, no icon library, no analytics. Icons
   are inline SVG, so the page renders identically offline.
 

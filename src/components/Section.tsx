@@ -16,14 +16,14 @@ export function Section({ id, eyebrow, title, intro, children }: Props) {
   const ref = useReveal<HTMLElement>()
 
   return (
-    <section id={id} ref={ref} className={`section reveal ${styles.section}`}>
-      <div className="container">
+    <section id={id} ref={ref} className="section reveal">
+      <div className={`container ${styles.grid}`}>
         <header className={styles.header}>
           {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
           <h2 className={styles.title}>{title}</h2>
           {intro && <p className={styles.intro}>{intro}</p>}
         </header>
-        {children}
+        <div className={styles.content}>{children}</div>
       </div>
     </section>
   )

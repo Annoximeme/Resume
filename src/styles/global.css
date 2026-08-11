@@ -24,6 +24,27 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/*
+ * A faint dot grid over the whole page. It reads as texture rather than
+ * pattern — just enough to stop large empty areas looking like dead space.
+ * Fixed attachment so it stays put while content scrolls over it.
+ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    color-mix(in srgb, var(--c-text) 12%, transparent) 1px,
+    transparent 0
+  );
+  background-size: 32px 32px;
+  /* Fades out toward the bottom so the footer stays clean. */
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+}
+
 h1,
 h2,
 h3,
@@ -85,12 +106,28 @@ button {
 }
 
 .section {
-  padding-block: clamp(var(--s-7), 8vw, var(--s-9));
+  padding-block: clamp(var(--s-7), 6vw, var(--s-8));
   scroll-margin-top: 5rem;
 }
 
-.section + .section {
-  border-top: 1px solid var(--c-border);
+/*
+ * Hairline between sections that fades at both ends rather than running the
+ * full width — softer than a hard rule, and it keeps the eye on the content.
+ */
+.section + .section::before {
+  content: '';
+  display: block;
+  height: 1px;
+  /* Cancels the section's own top padding so the rule sits at its edge. */
+  margin-top: calc(clamp(var(--s-7), 6vw, var(--s-8)) * -1);
+  margin-bottom: clamp(var(--s-7), 6vw, var(--s-8));
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--c-border) 12%,
+    var(--c-border) 88%,
+    transparent
+  );
 }
 
 /* ── Accessibility helpers ──────────────────────────────────────────────── */
@@ -188,6 +225,13 @@ button {
   .section {
     padding-block: var(--s-4);
     break-inside: avoid;
+  }
+
+  /* The divider's pull-up margin is sized for screen padding; without this it
+     is dragged up into the previous section and strikes through its text. */
+  .section + .section::before {
+    margin-top: calc(var(--s-4) * -1);
+    margin-bottom: var(--s-4);
   }
 
   .container {

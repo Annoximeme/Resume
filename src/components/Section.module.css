@@ -1,27 +1,81 @@
-.section {
-  position: relative;
+/*
+ * Two-column section: the heading sits in a rail on the left and stays put
+ * while its content scrolls past, so you always know which part of the resume
+ * you are reading. Collapses to a single column below 60rem.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
 }
 
-.header {
-  margin-bottom: clamp(var(--s-5), 4vw, var(--s-7));
-  max-width: var(--measure);
+@media (min-width: 60rem) {
+  .grid {
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    gap: clamp(var(--s-6), 5vw, var(--s-8));
+  }
+
+  .header {
+    position: sticky;
+    /* Clears the sticky page header. */
+    top: 7rem;
+    align-self: start;
+  }
 }
 
 .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--c-accent);
-  margin-bottom: var(--s-3);
+  margin-bottom: var(--s-4);
 }
 
+/* Short rule trailing the eyebrow label. */
+.eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--c-accent) 45%, transparent),
+    transparent
+  );
+}
+
+/*
+ * Deliberately smaller than --t-xl: these headings live in a ~17rem rail, and
+ * at the full display size they fragmented into three ragged lines.
+ */
 .title {
-  font-size: var(--t-xl);
+  font-size: clamp(1.5rem, 1.3rem + 0.55vw, 1.9rem);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .intro {
   margin-top: var(--s-3);
   color: var(--c-text-muted);
-  font-size: var(--t-md);
+  font-size: var(--t-sm);
+  max-width: 34ch;
+}
+
+.content {
+  min-width: 0;
+}
+
+@media print {
+  /* One column on paper, and nothing sticky. */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-3);
+  }
+
+  .header {
+    position: static;
+  }
 }
