@@ -84,8 +84,9 @@
     </script>
 
     <script>
-      // Applies the stored theme before first paint, so a dark-theme visitor
-      // never sees a white flash. Kept inline and tiny on purpose.
+      // Applies the stored theme and accent before first paint, so a
+      // dark-theme visitor never sees a white flash and a chosen accent never
+      // arrives a frame late. Kept inline and tiny on purpose.
       ;(function () {
         try {
           var stored = localStorage.getItem('theme')
@@ -93,6 +94,13 @@
             stored ||
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           document.documentElement.dataset.theme = theme
+
+          var accent = localStorage.getItem('accent')
+          // Whitelisted rather than trusted: this value ends up in an
+          // attribute selector, and storage is editable.
+          if (/^[a-z]{3,12}$/.test(accent || '')) {
+            document.documentElement.dataset.accent = accent
+          }
         } catch (e) {
           /* storage unavailable; the CSS media query handles it */
         }

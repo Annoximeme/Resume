@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Icon } from './Icon'
+import { AccentPicker } from './AccentPicker'
 import { useScrollSpy } from '../hooks/useScrollSpy'
 import type { Theme } from '../hooks/useTheme'
 import { profile } from '../content/resume'
@@ -9,10 +10,12 @@ import styles from './Header.module.css'
 type Props = {
   theme: Theme
   onToggleTheme: () => void
+  accent: string
+  onChooseAccent: (id: string) => void
 }
 
 // Theme lives in App so the command palette and the header cannot drift apart.
-export function Header({ theme, onToggleTheme }: Props) {
+export function Header({ theme, onToggleTheme, accent, onChooseAccent }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const active = useScrollSpy(VISIBLE_SECTION_IDS)
@@ -100,6 +103,8 @@ export function Header({ theme, onToggleTheme }: Props) {
           >
             <Icon name="print" />
           </button>
+
+          <AccentPicker accent={accent} onChoose={onChooseAccent} />
 
           <button
             type="button"

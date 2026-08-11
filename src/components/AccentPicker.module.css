@@ -1,0 +1,145 @@
+.wrap {
+  position: relative;
+  display: flex;
+}
+
+.trigger {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  color: var(--c-text-muted);
+  border: 1px solid transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'] {
+  color: var(--c-accent);
+  background: var(--c-accent-soft);
+  border-color: color-mix(in srgb, var(--c-accent) 25%, transparent);
+}
+
+.trigger svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + var(--s-3));
+  right: 0;
+  z-index: 60;
+  width: 17.6rem;
+  padding: var(--s-4);
+  background: var(--c-bg-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.popover[data-open='true'] {
+  animation: pop var(--dur-fast) var(--ease-out) both;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+.heading {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  margin-bottom: var(--s-3);
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+/*
+ * Each swatch carries the data-accent attribute of the palette it selects, so
+ * tokens.css hands it that palette's own --h-* and --l-* knobs. The formula
+ * below is the same one the accent tokens use; what it is never allowed to do
+ * is hold a second copy of the hues, because that is the copy that would drift.
+ */
+.swatch {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--c-border-control);
+  background: linear-gradient(
+    140deg,
+    oklch(var(--l-accent) 0.24 var(--h-accent)) 42%,
+    oklch(var(--l-tech) 0.115 var(--h-tech))
+  );
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+/* The dark ramp is a different lightness, not just a different theme, so the
+   swatches have to move with it or they would advertise the light palette. */
+:global(:root[data-theme='dark']) .swatch {
+  background: linear-gradient(
+    140deg,
+    oklch(0.735 0.185 calc(var(--h-accent) + 5)) 42%,
+    oklch(0.79 0.11 calc(var(--h-tech) - 8))
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .swatch {
+    background: linear-gradient(
+      140deg,
+      oklch(0.735 0.185 calc(var(--h-accent) + 5)) 42%,
+      oklch(0.79 0.11 calc(var(--h-tech) - 8))
+    );
+  }
+}
+
+.swatch:hover {
+  transform: scale(1.12);
+}
+
+.swatch[aria-checked='true'] {
+  box-shadow:
+    0 0 0 2px var(--c-bg-raised),
+    0 0 0 4px var(--c-accent);
+}
+
+.note {
+  margin-top: var(--s-4);
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+}
+
+.fine {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--c-border);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--c-text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover[data-open='true'] {
+    animation: none;
+  }
+
+  .swatch:hover {
+    transform: none;
+  }
+}

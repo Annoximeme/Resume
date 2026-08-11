@@ -38,6 +38,46 @@ const dark = Object.fromEntries(
   Object.entries({ ...light, ...vars(darkBlock) }).map(([k, v]) => [k, deref(v)]),
 )
 
+/*
+ * Accent palettes. The accent tokens above are written with their hue held in
+ * --h-accent / --h-tech rather than baked in, so switching accent is a
+ * two-number substitution. Each [data-accent='x'] block supplies one pair, and
+ * every pair has to survive every check below — the whole reason the palette
+ * can be made switchable at all is that this can prove it.
+ */
+const PALETTES = [
+  { id: 'indigo', knobs: {} },
+  ...[...css.matchAll(/\[data-accent='([\w-]+)'\]\s*\{([^}]*)\}/g)].map((m) => ({
+    id: m[1],
+    knobs: vars(m[2]),
+  })),
+]
+
+/**
+ * Substitute a palette's hue and lightness knobs — falling back to the
+ * defaults for anything it does not override — and fold the `calc(N ± M)` the
+ * dark accents use to sit a few degrees off the light ones.
+ */
+function applyPalette(value, knobs) {
+  const substituted = value.replace(
+    /var\((--[hl]-[\w-]+)\)/g,
+    (_, name) => knobs[name] ?? light[name] ?? name,
+  )
+  return substituted.replace(/calc\(\s*([\d.]+)\s*([+-])\s*([\d.]+)\s*\)/g, (_, a, op, b) =>
+    String(op === '+' ? Number(a) + Number(b) : Number(a) - Number(b)),
+  )
+}
+
+// A palette named in the content file with no block here would silently do
+// nothing, so the two lists have to match.
+const declared = readFileSync(
+  fileURLToPath(new URL('../src/content/accents.ts', import.meta.url)),
+  'utf8',
+)
+const named = [...declared.matchAll(/\{\s*id:\s*'([\w-]+)'/g)].map((m) => m[1])
+const missing = named.filter((id) => !PALETTES.some((p) => p.id === id))
+const orphaned = PALETTES.filter((p) => !named.includes(p.id)).map((p) => p.id)
+
 function srgbToLin(c) {
   c /= 255
   return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
@@ -124,26 +164,50 @@ const CHECKS = [
 
 let failures = 0
 
-for (const [label, theme] of [
-  ['LIGHT', light],
-  ['DARK', dark],
-]) {
-  console.log(`\n${label}`)
-  for (const [fg, bg, min, what] of CHECKS) {
-    if (!theme[fg] || !theme[bg]) {
-      console.log(`  ??  ${what}: missing ${!theme[fg] ? fg : bg}`)
-      failures++
-      continue
+for (const id of missing) {
+  console.log(`FAIL  accent '${id}' is offered in accents.ts but has no block in tokens.css`)
+  failures++
+}
+for (const id of orphaned) {
+  console.log(`FAIL  accent '${id}' is defined in tokens.css but not offered in accents.ts`)
+  failures++
+}
+
+// Only the accent-dependent pairs change between palettes; re-listing the
+// neutral ones six times would bury the interesting output.
+const accentPair = ([fg, bg]) => /accent|tech/.test(fg) || /accent|tech/.test(bg)
+
+for (const palette of PALETTES) {
+  for (const [label, theme] of [
+    ['LIGHT', light],
+    ['DARK', dark],
+  ]) {
+    const first = palette.id === PALETTES[0].id
+    const checks = first ? CHECKS : CHECKS.filter(accentPair)
+    console.log(`\n${palette.id.toUpperCase()} / ${label}`)
+    let worst = Infinity
+    for (const [fg, bg, min, what] of checks) {
+      if (!theme[fg] || !theme[bg]) {
+        console.log(`  ??  ${what}: missing ${!theme[fg] ? fg : bg}`)
+        failures++
+        continue
+      }
+      const r = ratio(applyPalette(theme[fg], palette.knobs), applyPalette(theme[bg], palette.knobs))
+      const ok = r >= min
+      if (!ok) failures++
+      worst = Math.min(worst, r / min)
+      // The default palette prints in full; the alternates print only what
+      // fails, plus the tightest margin, so the log stays readable.
+      if (!ok || first) {
+        console.log(
+          `  ${ok ? 'ok ' : 'FAIL'} ${r.toFixed(2).padStart(5)} (min ${min})  ${what}` +
+            `  ${fg} on ${bg}`,
+        )
+      }
     }
-    const r = ratio(theme[fg], theme[bg])
-    const ok = r >= min
-    if (!ok) failures++
-    console.log(
-      `  ${ok ? 'ok ' : 'FAIL'} ${r.toFixed(2).padStart(5)} (min ${min})  ${what}` +
-        `  ${fg} on ${bg}`,
-    )
+    if (!first) console.log(`  ${checks.length} accent pairs, tightest at ${worst.toFixed(2)}x AA`)
   }
 }
 
-console.log(failures ? `\n${failures} failing pair(s)` : '\nAll pairs pass.')
+console.log(failures ? `\n${failures} failing pair(s)` : '\nAll pairs pass, in every accent.')
 process.exit(failures ? 1 : 0)

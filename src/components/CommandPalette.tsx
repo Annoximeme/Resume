@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Icon, type IconName } from './Icon'
 import { VISIBLE_SECTIONS } from '../content/sections'
+import { accents } from '../content/accents'
 import { profile, projects, site } from '../content/resume'
 import { downloadJsonResume } from '../content/jsonResume'
 import styles from './CommandPalette.module.css'
@@ -60,6 +61,8 @@ type Props = {
   theme: 'light' | 'dark'
   annotating: boolean
   onToggleAnnotations: () => void
+  accent: string
+  onChooseAccent: (id: string) => void
 }
 
 /**
@@ -74,6 +77,8 @@ export function CommandPalette({
   theme,
   annotating,
   onToggleAnnotations,
+  accent,
+  onChooseAccent,
 }: Props) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -107,9 +112,26 @@ export function CommandPalette({
       run: () => go('#projects'),
     }))
 
+    // The header has a picker for these; they are here too because a visitor
+    // who is already typing should not have to go looking for the mouse.
+    const hues: Command[] = accents
+      .filter((option) => option.id !== accent)
+      .map((option) => ({
+        id: `accent-${option.id}`,
+        label: `Accent: ${option.label}`,
+        hint: option.note,
+        icon: 'droplet',
+        group: 'Appearance',
+        run: () => {
+          onChooseAccent(option.id)
+          setOpen(false)
+        },
+      }))
+
     return [
       ...nav,
       ...work,
+      ...hues,
       {
         id: 'theme',
         label: `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`,
@@ -207,7 +229,7 @@ export function CommandPalette({
         },
       },
     ]
-  }, [go, onToggleTheme, theme, annotating, onToggleAnnotations])
+  }, [go, onToggleTheme, theme, annotating, onToggleAnnotations, accent, onChooseAccent])
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()

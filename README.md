@@ -108,11 +108,29 @@ two themes can be reasoned about instead of eyeballed. It can also express
 colours outside sRGB, so the accent renders at full chroma on a P3 display and
 is clamped everywhere else.
 
+### Accents
+
+The two hues aren't written into the accent colours; they're held in
+`--h-accent` and `--h-tech`, and every accent token takes its hue from one of
+them. Rotating that pair restyles the whole page, which is what the droplet in
+the header does — each alternate is one `[data-accent='…']` block in the token
+file, listed in [`src/content/accents.ts`](src/content/accents.ts) for its
+name. The picker's swatches carry the same attribute, so they take their
+colour from the same block they select rather than from a copy.
+
+Two of the six also override `--l-accent`. Lightness in OKLCH is perceptual,
+not photometric: a teal at `L 0.52` carries far more sRGB luminance than an
+indigo does, so it has far less contrast on a white page. Hues near the
+yellow-green luminance peak have to sit lower to clear AA, and the contrast
+script is what says by how much — teal and azure both failed on the first run.
+
 `npm run contrast` parses the token file, converts each `oklch()` value to
 linear sRGB, and checks every pair that matters against WCAG AA (4.5:1 for
-text, 3:1 for control borders). It runs as part of `npm run build` and in CI,
-so a colour change that hurts legibility fails the build and tells you which
-pair broke.
+text, 3:1 for control borders) — for every accent, in both themes. It runs as
+part of `npm run build` and in CI, so a colour change that hurts legibility
+fails the build and tells you which pair broke. It also fails if an accent is
+named in `accents.ts` with no block in the token file, or the reverse, since
+either one would be a control that silently does nothing.
 
 If you add a surface colour, add its pairs to that script. The list is the
 whole safety net: `--c-bg-sunken` was missing from it once, and a palette

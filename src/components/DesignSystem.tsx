@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { accents } from '../content/accents'
 import styles from './DesignSystem.module.css'
 
 /**
@@ -75,14 +76,16 @@ function contrast(a: string, b: string): number | null {
 }
 
 export function DesignSystem() {
-  // Re-read on theme change: the toggle flips data-theme on <html>.
+  // Re-read whenever the palette moves. Both controls work the same way —
+  // they set an attribute on <html> and let the stylesheet do the rest — so
+  // watching those two attributes catches every colour change on the page.
   const [themeTick, setThemeTick] = useState(0)
 
   useEffect(() => {
     const observer = new MutationObserver(() => setThemeTick((n) => n + 1))
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['data-theme'],
+      attributeFilter: ['data-theme', 'data-accent'],
     })
     return () => observer.disconnect()
   }, [])
@@ -212,8 +215,35 @@ export function DesignSystem() {
           <p className={styles.note}>
             The same checks run as <code>npm run contrast</code> in CI, against
             the token file rather than the browser. A colour change that drops a
-            pair below its threshold fails the build.
+            pair below its threshold fails the build. Switch the accent in the
+            header and this table recalculates — the figures are measured from
+            what is rendered, not written down.
           </p>
+        </section>
+
+        <section className={styles.block}>
+          <h2 className={styles.blockTitle}>Accents</h2>
+          <p className={styles.note}>
+            An accent is two hues and, where it needs one, a lightness. Nothing
+            else moves: chroma is fixed and the neutrals never change, so
+            switching accent cannot quietly restyle the page into something
+            unreadable. It can still make it <em>illegible</em>, which is why
+            the CI check walks all {accents.length} of them through every pair
+            above in both themes rather than only the one that ships by default.
+          </p>
+          <ul className={styles.accentList}>
+            {accents.map((option) => (
+              <li key={option.id} className={styles.accentRow}>
+                <span
+                  className={styles.accentChip}
+                  data-accent={option.id}
+                  aria-hidden="true"
+                />
+                <code className={styles.token}>{option.id}</code>
+                <span className={styles.value}>{option.note}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className={styles.block}>

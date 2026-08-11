@@ -238,3 +238,60 @@
   font-size: var(--t-sm);
   color: var(--c-text-muted);
 }
+
+/* ── Accents ────────────────────────────────────────────────────────────── */
+
+.accentList {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+
+.accentRow {
+  display: grid;
+  grid-template-columns: 1.5rem 6rem 1fr;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+/* Same trick as the header picker: the chip takes the palette's own hue knobs
+   off tokens.css rather than repeating them here. */
+.accentChip {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--c-border-control);
+  background: linear-gradient(
+    140deg,
+    oklch(var(--l-accent) 0.24 var(--h-accent)) 42%,
+    oklch(var(--l-tech) 0.115 var(--h-tech))
+  );
+}
+
+:global(:root[data-theme='dark']) .accentChip {
+  background: linear-gradient(
+    140deg,
+    oklch(0.735 0.185 calc(var(--h-accent) + 5)) 42%,
+    oklch(0.79 0.11 calc(var(--h-tech) - 8))
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .accentChip {
+    background: linear-gradient(
+      140deg,
+      oklch(0.735 0.185 calc(var(--h-accent) + 5)) 42%,
+      oklch(0.79 0.11 calc(var(--h-tech) - 8))
+    );
+  }
+}
+
+@media (max-width: 40rem) {
+  .accentRow {
+    grid-template-columns: 1.5rem 1fr;
+  }
+
+  .accentRow .value {
+    grid-column: 1 / -1;
+  }
+}

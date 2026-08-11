@@ -55,9 +55,9 @@ export const annotations: Record<string, Annotation> = {
       'The oversized outlined numeral is the only element allowed to escape the container gutter, and it drifts against the scroll on its own view timeline so the rail reads as sitting behind the content. Breaking a grid once reads as intentional; breaking it repeatedly reads as an accident.',
   },
   palette: {
-    title: 'Two hues with separate jobs',
+    title: 'Two hues with separate jobs, and you can rotate them',
     body:
-      'Indigo is voice — headings, links, buttons. Cyan is data — timestamps, counts and skill tags. Both are written in oklch, where lightness is perceptually uniform, so the light and dark ramps can be reasoned about instead of eyeballed. Every pair is checked against WCAG AA by a script that parses the token file and runs in CI, so a colour that hurts legibility fails the build rather than reaching a visitor.',
+      'One hue is voice — headings, links, buttons. The other is data — timestamps, counts and skill tags. Both are written in oklch and stored as bare hue numbers, so the droplet in the header restyles the entire page by changing two of them. What it cannot do is break the contrast, because a script parses the token file and walks every accent through every pair in both themes before CI will let a build finish. Two of the six needed their lightness pulled down to pass: oklch lightness is perceptual, not photometric, and a teal at the same L carries far more luminance than an indigo.',
   },
   fonts: {
     title: 'Self-hosted variable fonts',

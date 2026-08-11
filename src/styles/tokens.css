@@ -24,6 +24,32 @@
  * converts oklch to linear sRGB to do it.
  */
 
+/*
+ * The two accents are stored as hues, not as colours. Every accent token below
+ * fixes its own lightness and chroma and takes its hue from one of these two
+ * numbers, so rotating the pair restyles the whole page without touching a
+ * single lightness — which is the point of working in oklch rather than hex.
+ * The alternates live at the bottom of this file, and check-contrast.mjs walks
+ * every one of them against every pair, in both themes.
+ */
+:root {
+  --h-accent: 272;
+  --h-tech: 218;
+
+  /*
+   * Lightness for the light theme's accents. It is a variable and not a
+   * constant because oklch lightness is perceptual, not photometric: at a
+   * fixed L a teal carries far more sRGB luminance than an indigo, and so far
+   * less contrast against a white page. Hues near the yellow-green peak have
+   * to sit lower to clear AA, and the contrast script is what says by how
+   * much. The dark ramp does not need this — its accents sit on near-black,
+   * where the same drift works in their favour.
+   */
+  --l-accent: 0.52;
+  --l-accent-hover: 0.45;
+  --l-tech: 0.512;
+}
+
 :root {
   /* Neutrals: cool graphite, a trace of blue in the hue so the greys read as
      deliberate rather than muddy. */
@@ -42,14 +68,14 @@
 
   /* Accent: electric indigo. High chroma against near-neutral greys is what
      makes the palette read as current rather than earthy. */
-  --c-accent: oklch(0.52 0.24 272);
-  --c-accent-hover: oklch(0.45 0.24 272);
-  --c-accent-soft: oklch(0.955 0.028 272);
+  --c-accent: oklch(var(--l-accent) 0.24 var(--h-accent));
+  --c-accent-hover: oklch(var(--l-accent-hover) 0.24 var(--h-accent));
+  --c-accent-soft: oklch(0.955 0.028 var(--h-accent));
   --c-accent-text: oklch(1 0 0);
 
   /* Secondary: cool cyan, for technical and meta elements */
-  --c-tech: oklch(0.512 0.115 218);
-  --c-tech-soft: oklch(0.955 0.025 218);
+  --c-tech: oklch(var(--l-tech) 0.115 var(--h-tech));
+  --c-tech-soft: oklch(0.955 0.025 var(--h-tech));
 
   /* Feedback */
   --c-positive: oklch(0.505 0.13 158);
@@ -128,13 +154,13 @@
   --d-text-muted: oklch(0.77 0.012 265);
   --d-text-faint: oklch(0.65 0.013 265);
 
-  --d-accent: oklch(0.735 0.185 277);
-  --d-accent-hover: oklch(0.80 0.165 277);
-  --d-accent-soft: oklch(0.27 0.055 276);
-  --d-accent-text: oklch(0.16 0.02 276);
+  --d-accent: oklch(0.735 0.185 calc(var(--h-accent) + 5));
+  --d-accent-hover: oklch(0.80 0.165 calc(var(--h-accent) + 5));
+  --d-accent-soft: oklch(0.27 0.055 calc(var(--h-accent) + 4));
+  --d-accent-text: oklch(0.16 0.02 calc(var(--h-accent) + 4));
 
-  --d-tech: oklch(0.79 0.11 210);
-  --d-tech-soft: oklch(0.25 0.04 210);
+  --d-tech: oklch(0.79 0.11 calc(var(--h-tech) - 8));
+  --d-tech-soft: oklch(0.25 0.04 calc(var(--h-tech) - 8));
 
   --d-positive: oklch(0.80 0.13 158);
   --d-positive-soft: oklch(0.25 0.045 158);
@@ -196,4 +222,54 @@
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
   --shadow-lg: 0 14px 38px rgb(0 0 0 / 0.5);
+}
+
+/*
+ * Alternate accents.
+ *
+ * Each one is a pair of hues and nothing else: lightness and chroma are fixed
+ * above, so no alternate can quietly wash out the text the way a hand-picked
+ * hex palette would. Not quietly, and not at all — check-contrast.mjs runs
+ * every pair in this list through every check in both themes, and the build
+ * fails if any of them drops below AA.
+ *
+ * The names are in src/content/accents.ts. That file and these blocks have to
+ * agree; the contrast script asserts that they do.
+ *
+ * The selector is a bare attribute rather than :root[...] so that a single
+ * element can adopt a palette's hues without the page doing so — which is how
+ * each swatch in the picker paints itself in the accent it selects, instead of
+ * in a copy of it kept somewhere else.
+ */
+[data-accent='violet'] {
+  --h-accent: 313;
+  --h-tech: 268;
+}
+
+[data-accent='azure'] {
+  --h-accent: 248;
+  --h-tech: 196;
+  --l-accent: 0.5;
+  --l-accent-hover: 0.435;
+  --l-tech: 0.487;
+}
+
+[data-accent='teal'] {
+  --h-accent: 192;
+  --h-tech: 162;
+  --l-accent: 0.447;
+  --l-accent-hover: 0.39;
+  --l-tech: 0.468;
+}
+
+[data-accent='ember'] {
+  --h-accent: 42;
+  --h-tech: 22;
+  --l-accent: 0.5;
+  --l-accent-hover: 0.44;
+}
+
+[data-accent='rose'] {
+  --h-accent: 12;
+  --h-tech: 340;
 }

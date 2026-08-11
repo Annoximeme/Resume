@@ -14,6 +14,7 @@ import { AnnotationLayer } from './components/AnnotationLayer'
 import { Shortcuts } from './components/Shortcuts'
 import { TechFocusProvider } from './context/TechFocus'
 import { useTheme } from './hooks/useTheme'
+import { useAccent } from './hooks/useAccent'
 import { usePointerSpotlight } from './hooks/usePointerSpotlight'
 
 /**
@@ -38,6 +39,7 @@ export function App() {
   const isSystem = hash.startsWith('#/system')
   // Owned here so the header and the palette can never disagree about it.
   const [theme, toggleTheme] = useTheme()
+  const [accent, chooseAccent] = useAccent()
   const [annotating, setAnnotating] = useState(false)
 
   usePointerSpotlight()
@@ -62,7 +64,12 @@ export function App() {
         Skip to content
       </a>
 
-      <Header theme={theme} onToggleTheme={toggleTheme} />
+      <Header
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        accent={accent}
+        onChooseAccent={chooseAccent}
+      />
 
       {isSystem ? (
         <DesignSystem />
@@ -83,6 +90,8 @@ export function App() {
       <CommandPalette
         theme={theme}
         onToggleTheme={toggleTheme}
+        accent={accent}
+        onChooseAccent={chooseAccent}
         annotating={annotating}
         onToggleAnnotations={toggleAnnotations}
       />
