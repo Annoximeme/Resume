@@ -1,0 +1,12 @@
+.prose {
+  display: grid;
+  gap: var(--s-4);
+  max-width: var(--measure);
+  font-size: var(--t-md);
+  color: var(--c-text-muted);
+}
+
+/* Lead paragraph carries a little more weight than the rest. */
+.prose > p:first-child {
+  color: var(--c-text);
+}

@@ -1,0 +1,27 @@
+.section {
+  position: relative;
+}
+
+.header {
+  margin-bottom: clamp(var(--s-5), 4vw, var(--s-7));
+  max-width: var(--measure);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: var(--s-3);
+}
+
+.title {
+  font-size: var(--t-xl);
+}
+
+.intro {
+  margin-top: var(--s-3);
+  color: var(--c-text-muted);
+  font-size: var(--t-md);
+}

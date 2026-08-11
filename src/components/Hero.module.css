@@ -1,0 +1,171 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(var(--s-8), 14vh, 9rem) clamp(var(--s-7), 10vh, var(--s-9));
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 46rem;
+}
+
+/* A soft accent wash behind the hero, clipped to the section. */
+.glow {
+  position: absolute;
+  inset: -30% -10% auto -10%;
+  height: 70%;
+  background: radial-gradient(
+    60% 60% at 30% 40%,
+    color-mix(in srgb, var(--c-accent) 16%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Availability badge ─────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-1) var(--s-3);
+  margin-bottom: var(--s-5);
+  border: 1px solid color-mix(in srgb, var(--c-positive) 35%, transparent);
+  border-radius: var(--radius-full);
+  background: var(--c-positive-soft);
+  color: var(--c-positive);
+  font-size: var(--t-sm);
+  font-weight: 550;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
+/* ── Type ───────────────────────────────────────────────────────────────── */
+
+.name {
+  font-size: var(--t-2xl);
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+.role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  font-size: var(--t-lg);
+  color: var(--c-accent);
+  font-weight: 550;
+}
+
+.sep {
+  color: var(--c-border-strong);
+}
+
+.location {
+  color: var(--c-text-faint);
+  font-size: var(--t-md);
+  font-weight: 400;
+}
+
+.pitch {
+  margin-top: var(--s-5);
+  max-width: var(--measure);
+  font-size: var(--t-md);
+  color: var(--c-text-muted);
+}
+
+/* ── Calls to action ────────────────────────────────────────────────────── */
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.primary {
+  background: var(--c-accent);
+  color: var(--c-accent-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.primary:hover {
+  background: var(--c-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.secondary {
+  background: var(--c-bg-raised);
+  border-color: var(--c-border);
+  color: var(--c-text);
+}
+
+.secondary:hover {
+  border-color: var(--c-border-strong);
+  transform: translateY(-1px);
+}
+
+/* ── Profile links ──────────────────────────────────────────────────────── */
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.link:hover {
+  color: var(--c-text);
+  border-bottom-color: var(--c-accent);
+}

@@ -1,0 +1,122 @@
+/*
+ * Design tokens. Every colour, space and type step in the site resolves here,
+ * so a palette change is a change to this file only.
+ *
+ * Theme resolution has three states:
+ *   :root                         -> light (the default, always fully defined)
+ *   prefers-color-scheme: dark    -> dark, unless the user pinned light
+ *   [data-theme="dark"|"light"]   -> an explicit choice always wins
+ */
+
+:root {
+  /* Neutrals — warm grey, light theme */
+  --c-bg: #fbfaf9;
+  --c-bg-raised: #ffffff;
+  --c-bg-sunken: #f3f1ee;
+  --c-border: #e3dfd9;
+  --c-border-strong: #cfc9c1;
+  --c-text: #1c1a18;
+  --c-text-muted: #5d574f;
+  --c-text-faint: #8a827a;
+
+  /* Accent */
+  --c-accent: #b4532a;
+  --c-accent-hover: #97441f;
+  --c-accent-soft: #fbeee7;
+  --c-accent-text: #ffffff;
+
+  /* Feedback */
+  --c-positive: #2f6b46;
+  --c-positive-soft: #e6f1ea;
+
+  --shadow-sm: 0 1px 2px rgb(28 26 24 / 0.06), 0 1px 1px rgb(28 26 24 / 0.04);
+  --shadow-md: 0 4px 12px rgb(28 26 24 / 0.07), 0 1px 3px rgb(28 26 24 / 0.05);
+  --shadow-lg: 0 12px 32px rgb(28 26 24 / 0.10), 0 2px 8px rgb(28 26 24 / 0.05);
+
+  /* Type */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
+  /* Fluid type scale — clamp(min, preferred, max) */
+  --t-xs: 0.78rem;
+  --t-sm: 0.875rem;
+  --t-base: 1rem;
+  --t-md: clamp(1.05rem, 0.99rem + 0.3vw, 1.2rem);
+  --t-lg: clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+  --t-xl: clamp(1.6rem, 1.3rem + 1.4vw, 2.3rem);
+  --t-2xl: clamp(2.1rem, 1.5rem + 2.8vw, 3.8rem);
+
+  /* Space */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --measure: 68ch;
+  --page-max: 1120px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+  --dur-slow: 640ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --c-bg: #16150f;
+    --c-bg-raised: #1f1e18;
+    --c-bg-sunken: #100f0b;
+    --c-border: #322f27;
+    --c-border-strong: #4a463b;
+    --c-text: #f2efe8;
+    --c-text-muted: #b1aa9c;
+    --c-text-faint: #857f73;
+
+    --c-accent: #e88b5c;
+    --c-accent-hover: #f3a077;
+    --c-accent-soft: #2a1f17;
+    --c-accent-text: #1a1109;
+
+    --c-positive: #79c79a;
+    --c-positive-soft: #17251c;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
+    --shadow-lg: 0 14px 38px rgb(0 0 0 / 0.5);
+  }
+}
+
+:root[data-theme='dark'] {
+  --c-bg: #16150f;
+  --c-bg-raised: #1f1e18;
+  --c-bg-sunken: #100f0b;
+  --c-border: #322f27;
+  --c-border-strong: #4a463b;
+  --c-text: #f2efe8;
+  --c-text-muted: #b1aa9c;
+  --c-text-faint: #857f73;
+
+  --c-accent: #e88b5c;
+  --c-accent-hover: #f3a077;
+  --c-accent-soft: #2a1f17;
+  --c-accent-text: #1a1109;
+
+  --c-positive: #79c79a;
+  --c-positive-soft: #17251c;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 14px 38px rgb(0 0 0 / 0.5);
+}

@@ -1,0 +1,24 @@
+.footer {
+  border-top: 1px solid var(--c-border);
+  background: var(--c-bg-sunken);
+  padding-block: var(--s-6);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--c-text-faint);
+}
+
+.note {
+  text-align: right;
+}
+
+@media (max-width: 36rem) {
+  .note {
+    text-align: left;
+  }
+}

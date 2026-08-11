@@ -1,0 +1,126 @@
+/*
+ * Two fixed columns rather than auto-fit. The featured card spans the full
+ * row, which means no track is ever empty — so auto-fit would have nothing
+ * to collapse and a trailing pair of cards would leave a gap on the right.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+@media (min-width: 48rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-5);
+  background: var(--c-bg-raised);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--c-border-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+/* The featured project takes the full row on wide screens. */
+.card[data-featured='true'] {
+  border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+}
+
+@media (min-width: 48rem) {
+  .card[data-featured='true'] {
+    grid-column: 1 / -1;
+  }
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-2);
+}
+
+.name {
+  font-size: var(--t-lg);
+}
+
+.flag {
+  padding: 0.125rem var(--s-2);
+  border-radius: var(--radius-full);
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: var(--t-xs);
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tagline {
+  color: var(--c-accent);
+  font-size: var(--t-sm);
+  font-weight: 550;
+}
+
+.description {
+  margin-top: var(--s-3);
+  color: var(--c-text-muted);
+  font-size: var(--t-sm);
+  max-width: var(--measure);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+
+.stack li {
+  padding: 0.125rem var(--s-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  /* Pushes the buttons to the bottom so cards in a row align. */
+  margin-top: auto;
+  padding-top: var(--s-5);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--c-text);
+  border-bottom: 1px solid var(--c-border-strong);
+  padding-bottom: 1px;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.action:hover {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
