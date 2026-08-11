@@ -40,8 +40,8 @@ export function useTheme(): [Theme, () => void] {
       try {
         localStorage.setItem(STORAGE_KEY, next)
       } catch {
-        // Private browsing / storage disabled — the toggle still works for
-        // this visit, it just will not be remembered.
+        // Private browsing / storage disabled. The toggle still works for
+        // this visit, it just won't be remembered.
       }
       return next
     })

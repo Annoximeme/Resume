@@ -15,8 +15,8 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  /* Keep the dither grid crisp instead of smoothing it back into greys —
-     the visible pixel structure is the whole point. */
+  /* Keep the dither grid crisp instead of smoothing it back into greys.
+     The visible pixel structure is the whole point. */
   image-rendering: pixelated;
   transition: opacity var(--dur) var(--ease-out);
   /* Tint the 1-bit result toward the page ink rather than pure black/white. */

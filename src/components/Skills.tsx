@@ -22,8 +22,8 @@ export function Skills() {
                 const count = projectCount(item)
                 const isActive = active !== null && active.toLowerCase() === item.toLowerCase()
 
-                // A skill with no matching project is not interactive — there
-                // is nothing for it to reveal.
+                // A skill with no matching project isn't interactive; there's
+                // nothing for it to reveal.
                 if (count === 0) {
                   return (
                     <li key={item}>
@@ -54,7 +54,7 @@ export function Skills() {
                         {count}
                       </span>
                       <span className="visually-hidden">
-                        {` — used in ${count} project${count === 1 ? '' : 's'}`}
+                        {`, used in ${count} project${count === 1 ? '' : 's'}`}
                       </span>
                     </button>
                   </li>

@@ -10,21 +10,21 @@
 
 /*
  * Two hues carry the page, and they are used for different jobs:
- *   --c-accent  (terracotta) — voice: headings, links, buttons, taglines
- *   --c-tech    (deep teal)  — data: stack chips, timestamps, skill tags
+ *   --c-accent  (terracotta) is voice: headings, links, buttons, taglines
+ *   --c-tech    (deep teal)  is data:  stack chips, timestamps, skill tags
  * Keeping them separated stops the page reading as one flat orange wash.
  *
  * Every pair below is checked against WCAG AA by scratch contrast.mjs.
  */
 
 :root {
-  /* Neutrals — warm, light theme. Slightly cooler and deeper than a pure
+  /* Neutrals for the light theme, kept warm. Cooler and deeper than a pure
      beige so the accents have something to sit against. */
   --c-bg: #fcfbf8;
   --c-bg-raised: #ffffff;
   --c-bg-sunken: #f2efe8;
   --c-border: #e4ded2;
-  /* Decorative only (separators, hairlines) — exempt from WCAG 1.4.11. */
+  /* Decorative only (separators, hairlines), so exempt from WCAG 1.4.11. */
   --c-border-strong: #c3bbab;
   /* The edge of an actual control (buttons). Must clear 3:1 against the
      background, so it is deliberately darker than --c-border-strong. */
@@ -33,13 +33,13 @@
   --c-text-muted: #554f45;
   --c-text-faint: #6e6659;
 
-  /* Accent — terracotta */
+  /* Accent: terracotta */
   --c-accent: #a8481f;
   --c-accent-hover: #8c3a17;
   --c-accent-soft: #fbeadf;
   --c-accent-text: #ffffff;
 
-  /* Secondary — deep teal, for technical/meta elements */
+  /* Secondary: deep teal, for technical and meta elements */
   --c-tech: #0f6068;
   --c-tech-soft: #e2f0f1;
 
@@ -51,7 +51,7 @@
   --shadow-md: 0 4px 12px rgb(28 26 24 / 0.07), 0 1px 3px rgb(28 26 24 / 0.05);
   --shadow-lg: 0 12px 32px rgb(28 26 24 / 0.10), 0 2px 8px rgb(28 26 24 / 0.05);
 
-  /* Type — see fonts.css. --font-display carries the personality, --font-sans
+  /* Type. See fonts.css. --font-display carries the personality, --font-sans
      does the reading. */
   --font-display: 'Bricolage Grotesque', 'Instrument Sans', 'Instrument Fallback',
     ui-sans-serif, system-ui, sans-serif;
@@ -60,7 +60,7 @@
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
     'Liberation Mono', monospace;
 
-  /* Fluid type scale — clamp(min, preferred, max) */
+  /* Fluid type scale: clamp(min, preferred, max) */
   --t-xs: 0.75rem;
   --t-sm: 0.875rem;
   --t-base: 1rem;
@@ -97,8 +97,8 @@
 }
 
 /*
- * Dark theme. The palette has to be applied from two different selectors —
- * the OS preference and an explicit toggle — and CSS cannot share one
+ * Dark theme. The palette has to be applied from two different selectors
+ * (the OS preference and an explicit toggle) and CSS cannot share one
  * declaration block between a media query and a plain selector. So the actual
  * colours are defined once here as --d-* and the two blocks below only map
  * them onto --c-*. Change a dark colour in one place.

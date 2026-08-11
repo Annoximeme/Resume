@@ -45,7 +45,7 @@ jobs:
 
       # Requires Pages to be enabled on the repo first:
       # Settings -> Pages -> Source -> GitHub Actions. This step cannot turn it
-      # on itself — creating a Pages site needs repo-admin rights, which the
+      # on itself: creating a Pages site needs repo-admin rights, which the
       # workflow's GITHUB_TOKEN does not have.
       - uses: actions/configure-pages@v5
 

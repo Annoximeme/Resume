@@ -71,7 +71,7 @@
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           document.documentElement.dataset.theme = theme
         } catch (e) {
-          /* storage unavailable — the CSS media query handles it */
+          /* storage unavailable; the CSS media query handles it */
         }
       })()
     </script>

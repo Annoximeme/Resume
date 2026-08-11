@@ -13,7 +13,7 @@ export function Contact() {
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Clipboard blocked (insecure context, or permission denied) — the
+      // Clipboard blocked (insecure context, or permission denied). The
       // mailto link beside this button still works, so fail quietly.
     }
   }

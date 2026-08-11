@@ -9,7 +9,7 @@ import styles from './Projects.module.css'
  * Runs a state update inside a view transition where the browser supports one,
  * so the card morphs into the dialog instead of the dialog appearing on top of
  * it. Everywhere else the update just happens, which is a perfectly good
- * outcome — this is decoration, not function.
+ * outcome. This is decoration, not function.
  */
 function withViewTransition(update: () => void) {
   const doc = document as Document & {
@@ -91,7 +91,7 @@ export function Projects() {
                     }}
                   >
                     {project.name}
-                    <span className="visually-hidden"> — open details</span>
+                    <span className="visually-hidden"> (opens details)</span>
                   </button>
                 </h3>
                 {project.featured && <span className={styles.flag}>Featured</span>}

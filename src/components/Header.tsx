@@ -14,7 +14,7 @@ export const NAV_ITEMS = [
   { id: 'contact', label: 'Contact' },
 ] as const
 
-// Hoisted so its identity is stable — useScrollSpy keys its effect on it.
+// Hoisted so its identity is stable: useScrollSpy keys its effect on it.
 const NAV_IDS: string[] = NAV_ITEMS.map((item) => item.id)
 
 export function Header() {
@@ -57,7 +57,7 @@ export function Header() {
       data-print="hide"
     >
       <div className={`container ${styles.bar}`}>
-        <a href="#top" className={styles.brand} aria-label={`${profile.name} — back to top`}>
+        <a href="#top" className={styles.brand} aria-label={`${profile.name}, back to top`}>
           <span className={styles.mark} aria-hidden="true">
             {initials}
           </span>

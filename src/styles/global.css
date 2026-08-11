@@ -27,7 +27,7 @@ body {
 
 /*
  * A faint dot grid over the whole page. It reads as texture rather than
- * pattern — just enough to stop large empty areas looking like dead space.
+ * pattern, just enough to stop large empty areas looking like dead space.
  * Fixed attachment so it stays put while content scrolls over it.
  */
 body::before {
@@ -138,7 +138,7 @@ button {
 
 /*
  * Hairline between sections that fades at both ends rather than running the
- * full width — softer than a hard rule, and it keeps the eye on the content.
+ * full width. Softer than a hard rule, and it keeps the eye on the content.
  */
 .section + .section::before {
   content: '';
@@ -194,8 +194,8 @@ button {
  * JavaScript, and the animation runs off the main thread.
  *
  * The whole effect lives inside @supports on purpose. The hidden starting
- * state is only ever applied by a browser that can also animate it back —
- * otherwise a browser without scroll-timeline would be left with permanently
+ * state is only ever applied by a browser that can also animate it back.
+ * Otherwise a browser without scroll-timeline would be left with permanently
  * invisible content, which is the worst possible failure for a resume.
  */
 @supports (animation-timeline: view()) {

@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   /* Centring already supplies the breathing room, so the bottom padding stays
-     small — otherwise it stacks with the next section's and opens a void. */
+     small, otherwise it stacks with the next section's and opens a void. */
   padding-block: clamp(var(--s-8), 11vh, 7rem) var(--s-6);
 }
 
@@ -299,7 +299,7 @@
     transform: none;
   }
 
-  /* Gradient text prints as nothing — force a solid colour. */
+  /* Gradient text prints as nothing, so force a solid colour. */
   .name {
     background: none;
     -webkit-text-fill-color: currentColor;

@@ -1,10 +1,10 @@
 /*
  * Self-hosted variable fonts. Both are subset to Latin and shipped as woff2,
- * so the page still makes no external requests — no font CDN, nothing to
+ * so the page still makes no external requests: no font CDN, nothing to
  * block rendering on a third party, nothing that leaks visitors.
  *
- *   Bricolage Grotesque — display. Axes: opsz 12-96, wght 200-800, wdth 75-100.
- *   Instrument Sans     — body/UI. Axes: wdth 75-100, wght 400-700.
+ *   Bricolage Grotesque: display. Axes opsz 12-96, wght 200-800, wdth 75-100.
+ *   Instrument Sans:     body/UI. Axes wdth 75-100, wght 400-700.
  *
  * Licences ship alongside the files in public/fonts/ as the OFL requires.
  */

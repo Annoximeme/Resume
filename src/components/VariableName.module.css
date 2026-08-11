@@ -5,7 +5,7 @@
 .letter {
   display: inline-block;
   /* Matches the "far from pointer" end of the range, so the wordmark is
-     deliberate before the pointer arrives — and on touch devices, where the
+     deliberate before the pointer arrives. On touch devices, where the
      effect never runs at all, this is the only state anyone sees. */
   font-variation-settings: 'wght' 480, 'wdth' 94, 'opsz' 96;
   transition: font-variation-settings var(--dur) var(--ease-out);

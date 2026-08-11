@@ -19,7 +19,7 @@ import { projects } from '../content/resume'
 type TechFocusValue = {
   /** The technology currently under the pointer, or pinned by a click. */
   active: string | null
-  /** True while any technology is focused — used to dim non-matches. */
+  /** True while any technology is focused. Used to dim non-matches. */
   isFiltering: boolean
   /** Set on hover/focus. Ignored while a selection is pinned. */
   hover: (tech: string | null) => void

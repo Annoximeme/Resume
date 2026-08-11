@@ -84,7 +84,7 @@
   opacity: 0.38;
 }
 
-/* The number of projects using this skill — evidence attached to the claim. */
+/* The number of projects using this skill: evidence attached to the claim. */
 .count {
   display: grid;
   place-items: center;

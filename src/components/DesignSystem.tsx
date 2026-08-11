@@ -7,7 +7,7 @@ import styles from './DesignSystem.module.css'
  * Every value on this page is read from the running stylesheet rather than
  * written out by hand, so it cannot fall out of step with the site. The
  * contrast figures are computed in the browser from the same resolved colours
- * the visitor is actually looking at — including whichever theme is active.
+ * the visitor is actually looking at, including whichever theme is active.
  */
 
 const COLOR_TOKENS = [
@@ -41,7 +41,7 @@ const TYPE_STEPS = [
 
 const SPACE_STEPS = ['--s-1', '--s-2', '--s-3', '--s-4', '--s-5', '--s-6', '--s-7', '--s-8']
 
-/** Contrast pairs worth showing — mirrors scripts/check-contrast.mjs. */
+/** Contrast pairs worth showing. Mirrors scripts/check-contrast.mjs. */
 const PAIRS: [string, string, number, string][] = [
   ['--c-text', '--c-bg', 4.5, 'Body text'],
   ['--c-text-muted', '--c-bg', 4.5, 'Muted text'],
@@ -52,7 +52,7 @@ const PAIRS: [string, string, number, string][] = [
   ['--c-border-control', '--c-bg', 3, 'Control borders'],
 ]
 
-/** Parses whatever the browser resolved a colour to — always rgb()/rgba(). */
+/** Parses whatever the browser resolved a colour to (always rgb()/rgba()). */
 function parseRgb(value: string): [number, number, number] | null {
   const m = value.match(/-?[\d.]+/g)
   if (!m || m.length < 3) return null
@@ -96,8 +96,8 @@ export function DesignSystem() {
 
   /*
    * Colours have to be resolved through the engine, not read as text.
-   * getComputedStyle on a custom property hands back the raw token — "#fcfbf8",
-   * or a color-mix() expression — which is not something to do arithmetic on.
+   * getComputedStyle on a custom property hands back the raw token: "#fcfbf8",
+   * or a color-mix() expression, neither of which you can do arithmetic on.
    * Painting each token onto a probe element and reading `color` back gives a
    * normalised rgb() every time, whatever syntax the token used.
    */
@@ -129,7 +129,7 @@ export function DesignSystem() {
           <p className={styles.lead}>
             Every value here is read from the live stylesheet, and the contrast
             figures are computed in your browser from the colours currently
-            rendered — switch the theme and they recalculate.
+            rendered. Switch the theme and they recalculate.
           </p>
         </header>
 

@@ -9,7 +9,7 @@ const BAYER = [
   [15, 7, 13, 5],
 ].map((row) => row.map((v) => (v + 0.5) / 16))
 
-/** Longest edge of the dithered render, in px. Low on purpose — the coarse
+/** Longest edge of the dithered render, in px. Kept low, since the coarse
  *  grid is the effect. */
 const RESOLUTION = 208
 
@@ -23,8 +23,8 @@ type Props = {
  * Renders a 1-bit ordered-dither of the image, and cross-fades to the real
  * photograph on hover or focus.
  *
- * The dither is computed once on a canvas at load. If anything fails — canvas
- * unavailable, image blocked — the plain <img> is simply left visible, so the
+ * The dither is computed once on a canvas at load. If anything fails (canvas
+ * unavailable, image blocked) the plain <img> is left visible, so the
  * portrait always shows something.
  */
 export function DitheredImage({ src, alt, className }: Props) {
