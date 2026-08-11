@@ -242,9 +242,16 @@ export const experience: Job[] = [
 
 export const projects: Project[] = [
   /*
-   * The only entry here that is real. Everything below it is a template.
-   * Written in the first person like the rest of the site: read it, make it
-   * sound like you, and cut anything you would not say in an interview.
+   * One real entry, and nothing else. The template projects that used to sit
+   * below it are gone: a card reading "Project One" costs more credibility
+   * than an empty slot saves, and the skills cross-reference was counting
+   * them, so every tag on the page was quoting a number made of placeholders.
+   *
+   * To add one, copy this shape. `problem` / `approach` / `outcome` and the
+   * `metrics` row are optional and drive the detail view; the third of those
+   * is the one most people skip and the one that reads as experience rather
+   * than enthusiasm. Give it an `image` filename and a real `demoUrl`, then
+   * run `npm run shots` to capture the screenshot.
    */
   {
     name: 'This site',
@@ -286,45 +293,6 @@ export const projects: Project[] = [
     demoUrl: 'https://annoximeme.github.io/Resume/',
     repoUrl: 'https://github.com/Annoximeme/Resume',
     featured: true,
-  },
-  {
-    name: 'Project One',
-    tagline: 'The one-line version of what it does.',
-    year: 'Year',
-    description:
-      'What problem it solves and the interesting part of how you solved it. ' +
-      'Name the hard bit: the caching, the offline sync, the drag-and-drop, ' +
-      'because that is what a reviewer is scanning for.',
-    problem: 'What was actually hard about this? Not what it does: what fought back.',
-    approach: 'What you did about it, and which trade-off you accepted.',
-    outcome:
-      'What came out the other end, and what you would do differently now. ' +
-      'Almost nobody writes that last part, which is exactly why it is worth writing.',
-    metrics: [
-      { label: 'Users', value: '—' },
-      { label: 'Load time', value: '—' },
-    ],
-    stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
-    demoUrl: 'https://example.com',
-    repoUrl: 'https://github.com/Annoximeme/project-one',
-  },
-  {
-    name: 'Project Two',
-    tagline: 'Short, concrete, no buzzwords.',
-    description:
-      'Two or three sentences. What it does, what you learned building it, and ' +
-      'anything measurable: users, load time, size of the dataset it handles.',
-    stack: ['React', 'Vite', 'CSS Modules'],
-    repoUrl: 'https://github.com/Annoximeme/project-two',
-  },
-  {
-    name: 'Project Three',
-    tagline: 'Even a small tool is worth listing if it is finished.',
-    description:
-      'Finished and deployed beats ambitious and abandoned. A polished small ' +
-      'project reads better than a half-built large one.',
-    stack: ['TypeScript', 'Web APIs'],
-    demoUrl: 'https://example.com',
   },
 ]
 

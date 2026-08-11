@@ -56,9 +56,13 @@ are committed, so a deploy never depends on somebody else's site being up when
 CI runs, and a project without one degrades to a text-only card. Placeholder
 hosts like `example.com` are skipped rather than photographed.
 
-Only one entry in there is real: this site. The rest are templates, and no
-amount of design compensates for "Project One". Replacing them is worth more
-than everything else in this file.
+There is one entry in there: this site. The template projects that used to
+follow it have been removed — a card reading "Project One" costs more
+credibility than an empty slot saves, and the skills cross-reference counted
+them, so every tag on the page was quoting a number made of placeholders.
+
+Adding real ones is worth more than everything else in this file. Copy the
+shape of the entry that's there.
 
 Delete an entry and it disappears. Empty an array and the whole section goes
 with it — heading, nav link, palette entry and all — because
