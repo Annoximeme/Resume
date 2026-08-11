@@ -6,7 +6,7 @@ import styles from './Experience.module.css'
 export function Experience() {
   return (
     <Section id="experience" eyebrow="03 / Experience" title="Where I have worked">
-      <ol className={styles.timeline}>
+      <ol className={styles.timeline} data-note="reveal">
         {experience.map((job) => (
           <li key={`${job.company}-${job.role}`} className={styles.item}>
             <div className={styles.marker} aria-hidden="true" />

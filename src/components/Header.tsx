@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Icon } from './Icon'
 import { useScrollSpy } from '../hooks/useScrollSpy'
-import { useTheme } from '../hooks/useTheme'
+import type { Theme } from '../hooks/useTheme'
 import { profile } from '../content/resume'
 import styles from './Header.module.css'
 
@@ -17,8 +17,13 @@ export const NAV_ITEMS = [
 // Hoisted so its identity is stable: useScrollSpy keys its effect on it.
 const NAV_IDS: string[] = NAV_ITEMS.map((item) => item.id)
 
-export function Header() {
-  const [theme, toggleTheme] = useTheme()
+type Props = {
+  theme: Theme
+  onToggleTheme: () => void
+}
+
+// Theme lives in App so the command palette and the header cannot drift apart.
+export function Header({ theme, onToggleTheme }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const active = useScrollSpy(NAV_IDS)
@@ -57,11 +62,12 @@ export function Header() {
       data-print="hide"
     >
       <div className={`container ${styles.bar}`}>
-        <a href="#top" className={styles.brand} aria-label={`${profile.name}, back to top`}>
+        <a href="#top" className={styles.brand}>
           <span className={styles.mark} aria-hidden="true">
             {initials}
           </span>
           <span className={styles.brandName}>{profile.name}</span>
+          <span className="visually-hidden">, back to top</span>
         </a>
 
         <nav className={styles.nav} aria-label="Sections">
@@ -84,6 +90,20 @@ export function Header() {
         <div className={styles.actions}>
           <button
             type="button"
+            className={styles.paletteHint}
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('open-command-palette'))
+            }}
+          >
+            {/* The visible word has to appear in the accessible name, so the
+                label is built from the content rather than replacing it. */}
+            <span>Search</span>
+            <span className="visually-hidden">commands</span>
+            <kbd aria-hidden="true">⌘K</kbd>
+          </button>
+
+          <button
+            type="button"
             className={styles.iconButton}
             onClick={() => window.print()}
             aria-label="Print or save as PDF"
@@ -95,7 +115,7 @@ export function Header() {
           <button
             type="button"
             className={styles.iconButton}
-            onClick={toggleTheme}
+            onClick={onToggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
           >
@@ -115,7 +135,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className={styles.progress} aria-hidden="true" />
+      <div className={styles.progress} aria-hidden="true" data-note="progress" />
 
       <div
         id="mobile-menu"

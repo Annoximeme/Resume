@@ -24,7 +24,7 @@ export function Section({ id, eyebrow, title, intro, children }: Props) {
       <div className={`container ${styles.grid}`}>
         <header className={styles.header}>
           {numeral && (
-            <span className={styles.numeral} aria-hidden="true">
+            <span className={styles.numeral} aria-hidden="true" data-note="numeral">
               {numeral}
             </span>
           )}

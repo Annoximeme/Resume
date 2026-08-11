@@ -1,0 +1,190 @@
+.wrap {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-6);
+}
+
+@media (min-width: 52rem) {
+  .wrap {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.panel {
+  padding: var(--s-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--c-bg-raised) 70%, transparent);
+}
+
+.panelHead {
+  margin-bottom: var(--s-4);
+}
+
+.panelTitle {
+  font-size: var(--t-sm);
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  font-weight: 500;
+}
+
+.panelMeta {
+  margin-top: var(--s-1);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+/* ── Lighthouse dials ───────────────────────────────────────────────────── */
+
+.scores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+  gap: var(--s-4);
+}
+
+.score {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-2);
+  text-align: center;
+}
+
+/*
+ * The ring is a conic gradient driven by --value, so the number and the arc
+ * cannot disagree: there is only one source for both.
+ */
+.dial {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--tier);
+  background:
+    conic-gradient(var(--tier) calc(var(--value) * 1%), transparent 0) border-box,
+    radial-gradient(closest-side, var(--c-bg-raised) 78%, transparent 79%) padding-box;
+  border: 3px solid transparent;
+}
+
+.dial[data-tier='good'] {
+  --tier: var(--c-positive);
+}
+
+.dial[data-tier='ok'] {
+  --tier: var(--c-accent);
+}
+
+.dial[data-tier='poor'] {
+  --tier: #c0392b;
+}
+
+.scoreLabel {
+  font-size: var(--t-xs);
+  color: var(--c-text-muted);
+}
+
+/* ── Languages ──────────────────────────────────────────────────────────── */
+
+.langs {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+}
+
+.lang {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr 2.5rem;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--t-xs);
+}
+
+.langName {
+  color: var(--c-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.langBar {
+  height: 0.4rem;
+  border-radius: var(--radius-full);
+  background: var(--c-bg-sunken);
+  overflow: hidden;
+}
+
+.langBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(to right, var(--c-tech), var(--c-accent));
+}
+
+.langShare {
+  font-family: var(--font-mono);
+  color: var(--c-text-faint);
+  text-align: right;
+}
+
+/* ── Recent repos ───────────────────────────────────────────────────────── */
+
+.repos {
+  display: grid;
+  gap: var(--s-1);
+}
+
+.repo {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: var(--s-2);
+  margin-inline: calc(var(--s-2) * -1);
+  border-radius: var(--radius-sm);
+  font-size: var(--t-sm);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.repo:hover {
+  background: var(--c-bg-sunken);
+}
+
+.repoIcon {
+  font-size: 0.85rem;
+  color: var(--c-text-faint);
+  flex: none;
+  transform: translateY(1px);
+}
+
+.repoName {
+  font-weight: 600;
+  flex: none;
+}
+
+.repoDesc {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--c-text-faint);
+  font-size: var(--t-xs);
+}
+
+.repoWhen {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+@media print {
+  .wrap {
+    display: none;
+  }
+}

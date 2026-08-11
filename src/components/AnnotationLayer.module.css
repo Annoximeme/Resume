@@ -1,0 +1,151 @@
+/*
+ * The layer spans the document rather than the viewport, so pins are placed in
+ * page coordinates and scroll naturally with the content instead of needing to
+ * be repositioned every frame.
+ */
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 60;
+  /* Only the pins themselves are interactive; the page underneath stays usable. */
+  pointer-events: none;
+}
+
+.pinWrap {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.pin {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  /* Straddles the corner of the element it belongs to. */
+  transform: translate(-55%, -55%);
+  border: 2px solid var(--c-bg);
+  border-radius: 50%;
+  background: var(--c-tech);
+  color: var(--c-bg);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  animation: drop-in var(--dur) var(--ease-out) backwards;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.pin:hover,
+.pin[data-open='true'] {
+  background: var(--c-accent);
+  transform: translate(-55%, -55%) scale(1.12);
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translate(-55%, -55%) scale(0.5);
+  }
+}
+
+.note {
+  position: absolute;
+  top: 1.6rem;
+  left: 0;
+  width: min(22rem, 78vw);
+  padding: var(--s-4);
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--c-bg-raised);
+  box-shadow: var(--shadow-lg);
+  animation: drop-in var(--dur) var(--ease-out);
+}
+
+/* Near the right edge, flip the panel so it stays on screen. */
+@media (max-width: 60rem) {
+  .note {
+    left: auto;
+    right: 0;
+    transform: translateX(1.6rem);
+  }
+}
+
+.noteTitle {
+  font-size: var(--t-sm);
+  font-weight: 650;
+  margin-bottom: var(--s-2);
+  color: var(--c-accent);
+}
+
+.noteBody {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+/* ── Status bar ─────────────────────────────────────────────────────────── */
+
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: var(--s-5);
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3) var(--s-2) var(--s-4);
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius-full);
+  background: var(--c-bg-raised);
+  box-shadow: var(--shadow-lg);
+  max-width: calc(100vw - 2rem);
+}
+
+.barDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c-tech);
+}
+
+.barText {
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barClose {
+  flex: none;
+  padding: 0.15rem var(--s-3);
+  border: 1px solid var(--c-border-control);
+  border-radius: var(--radius-full);
+  background: none;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.barClose:hover {
+  background: var(--c-bg-sunken);
+}
+
+/* Dim the page slightly so the pins read as an overlay, not as content. */
+:global(html[data-annotating]) :global(main) {
+  filter: saturate(0.82);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin,
+  .note {
+    animation: none;
+  }
+}

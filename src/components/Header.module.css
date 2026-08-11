@@ -169,6 +169,41 @@
   color: var(--c-text);
 }
 
+.paletteHint {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0.3rem var(--s-3);
+  margin-right: var(--s-1);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-full);
+  background: var(--c-bg-sunken);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.paletteHint:hover {
+  border-color: var(--c-border-control);
+  color: var(--c-text);
+}
+
+.paletteHint kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--c-text-faint);
+}
+
+/* The shortcut is the real entry point; below a laptop there is no keyboard
+   to press it with, so the hint would only take up room. */
+@media (max-width: 46rem) {
+  .paletteHint {
+    display: none;
+  }
+}
+
 .menuButton {
   display: none;
 }

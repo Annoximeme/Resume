@@ -13,7 +13,7 @@ export function Skills() {
       title="What I work with"
       intro="The number beside each skill is how many projects used it. Hover one to pick those projects out."
     >
-      <div className={styles.grid}>
+      <div className={styles.grid} data-note="skills">
         {skills.map((group) => (
           <div key={group.title} className={styles.group}>
             <h3 className={styles.groupTitle}>{group.title}</h3>

@@ -19,6 +19,9 @@ npm run dev      # http://localhost:5173
 | `npm run preview`  | Serve the built `dist` folder                         |
 | `npm run lint`     | Type-check only                                       |
 | `npm run contrast` | Check every colour pair against WCAG AA               |
+| `npm run og`       | Regenerate the social preview image                   |
+| `npm run github`   | Refresh the GitHub activity snapshot                  |
+| `npm run pdf`      | Render `dist/resume.pdf` from a running preview       |
 
 ## Editing the content
 
@@ -126,7 +129,8 @@ does: each letter of the name interpolates along the real `wght` and `wdth` axes
 by distance from the pointer.
 
 **The portrait** is a 1-bit ordered (Bayer) dither computed on a canvas at load,
-cross-fading to the photograph on hover or focus.
+cross-fading to the photograph on hover or focus. The two sliders under it are
+the actual inputs to that loop, not a simulation of them.
 
 **A living design system** at `#/system`, linked from the footer. Colours, type
 scale and spacing are read from the running stylesheet, and the contrast figures
@@ -136,8 +140,10 @@ recalculates them.
 **Motion** comes from CSS scroll timelines rather than JavaScript: the reading
 progress bar in the header and the reveal on every section. No
 IntersectionObserver, nothing on the main thread. The reveal sits entirely
-inside `@supports`, so a browser that can't animate it never gets the hidden
-starting state either.
+inside `@supports`, so a browser that can't animate it never gets the starting
+state either. It moves the section rather than fading it, deliberately: fading
+left everything below the fold invisible until scrolled to, which is both a
+contrast failure and a bad way to treat a resume.
 
 **Layout** is two columns on desktop, with each section heading in a sticky rail
 on the left so it stays with its content. One column on narrow screens, with the
@@ -146,6 +152,32 @@ portrait above the text.
 **Accessibility.** Skip link, visible focus rings, labelled icon buttons,
 semantic landmarks, `prefers-reduced-motion` honoured throughout, and the
 contrast check above.
+
+**A command palette** on Cmd/Ctrl-K. Jump to a section, open a project, switch
+theme, copy the email, download the PDF. Matches are ranked rather than just
+filtered, so a loose query lands on the thing you meant.
+
+**Build notes.** The "How this page is built" toggle in the footer overlays
+numbered markers on the page explaining the technique behind each part. The
+text lives in `src/content/annotations.ts`; each entry is keyed to a
+`data-note` attribute on the element it describes, and positions are measured
+from the live DOM so nothing has to be kept in sync by hand.
+
+**Evidence rather than claims.** The Lighthouse scores shown under Projects are
+the real ones, measured by CI against the deployed build and written to
+`dist/metrics.json`. If the audit does not run, the page shows nothing rather
+than a number nobody checked. Beside them, recent repositories and a language
+breakdown are pulled from the GitHub API at build time, so they cannot go
+stale, and the fetch never fails a deploy: if the API is unreachable the last
+committed snapshot is kept.
+
+**A downloadable PDF.** CI renders the print stylesheet with headless Chrome
+into `dist/resume.pdf`, so the file you hand to an employer is generated from
+the same source as the page and cannot drift from it.
+
+**A social preview card** at `public/og.png`, built from the site's own tokens,
+typefaces and portrait by `npm run og`. It is committed, so a deploy never
+depends on regenerating it.
 
 **No external requests.** No font CDN, no icon library, no analytics. Icons are
 inline SVG and the fonts are local, so the page renders the same offline and

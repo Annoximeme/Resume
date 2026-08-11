@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Icon } from './Icon'
 import { Section } from './Section'
+import { Activity } from './Activity'
 import { projects, type Project } from '../content/resume'
 import { useTechFocus } from '../context/TechFocus'
 import styles from './Projects.module.css'
@@ -62,7 +63,7 @@ export function Projects() {
       title="Things I have built"
       intro="Each one is deployed and the source is public. Open one for the detail."
     >
-      <div className={styles.grid} data-print="expand-links">
+      <div className={styles.grid} data-print="expand-links" data-note="projectCard">
         {ordered.map((project) => {
           const isMatch = matches(project.stack)
           return (
@@ -149,9 +150,12 @@ export function Projects() {
         })}
       </div>
 
+      <Activity />
+
       <dialog
         ref={dialogRef}
         className={styles.dialog}
+        data-note="dialogHost"
         aria-label={open ? `${open.name} details` : undefined}
         onClose={() => setOpen(null)}
         // Clicking the backdrop (the dialog element itself, outside its panel).

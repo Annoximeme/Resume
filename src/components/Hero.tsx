@@ -20,7 +20,7 @@ export function Hero() {
             </p>
           )}
 
-          <h1 className={styles.name}>
+          <h1 className={styles.name} data-note="wordmark">
             <VariableName>{profile.name}</VariableName>
           </h1>
 
@@ -63,8 +63,9 @@ export function Hero() {
         </div>
 
         {profile.portrait && (
-          <div className={styles.portraitWrap}>
+          <div className={styles.portraitWrap} data-note="portrait">
             <DitheredImage
+              controls
               className={styles.portrait}
               src={asset(profile.portrait)}
               alt={profile.portraitAlt}

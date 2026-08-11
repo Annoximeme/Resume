@@ -206,13 +206,17 @@ button {
     animation-range: entry 4% cover 22%;
   }
 
+  /*
+   * Transform only, no opacity. Fading meant every section below the fold was
+   * genuinely invisible until scrolled to, which Lighthouse correctly reports
+   * as a contrast failure and which hides a resume from anyone who does not
+   * scroll. The movement alone still reads as a reveal.
+   */
   @keyframes reveal {
     from {
-      opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(18px);
     }
     to {
-      opacity: 1;
       transform: none;
     }
   }

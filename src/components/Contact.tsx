@@ -29,7 +29,7 @@ export function Contact() {
           : 'Not looking right now, but always happy to talk shop.'
       }
     >
-      <div className={styles.panel}>
+      <div className={styles.panel} data-note="print">
         <a className={styles.email} href={`mailto:${profile.email}`}>
           {profile.email}
         </a>

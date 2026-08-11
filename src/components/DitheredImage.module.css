@@ -1,3 +1,8 @@
+.root {
+  display: grid;
+  gap: var(--s-4);
+}
+
 .wrap {
   position: relative;
   isolation: isolate;
@@ -35,15 +40,77 @@
   filter: grayscale(1) contrast(1.04);
 }
 
-/* Hover or keyboard focus anywhere in the frame resolves the real photo. */
-.wrap[data-ready='true']:hover .dither,
-.wrap[data-ready='true']:focus-within .dither {
+/* Hover or keyboard focus anywhere in the frame resolves the real photo,
+   unless the sliders are being used, in which case the dither is the point. */
+.wrap[data-ready='true'][data-pinned='false']:hover .dither,
+.wrap[data-ready='true'][data-pinned='false']:focus-within .dither {
   opacity: 0;
 }
 
-.wrap:hover .photo,
-.wrap:focus-within .photo {
+.wrap[data-pinned='false']:hover .photo,
+.wrap[data-pinned='false']:focus-within .photo {
   filter: grayscale(0.45) contrast(1.02);
+}
+
+/* ── Controls ───────────────────────────────────────────────────────────── */
+
+.controls {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-4);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--c-bg-raised) 60%, transparent);
+}
+
+.hint {
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  margin-bottom: var(--s-1);
+}
+
+.control {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr 3.2rem;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-faint);
+}
+
+.output {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-tech);
+  text-align: right;
+}
+
+.control input[type='range'] {
+  width: 100%;
+  accent-color: var(--c-tech);
+  cursor: pointer;
+}
+
+.reset {
+  justify-self: start;
+  margin-top: var(--s-1);
+  padding: 0.15rem var(--s-3);
+  border: 1px solid var(--c-border-control);
+  border-radius: var(--radius-full);
+  background: none;
+  font-size: var(--t-xs);
+  color: var(--c-text-muted);
+}
+
+.reset:hover {
+  color: var(--c-text);
+  background: var(--c-bg-sunken);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -55,7 +122,8 @@
 
 @media print {
   /* Paper gets the photograph, not the effect. */
-  .dither {
+  .dither,
+  .controls {
     display: none;
   }
 }

@@ -36,6 +36,13 @@ jobs:
       - name: Check colour contrast (WCAG AA)
         run: npm run contrast
 
+      # Refreshes src/content/github.json. The script never fails the build:
+      # if the API is unreachable it keeps the committed snapshot.
+      - name: Refresh GitHub activity
+        run: npm run github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build
         run: npm run build
         env:
@@ -43,10 +50,26 @@ jobs:
           # <user>.github.io repo, change this to "/".
           BASE_PATH: /${{ github.event.repository.name }}/
 
-      # Requires Pages to be enabled on the repo first:
-      # Settings -> Pages -> Source -> GitHub Actions. This step cannot turn it
-      # on itself: creating a Pages site needs repo-admin rights, which the
-      # workflow's GITHUB_TOKEN does not have.
+      - name: Install Chromium for the PDF and the audit
+        run: npx playwright install --with-deps chromium
+
+      - name: Serve the build
+        run: |
+          npx vite preview --port 4173 --host 127.0.0.1 &
+          npx wait-on http://127.0.0.1:4173/${{ github.event.repository.name }}/ -t 60000
+
+      # Renders the print stylesheet, so the download can never drift from the
+      # page. Failing here should not block a deploy of the site itself.
+      - name: Generate resume.pdf
+        continue-on-error: true
+        run: npm run pdf -- http://127.0.0.1:4173/${{ github.event.repository.name }}/
+
+      # Writes dist/metrics.json. If it fails the page simply shows no scores,
+      # which is the right outcome: better absent than invented.
+      - name: Audit with Lighthouse
+        continue-on-error: true
+        run: node scripts/lighthouse.mjs http://127.0.0.1:4173/${{ github.event.repository.name }}/
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3

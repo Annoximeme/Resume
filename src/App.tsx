@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
@@ -9,7 +9,10 @@ import { Education } from './components/Education'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import { DesignSystem } from './components/DesignSystem'
+import { CommandPalette } from './components/CommandPalette'
+import { AnnotationLayer } from './components/AnnotationLayer'
 import { TechFocusProvider } from './context/TechFocus'
+import { useTheme } from './hooks/useTheme'
 
 /**
  * Hash-based routing, deliberately. The site is two pages; a router dependency
@@ -31,11 +34,20 @@ function useHashRoute() {
 export function App() {
   const hash = useHashRoute()
   const isSystem = hash.startsWith('#/system')
+  // Owned here so the header and the palette can never disagree about it.
+  const [theme, toggleTheme] = useTheme()
+  const [annotating, setAnnotating] = useState(false)
 
-  // Jumping between the two pages should start at the top, not wherever the
-  // previous page happened to be scrolled to.
+  const toggleAnnotations = useCallback(() => setAnnotating((v) => !v), [])
+
+  // Jumping between the two pages should start at the top.
   useEffect(() => {
     if (isSystem) window.scrollTo(0, 0)
+  }, [isSystem])
+
+  // The notes point at things that only exist on the resume page.
+  useEffect(() => {
+    if (isSystem) setAnnotating(false)
   }, [isSystem])
 
   return (
@@ -44,7 +56,7 @@ export function App() {
         Skip to content
       </a>
 
-      <Header />
+      <Header theme={theme} onToggleTheme={toggleTheme} />
 
       {isSystem ? (
         <DesignSystem />
@@ -60,7 +72,16 @@ export function App() {
         </main>
       )}
 
-      <Footer />
+      <Footer onShowAnnotations={toggleAnnotations} annotating={annotating} />
+
+      <CommandPalette
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        annotating={annotating}
+        onToggleAnnotations={toggleAnnotations}
+      />
+
+      <AnnotationLayer active={annotating && !isSystem} onClose={() => setAnnotating(false)} />
     </TechFocusProvider>
   )
 }

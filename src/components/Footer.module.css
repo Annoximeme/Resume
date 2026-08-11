@@ -25,10 +25,31 @@
 
 .link {
   color: var(--c-accent);
-  border-bottom: 1px solid transparent;
+  /* Underlined at rest, not only on hover: inside a block of text, colour on
+     its own is not a sufficient signal that something is a link. */
+  border-bottom: 1px solid color-mix(in srgb, var(--c-accent) 45%, transparent);
   transition: border-color var(--dur-fast) var(--ease-out);
 }
 
 .link:hover {
   border-bottom-color: var(--c-accent);
+}
+
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--c-tech);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.linkButton {
+  border-bottom-color: color-mix(in srgb, var(--c-tech) 45%, transparent);
+}
+
+.linkButton:hover,
+.linkButton[aria-pressed='true'] {
+  border-bottom-color: var(--c-tech);
 }
