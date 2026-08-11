@@ -10,46 +10,56 @@
 
 /*
  * Two hues carry the page, and they are used for different jobs:
- *   --c-accent  (terracotta) is voice: headings, links, buttons, taglines
- *   --c-tech    (deep teal)  is data:  stack chips, timestamps, skill tags
- * Keeping them separated stops the page reading as one flat orange wash.
+ *   --c-accent  (indigo) is voice: headings, links, buttons, taglines
+ *   --c-tech    (cyan)   is data:  stack chips, timestamps, skill tags
+ * Keeping them separated stops the page reading as one flat wash.
  *
- * Every pair below is checked against WCAG AA by scratch contrast.mjs.
+ * Colours are written in oklch, not hex. Lightness in that space is
+ * perceptually uniform, so 0.52 looks equally light whatever the hue, and the
+ * light and dark ramps can be reasoned about rather than eyeballed. It also
+ * addresses colours outside sRGB, so a P3 display renders the accent at the
+ * chroma it is actually specified at.
+ *
+ * Every pair is checked against WCAG AA by scripts/check-contrast.mjs, which
+ * converts oklch to linear sRGB to do it.
  */
 
 :root {
-  /* Neutrals for the light theme, kept warm. Cooler and deeper than a pure
-     beige so the accents have something to sit against. */
-  --c-bg: #fcfbf8;
-  --c-bg-raised: #ffffff;
-  --c-bg-sunken: #f2efe8;
-  --c-border: #e4ded2;
+  /* Neutrals: cool graphite, a trace of blue in the hue so the greys read as
+     deliberate rather than muddy. */
+  --c-bg: oklch(0.982 0.003 265);
+  --c-bg-raised: oklch(1 0 0);
+  --c-bg-sunken: oklch(0.951 0.005 265);
+  --c-border: oklch(0.895 0.006 265);
   /* Decorative only (separators, hairlines), so exempt from WCAG 1.4.11. */
-  --c-border-strong: #c3bbab;
+  --c-border-strong: oklch(0.82 0.008 265);
   /* The edge of an actual control (buttons). Must clear 3:1 against the
      background, so it is deliberately darker than --c-border-strong. */
-  --c-border-control: #8f8674;
-  --c-text: #191713;
-  --c-text-muted: #554f45;
-  --c-text-faint: #6e6659;
+  --c-border-control: oklch(0.63 0.012 265);
+  --c-text: oklch(0.19 0.012 265);
+  --c-text-muted: oklch(0.45 0.012 265);
+  --c-text-faint: oklch(0.532 0.013 265);
 
-  /* Accent: terracotta */
-  --c-accent: #a8481f;
-  --c-accent-hover: #8c3a17;
-  --c-accent-soft: #fbeadf;
-  --c-accent-text: #ffffff;
+  /* Accent: electric indigo. High chroma against near-neutral greys is what
+     makes the palette read as current rather than earthy. */
+  --c-accent: oklch(0.52 0.24 272);
+  --c-accent-hover: oklch(0.45 0.24 272);
+  --c-accent-soft: oklch(0.955 0.028 272);
+  --c-accent-text: oklch(1 0 0);
 
-  /* Secondary: deep teal, for technical and meta elements */
-  --c-tech: #0f6068;
-  --c-tech-soft: #e2f0f1;
+  /* Secondary: cool cyan, for technical and meta elements */
+  --c-tech: oklch(0.512 0.115 218);
+  --c-tech-soft: oklch(0.955 0.025 218);
 
   /* Feedback */
-  --c-positive: #256b43;
-  --c-positive-soft: #e4f1e9;
+  --c-positive: oklch(0.505 0.13 158);
+  --c-positive-soft: oklch(0.955 0.03 158);
 
-  --shadow-sm: 0 1px 2px rgb(28 26 24 / 0.06), 0 1px 1px rgb(28 26 24 / 0.04);
-  --shadow-md: 0 4px 12px rgb(28 26 24 / 0.07), 0 1px 3px rgb(28 26 24 / 0.05);
-  --shadow-lg: 0 12px 32px rgb(28 26 24 / 0.10), 0 2px 8px rgb(28 26 24 / 0.05);
+  /* Tinted toward the neutral hue rather than pure black, so shadows sit in
+     the palette instead of greying it down. */
+  --shadow-sm: 0 1px 2px oklch(0.19 0.012 265 / 0.07), 0 1px 1px oklch(0.19 0.012 265 / 0.04);
+  --shadow-md: 0 4px 12px oklch(0.19 0.012 265 / 0.08), 0 1px 3px oklch(0.19 0.012 265 / 0.05);
+  --shadow-lg: 0 12px 32px oklch(0.19 0.012 265 / 0.12), 0 2px 8px oklch(0.19 0.012 265 / 0.06);
 
   /* Type. See fonts.css. --font-display carries the personality, --font-sans
      does the reading. */
@@ -104,26 +114,26 @@
  * them onto --c-*. Change a dark colour in one place.
  */
 :root {
-  --d-bg: #141210;
-  --d-bg-raised: #1e1b17;
-  --d-bg-sunken: #0d0b09;
-  --d-border: #302c25;
-  --d-border-strong: #4d4639;
-  --d-border-control: #7a705e;
-  --d-text: #f4f1ea;
-  --d-text-muted: #bab2a3;
-  --d-text-faint: #948b7b;
+  --d-bg: oklch(0.155 0.008 265);
+  --d-bg-raised: oklch(0.205 0.009 265);
+  --d-bg-sunken: oklch(0.115 0.007 265);
+  --d-border: oklch(0.29 0.011 265);
+  --d-border-strong: oklch(0.42 0.014 265);
+  --d-border-control: oklch(0.60 0.016 265);
+  --d-text: oklch(0.97 0.003 265);
+  --d-text-muted: oklch(0.77 0.012 265);
+  --d-text-faint: oklch(0.65 0.013 265);
 
-  --d-accent: #ef8f5f;
-  --d-accent-hover: #f8a67d;
-  --d-accent-soft: #2c1e15;
-  --d-accent-text: #1a1008;
+  --d-accent: oklch(0.735 0.185 277);
+  --d-accent-hover: oklch(0.80 0.165 277);
+  --d-accent-soft: oklch(0.27 0.055 276);
+  --d-accent-text: oklch(0.16 0.02 276);
 
-  --d-tech: #5ac2cc;
-  --d-tech-soft: #0f2529;
+  --d-tech: oklch(0.79 0.11 210);
+  --d-tech-soft: oklch(0.25 0.04 210);
 
-  --d-positive: #7ecb9e;
-  --d-positive-soft: #14231a;
+  --d-positive: oklch(0.80 0.13 158);
+  --d-positive-soft: oklch(0.25 0.045 158);
 }
 
 /* The mapping, applied when the OS asks for dark and nothing overrides it. */

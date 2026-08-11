@@ -41,19 +41,19 @@ const html = `<!doctype html>
     width: 1200px; height: 630px;
     display: flex; align-items: center; gap: 64px;
     padding: 72px 80px;
-    background: #141210;
-    color: #f4f1ea;
+    background: #0e1014;
+    color: #f7f7f9;
     font-family: 'Body', sans-serif;
     position: relative;
     overflow: hidden;
   }
   .glow {
     position: absolute; inset: -40% 40% 40% -20%;
-    background: radial-gradient(circle, rgba(239,143,95,0.28), transparent 70%);
+    background: radial-gradient(circle, rgba(139,124,255,0.30), transparent 70%);
   }
   .dots {
     position: absolute; inset: 0;
-    background-image: radial-gradient(circle at 1px 1px, rgba(244,241,234,0.10) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(247,247,249,0.10) 1px, transparent 0);
     background-size: 32px 32px;
     mask-image: linear-gradient(to bottom, #000, transparent 78%);
   }
@@ -61,10 +61,10 @@ const html = `<!doctype html>
   .badge {
     display: inline-block;
     padding: 6px 16px; margin-bottom: 28px;
-    border: 1px solid rgba(126,203,158,0.34);
+    border: 1px solid rgba(93,214,159,0.32);
     border-radius: 999px;
-    background: #14231a;
-    color: #7ecb9e;
+    background: #10241b;
+    color: #5dd69f;
     font-size: 20px; font-weight: 600;
   }
   h1 {
@@ -77,15 +77,15 @@ const html = `<!doctype html>
   .role {
     margin-top: 22px;
     font-size: 34px; font-weight: 600;
-    color: #ef8f5f;
+    color: #8b7cff;
     letter-spacing: -0.01em;
   }
-  .role span { color: #4d4639; margin: 0 12px; }
-  .role em { color: #948b7b; font-style: normal; font-weight: 400; font-size: 30px; }
+  .role span { color: #494f5e; margin: 0 12px; }
+  .role em { color: #9aa0ae; font-style: normal; font-weight: 400; font-size: 30px; }
   .pitch {
     margin-top: 26px;
     font-size: 24px; line-height: 1.45;
-    color: #bab2a3;
+    color: #b6bcc8;
     max-width: 22em;
   }
   .portrait { position: relative; flex: none; }
@@ -93,17 +93,17 @@ const html = `<!doctype html>
     width: 300px; height: 300px;
     object-fit: cover;
     border-radius: 20px;
-    border: 1px solid #302c25;
+    border: 1px solid #2b303a;
     filter: grayscale(1) contrast(1.04);
   }
   .portrait::before {
     content: ''; position: absolute; inset: -14%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(239,143,95,0.26), transparent 68%);
+    background: radial-gradient(circle, rgba(139,124,255,0.28), transparent 68%);
   }
   .url {
     position: absolute; left: 80px; bottom: 56px;
-    font-size: 20px; color: #948b7b;
+    font-size: 20px; color: #9aa0ae;
     font-family: ui-monospace, monospace;
   }
 </style></head>

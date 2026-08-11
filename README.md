@@ -60,19 +60,31 @@ Four things live outside that file:
 All of them resolve from [`src/styles/tokens.css`](src/styles/tokens.css). Two
 hues do the work and they have separate jobs:
 
-- `--c-accent` (terracotta) is voice: headings, links, buttons, taglines,
-  timeline dots, the hero glow.
-- `--c-tech` (deep teal) is data: date stamps and skill tags.
+- `--c-accent` (indigo) is voice: headings, links, buttons, taglines, timeline
+  dots, the hero glow.
+- `--c-tech` (cyan) is data: date stamps and skill tags.
 
-Keeping those apart is what stops the whole page reading as one flat orange
-wash. Light values sit at the top of the file. Dark values are the `--d-*`
-block, defined once and mapped onto `--c-*` by the two theme selectors below it,
-so a dark colour is only ever written in one place.
+Both sit against near-neutral cool greys. Keeping the two apart is what stops
+the page reading as one flat wash. Light values sit at the top of the file.
+Dark values are the `--d-*` block, defined once and mapped onto `--c-*` by the
+two theme selectors below it, so a dark colour is only ever written in one
+place.
 
-`npm run contrast` parses the token file and checks every pair that matters
-against WCAG AA (4.5:1 for text, 3:1 for control borders). It runs as part of
-`npm run build` and in CI, so a colour change that hurts legibility fails the
-build and tells you which pair broke. If you want a lighter grey than it allows,
+Colours are written in `oklch()` rather than hex. Lightness in that space is
+perceptually uniform, so `0.52` looks equally light whatever the hue and the
+two themes can be reasoned about instead of eyeballed. It can also express
+colours outside sRGB, so the accent renders at full chroma on a P3 display and
+is clamped everywhere else.
+
+`npm run contrast` parses the token file, converts each `oklch()` value to
+linear sRGB, and checks every pair that matters against WCAG AA (4.5:1 for
+text, 3:1 for control borders). It runs as part of `npm run build` and in CI,
+so a colour change that hurts legibility fails the build and tells you which
+pair broke.
+
+If you add a surface colour, add its pairs to that script. The list is the
+whole safety net: `--c-bg-sunken` was missing from it once, and a palette
+shipped with 4.19:1 text in the footer as a result. If you want a lighter grey than it allows,
 change the threshold in
 [`scripts/check-contrast.mjs`](scripts/check-contrast.mjs) on purpose rather
 than finding out from a visitor.

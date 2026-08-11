@@ -108,10 +108,27 @@ export function DesignSystem() {
     probe.style.cssText = 'position:absolute;opacity:0;pointer-events:none'
     document.body.appendChild(probe)
 
+    // A 1x1 canvas is the reliable way to normalise a colour. Chrome returns
+    // computed oklch() values verbatim rather than converting to rgb(), so
+    // reading the string is not enough; painting it and sampling the pixel
+    // gives sRGB bytes whatever syntax the token used.
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = 1
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
+
     const next: Record<string, string> = {}
     for (const token of new Set([...COLOR_TOKENS, ...PAIRS.flatMap(([a, b]) => [a, b])])) {
       probe.style.color = `var(${token})`
-      next[token] = getComputedStyle(probe).color
+      const computed = getComputedStyle(probe).color
+      if (ctx) {
+        ctx.clearRect(0, 0, 1, 1)
+        ctx.fillStyle = computed
+        ctx.fillRect(0, 0, 1, 1)
+        const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data
+        next[token] = `rgb(${r} ${g} ${b})`
+      } else {
+        next[token] = computed
+      }
     }
 
     document.body.removeChild(probe)

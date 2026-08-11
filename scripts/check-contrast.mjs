@@ -43,9 +43,48 @@ function srgbToLin(c) {
   return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
 }
 
-function luminance(hex) {
-  const h = hex.replace('#', '').trim()
-  if (!/^[0-9a-f]{6}$/i.test(h)) throw new Error(`not a plain hex colour: ${hex}`)
+/**
+ * oklch(L C H) -> linear sRGB.
+ *
+ * WCAG luminance is defined on linearised sRGB, which is exactly what falls
+ * out of this conversion, so there is no need to round-trip through 8-bit hex
+ * and lose precision. Channels are clamped because a high-chroma OKLCH colour
+ * can sit outside the sRGB gamut; on a P3 display it renders more saturated
+ * than this, which only ever means more contrast, never less.
+ */
+function oklchToLinearRgb(L, C, hDeg) {
+  const h = (hDeg * Math.PI) / 180
+  const a = C * Math.cos(h)
+  const b = C * Math.sin(h)
+
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b
+  const s_ = L - 0.0894841775 * a - 1.291485548 * b
+
+  const l = l_ ** 3
+  const m = m_ ** 3
+  const s = s_ ** 3
+
+  const clamp = (v) => Math.min(1, Math.max(0, v))
+  return [
+    clamp(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    clamp(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    clamp(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+  ]
+}
+
+function luminance(value) {
+  const v = value.trim()
+
+  const oklch = /^oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/i.exec(v)
+  if (oklch) {
+    const L = oklch[1].endsWith('%') ? parseFloat(oklch[1]) / 100 : parseFloat(oklch[1])
+    const [r, g, b] = oklchToLinearRgb(L, parseFloat(oklch[2]), parseFloat(oklch[3]))
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+  }
+
+  const h = v.replace('#', '')
+  if (!/^[0-9a-f]{6}$/i.test(h)) throw new Error(`unsupported colour syntax: ${value}`)
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16))
   return 0.2126 * srgbToLin(r) + 0.7152 * srgbToLin(g) + 0.0722 * srgbToLin(b)
 }
@@ -63,6 +102,13 @@ const CHECKS = [
   ['--c-text-muted', '--c-bg-raised', 4.5, 'muted text on cards'],
   ['--c-text-faint', '--c-bg', 4.5, 'faint labels'],
   ['--c-text-faint', '--c-bg-raised', 4.5, 'faint labels on cards'],
+  // --c-bg-sunken is the footer and the smaller chips. It was missing from
+  // this list, which is how a palette shipped with 4.19:1 text in the footer.
+  ['--c-text', '--c-bg-sunken', 4.5, 'text on sunken'],
+  ['--c-text-muted', '--c-bg-sunken', 4.5, 'muted text on sunken'],
+  ['--c-text-faint', '--c-bg-sunken', 4.5, 'faint labels on sunken'],
+  ['--c-accent', '--c-bg-sunken', 4.5, 'accent on sunken'],
+  ['--c-tech', '--c-bg-sunken', 4.5, 'tech accent on sunken'],
   ['--c-accent', '--c-bg', 4.5, 'accent links/eyebrows'],
   ['--c-accent', '--c-bg-raised', 4.5, 'accent on cards'],
   ['--c-accent', '--c-accent-soft', 4.5, 'accent on its own tint'],
