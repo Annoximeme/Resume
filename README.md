@@ -66,15 +66,15 @@ the entire site follows — buttons, links, timeline dots, the hero glow.
 
 ## Deploying
 
-### One-time setup
+### Setup
 
-1. Push to `main`.
-2. On GitHub go to **Settings → Pages**.
-3. Under **Source**, choose **GitHub Actions**.
+None. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) type-checks,
+builds and publishes on every push to `main`, and enables Pages on the repo
+itself the first time it runs (`enablement: true` on `configure-pages`). You can
+also trigger it by hand from the **Actions** tab.
 
-That is it. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
-type-checks, builds and publishes on every push to `main`. You can also trigger
-it by hand from the **Actions** tab.
+If you ever need to check or change it, the setting lives under
+**Settings → Pages → Source**, which should read **GitHub Actions**.
 
 ### About the base path
 
