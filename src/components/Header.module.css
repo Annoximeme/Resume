@@ -33,11 +33,9 @@
     height: 2px;
     width: 100%;
     transform-origin: 0 50%;
-    background: linear-gradient(
-      to right,
-      var(--c-accent),
-      color-mix(in srgb, var(--c-accent) 55%, var(--c-positive))
-    );
+    /* Runs from the warm accent into the cool one, so the bar itself shows
+       both halves of the palette. */
+    background: linear-gradient(to right, var(--c-accent), var(--c-tech));
     animation: progress linear;
     animation-timeline: scroll(root block);
   }

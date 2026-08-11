@@ -249,7 +249,7 @@
 
 .secondary {
   background: color-mix(in srgb, var(--c-bg-raised) 70%, transparent);
-  border-color: var(--c-border);
+  border-color: var(--c-border-control);
   color: var(--c-text);
 }
 

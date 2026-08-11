@@ -22,6 +22,7 @@ Other scripts:
 | `npm run build`   | Type-checks, then builds the production site to `dist` |
 | `npm run preview` | Serves the built `dist` folder locally                 |
 | `npm run lint`    | Type-check only, no build                              |
+| `npm run contrast`| Checks every colour pair against WCAG AA               |
 
 ---
 
@@ -62,8 +63,28 @@ empty. Sections you do not want at all can be removed from
 ### Changing the colours
 
 Every colour resolves from [`src/styles/tokens.css`](src/styles/tokens.css).
-Change `--c-accent` (and its dark-theme counterpart further down the file) and
-the entire site follows — buttons, links, timeline dots, the hero glow.
+Two hues do the work, and they have distinct jobs:
+
+- `--c-accent` (terracotta) is **voice** — headings, links, buttons, taglines,
+  timeline dots, the hero glow.
+- `--c-tech` (deep teal) is **data** — date stamps and skill tags.
+
+Keeping them apart is what stops the page reading as one flat orange wash.
+Change either and the whole site follows. Light values live at the top of the
+file; dark values are the `--d-*` block, defined once and mapped onto `--c-*`
+by the two theme selectors below it.
+
+**The colours are enforced.** `npm run contrast` parses the token file and
+checks every pair that matters against WCAG AA — 4.5:1 for text, 3:1 for
+control borders. It runs as part of `npm run build` and in CI, so a colour
+change that hurts legibility fails the build and names the pair. If you want a
+lighter grey than it allows, the honest fix is to change the threshold in
+[`scripts/check-contrast.mjs`](scripts/check-contrast.mjs) deliberately rather
+than to discover the problem from a visitor.
+
+One deliberate distinction: `--c-border-strong` is decorative (hairlines,
+separators) and exempt from the 3:1 rule, while `--c-border-control` bounds
+real buttons and is not. Use the latter on anything clickable.
 
 ---
 

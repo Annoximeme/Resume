@@ -62,7 +62,7 @@
 }
 
 .tag:hover {
-  border-color: color-mix(in srgb, var(--c-accent) 50%, transparent);
-  background: var(--c-accent-soft);
-  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-tech) 45%, transparent);
+  background: var(--c-tech-soft);
+  color: var(--c-tech);
 }

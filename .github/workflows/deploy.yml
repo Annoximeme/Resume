@@ -33,6 +33,9 @@ jobs:
       - name: Type-check
         run: npm run lint
 
+      - name: Check colour contrast (WCAG AA)
+        run: npm run contrast
+
       - name: Build
         run: npm run build
         env:

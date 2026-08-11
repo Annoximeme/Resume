@@ -42,7 +42,7 @@
   font-family: var(--font-mono);
   font-size: var(--t-xs);
   letter-spacing: 0.06em;
-  color: var(--c-text-faint);
+  color: var(--c-tech);
   text-transform: uppercase;
 }
 

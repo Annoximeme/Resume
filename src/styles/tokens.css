@@ -8,26 +8,44 @@
  *   [data-theme="dark"|"light"]   -> an explicit choice always wins
  */
 
-:root {
-  /* Neutrals — warm grey, light theme */
-  --c-bg: #fbfaf9;
-  --c-bg-raised: #ffffff;
-  --c-bg-sunken: #f3f1ee;
-  --c-border: #e3dfd9;
-  --c-border-strong: #cfc9c1;
-  --c-text: #1c1a18;
-  --c-text-muted: #5d574f;
-  --c-text-faint: #8a827a;
+/*
+ * Two hues carry the page, and they are used for different jobs:
+ *   --c-accent  (terracotta) — voice: headings, links, buttons, taglines
+ *   --c-tech    (deep teal)  — data: stack chips, timestamps, skill tags
+ * Keeping them separated stops the page reading as one flat orange wash.
+ *
+ * Every pair below is checked against WCAG AA by scratch contrast.mjs.
+ */
 
-  /* Accent */
-  --c-accent: #b4532a;
-  --c-accent-hover: #97441f;
-  --c-accent-soft: #fbeee7;
+:root {
+  /* Neutrals — warm, light theme. Slightly cooler and deeper than a pure
+     beige so the accents have something to sit against. */
+  --c-bg: #fcfbf8;
+  --c-bg-raised: #ffffff;
+  --c-bg-sunken: #f2efe8;
+  --c-border: #e4ded2;
+  /* Decorative only (separators, hairlines) — exempt from WCAG 1.4.11. */
+  --c-border-strong: #c3bbab;
+  /* The edge of an actual control (buttons). Must clear 3:1 against the
+     background, so it is deliberately darker than --c-border-strong. */
+  --c-border-control: #8f8674;
+  --c-text: #191713;
+  --c-text-muted: #554f45;
+  --c-text-faint: #6e6659;
+
+  /* Accent — terracotta */
+  --c-accent: #a8481f;
+  --c-accent-hover: #8c3a17;
+  --c-accent-soft: #fbeadf;
   --c-accent-text: #ffffff;
 
+  /* Secondary — deep teal, for technical/meta elements */
+  --c-tech: #0f6068;
+  --c-tech-soft: #e2f0f1;
+
   /* Feedback */
-  --c-positive: #2f6b46;
-  --c-positive-soft: #e6f1ea;
+  --c-positive: #256b43;
+  --c-positive-soft: #e4f1e9;
 
   --shadow-sm: 0 1px 2px rgb(28 26 24 / 0.06), 0 1px 1px rgb(28 26 24 / 0.04);
   --shadow-md: 0 4px 12px rgb(28 26 24 / 0.07), 0 1px 3px rgb(28 26 24 / 0.05);
@@ -75,24 +93,59 @@
   --dur-slow: 640ms;
 }
 
+/*
+ * Dark theme. The palette has to be applied from two different selectors —
+ * the OS preference and an explicit toggle — and CSS cannot share one
+ * declaration block between a media query and a plain selector. So the actual
+ * colours are defined once here as --d-* and the two blocks below only map
+ * them onto --c-*. Change a dark colour in one place.
+ */
+:root {
+  --d-bg: #141210;
+  --d-bg-raised: #1e1b17;
+  --d-bg-sunken: #0d0b09;
+  --d-border: #302c25;
+  --d-border-strong: #4d4639;
+  --d-border-control: #7a705e;
+  --d-text: #f4f1ea;
+  --d-text-muted: #bab2a3;
+  --d-text-faint: #948b7b;
+
+  --d-accent: #ef8f5f;
+  --d-accent-hover: #f8a67d;
+  --d-accent-soft: #2c1e15;
+  --d-accent-text: #1a1008;
+
+  --d-tech: #5ac2cc;
+  --d-tech-soft: #0f2529;
+
+  --d-positive: #7ecb9e;
+  --d-positive-soft: #14231a;
+}
+
+/* The mapping, applied when the OS asks for dark and nothing overrides it. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --c-bg: #16150f;
-    --c-bg-raised: #1f1e18;
-    --c-bg-sunken: #100f0b;
-    --c-border: #322f27;
-    --c-border-strong: #4a463b;
-    --c-text: #f2efe8;
-    --c-text-muted: #b1aa9c;
-    --c-text-faint: #857f73;
+    --c-bg: var(--d-bg);
+    --c-bg-raised: var(--d-bg-raised);
+    --c-bg-sunken: var(--d-bg-sunken);
+    --c-border: var(--d-border);
+    --c-border-strong: var(--d-border-strong);
+    --c-border-control: var(--d-border-control);
+    --c-text: var(--d-text);
+    --c-text-muted: var(--d-text-muted);
+    --c-text-faint: var(--d-text-faint);
 
-    --c-accent: #e88b5c;
-    --c-accent-hover: #f3a077;
-    --c-accent-soft: #2a1f17;
-    --c-accent-text: #1a1109;
+    --c-accent: var(--d-accent);
+    --c-accent-hover: var(--d-accent-hover);
+    --c-accent-soft: var(--d-accent-soft);
+    --c-accent-text: var(--d-accent-text);
 
-    --c-positive: #79c79a;
-    --c-positive-soft: #17251c;
+    --c-tech: var(--d-tech);
+    --c-tech-soft: var(--d-tech-soft);
+
+    --c-positive: var(--d-positive);
+    --c-positive-soft: var(--d-positive-soft);
 
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
@@ -100,23 +153,28 @@
   }
 }
 
+/* The same mapping, applied when the user explicitly picks dark. */
 :root[data-theme='dark'] {
-  --c-bg: #16150f;
-  --c-bg-raised: #1f1e18;
-  --c-bg-sunken: #100f0b;
-  --c-border: #322f27;
-  --c-border-strong: #4a463b;
-  --c-text: #f2efe8;
-  --c-text-muted: #b1aa9c;
-  --c-text-faint: #857f73;
+  --c-bg: var(--d-bg);
+  --c-bg-raised: var(--d-bg-raised);
+  --c-bg-sunken: var(--d-bg-sunken);
+  --c-border: var(--d-border);
+  --c-border-strong: var(--d-border-strong);
+  --c-border-control: var(--d-border-control);
+  --c-text: var(--d-text);
+  --c-text-muted: var(--d-text-muted);
+  --c-text-faint: var(--d-text-faint);
 
-  --c-accent: #e88b5c;
-  --c-accent-hover: #f3a077;
-  --c-accent-soft: #2a1f17;
-  --c-accent-text: #1a1109;
+  --c-accent: var(--d-accent);
+  --c-accent-hover: var(--d-accent-hover);
+  --c-accent-soft: var(--d-accent-soft);
+  --c-accent-text: var(--d-accent-text);
 
-  --c-positive: #79c79a;
-  --c-positive-soft: #17251c;
+  --c-tech: var(--d-tech);
+  --c-tech-soft: var(--d-tech-soft);
+
+  --c-positive: var(--d-positive);
+  --c-positive-soft: var(--d-positive-soft);
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
