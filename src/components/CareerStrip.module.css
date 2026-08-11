@@ -1,0 +1,112 @@
+.wrap {
+  margin: 0 0 var(--s-7);
+  padding: var(--s-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--c-bg-raised) 55%, transparent);
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--c-text-faint);
+  margin-bottom: var(--s-5);
+}
+
+.chart {
+  position: relative;
+}
+
+/* ── Year axis ──────────────────────────────────────────────────────────── */
+
+.grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  bottom: 1.25rem;
+  width: 1px;
+  background: var(--c-border);
+}
+
+.tickLabel {
+  position: absolute;
+  bottom: -1.15rem;
+  left: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+/* A leading apostrophe turns 26 into '26 without putting it in the markup. */
+.tickLabel::before {
+  content: '’';
+}
+
+/* ── Bars ───────────────────────────────────────────────────────────────── */
+
+.rows {
+  position: relative;
+  display: grid;
+  gap: var(--s-2);
+  padding-bottom: 1.25rem;
+}
+
+.row {
+  position: relative;
+  height: 1.85rem;
+}
+
+.bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-inline: var(--s-3);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--c-tech) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-tech) 45%, transparent);
+  overflow: hidden;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+/* The role still running reads in the accent, like everything else current. */
+.bar[data-current='true'] {
+  background: color-mix(in srgb, var(--c-accent) 22%, transparent);
+  border-color: color-mix(in srgb, var(--c-accent) 50%, transparent);
+}
+
+.bar:hover {
+  background: color-mix(in srgb, var(--c-tech) 34%, transparent);
+}
+
+.bar[data-current='true']:hover {
+  background: color-mix(in srgb, var(--c-accent) 34%, transparent);
+}
+
+.barLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  white-space: nowrap;
+  color: var(--c-text);
+  /* A short bar cannot hold its own label; clip rather than overflow it. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 40rem) {
+  /* Labels stop fitting inside the bars long before the chart stops being
+     readable, so drop them and leave the shapes. */
+  .barLabel {
+    display: none;
+  }
+}

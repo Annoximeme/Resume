@@ -169,8 +169,10 @@ export const experience: Job[] = [
     role: 'Job Title',
     company: 'Company Name',
     companyUrl: 'https://example.com',
-    start: 'Month Year',
-    end: 'Month Year',
+    // Any format with a year in it works: "2022", "Sep 2022", "Present".
+    // A month makes the bar in the strip above start in the right place.
+    start: 'Sep 2022',
+    end: 'Dec 2023',
     location: 'City, Country',
     summary:
       'One sentence on what the role actually was: the scope you owned, not the job description.',

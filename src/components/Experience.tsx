@@ -1,11 +1,14 @@
 import { Icon } from './Icon'
 import { Section } from './Section'
+import { CareerStrip } from './CareerStrip'
 import { experience } from '../content/resume'
 import styles from './Experience.module.css'
 
 export function Experience() {
   return (
     <Section id="experience" eyebrow="03_experience" title="Where I have worked">
+      <CareerStrip />
+
       <ol className={styles.timeline} data-note="reveal">
         {experience.map((job) => (
           <li key={`${job.company}-${job.role}`} className={styles.item}>

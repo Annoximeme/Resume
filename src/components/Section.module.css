@@ -44,6 +44,35 @@
   pointer-events: none;
 }
 
+/*
+ * The numeral drifts slower than the page as its section passes, so the rail
+ * reads as sitting behind the content. Scroll-timeline again: no JavaScript,
+ * and absent where unsupported.
+ */
+@supports (animation-timeline: view()) {
+  .numeral {
+    animation: numeral-drift linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+
+  @keyframes numeral-drift {
+    from {
+      transform: translateY(2.5rem);
+    }
+    to {
+      transform: translateY(-2.5rem);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .numeral {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 @media (max-width: 60rem) {
   /* No rail to escape from on narrow screens, so it would just collide. */
   .numeral {

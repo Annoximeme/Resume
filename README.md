@@ -174,6 +174,17 @@ scale and spacing are read from the running stylesheet, and the contrast figures
 are computed in the browser from what's actually rendered, so switching theme
 recalculates them.
 
+**A career strip** above the experience list shows the roles to scale, so a
+span reads as a shape rather than two numbers to subtract. Dates in the content
+file are free text, so parsing is lenient and anything without a year in it is
+left out; below two placeable roles there is nothing to compare and the strip
+renders nothing.
+
+**The graph paper lights up under the cursor.** A second copy of the grid,
+masked to a circle that follows the pointer, so the page reads as a surface
+being lit rather than a flat image. It costs one mask position per frame and
+never runs without a fine pointer or under reduced motion.
+
 **Motion** comes from CSS scroll timelines rather than JavaScript: the reading
 progress bar in the header and the reveal on every section. No
 IntersectionObserver, nothing on the main thread. The reveal sits entirely

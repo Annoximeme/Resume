@@ -13,6 +13,7 @@ import { CommandPalette } from './components/CommandPalette'
 import { AnnotationLayer } from './components/AnnotationLayer'
 import { TechFocusProvider } from './context/TechFocus'
 import { useTheme } from './hooks/useTheme'
+import { usePointerSpotlight } from './hooks/usePointerSpotlight'
 
 /**
  * Hash-based routing, deliberately. The site is two pages; a router dependency
@@ -38,6 +39,8 @@ export function App() {
   const [theme, toggleTheme] = useTheme()
   const [annotating, setAnnotating] = useState(false)
 
+  usePointerSpotlight()
+
   const toggleAnnotations = useCallback(() => setAnnotating((v) => !v), [])
 
   // Jumping between the two pages should start at the top.
@@ -52,6 +55,8 @@ export function App() {
 
   return (
     <TechFocusProvider>
+      <div className="spotlight" aria-hidden="true" />
+
       <a className="skip-link" href="#main">
         Skip to content
       </a>

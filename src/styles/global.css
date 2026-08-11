@@ -67,6 +67,50 @@ body::after {
   mix-blend-mode: overlay;
 }
 
+/*
+ * The same grid again, brighter, masked to a circle that follows the cursor.
+ * The page reads as a technical surface being lit rather than a flat image,
+ * and it costs one compositor-friendly mask position per frame.
+ *
+ * Hidden until the pointer has actually moved, and never shown at all without
+ * a fine pointer or under reduced motion, where the hook does not run.
+ */
+.spotlight {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--c-accent) 34%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--c-accent) 34%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 88px 88px;
+  mask-image: radial-gradient(
+    circle 15rem at var(--spot-x, 50%) var(--spot-y, 50%),
+    #000 0%,
+    transparent 68%
+  );
+}
+
+:root[data-spotlight='on'] .spotlight {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight {
+    display: none;
+  }
+}
+
 /* Grain over a dark ground needs a different blend to stay subtle. */
 :root[data-theme='dark'] body::after {
   mix-blend-mode: soft-light;
@@ -305,7 +349,8 @@ button {
 
   /* Screen texture: fixed-position layers otherwise print on every page. */
   body::before,
-  body::after {
+  body::after,
+  .spotlight {
     display: none !important;
   }
 
