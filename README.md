@@ -66,15 +66,20 @@ the entire site follows — buttons, links, timeline dots, the hero glow.
 
 ## Deploying
 
-### Setup
+### One-time setup
 
-None. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) type-checks,
-builds and publishes on every push to `main`, and enables Pages on the repo
-itself the first time it runs (`enablement: true` on `configure-pages`). You can
-also trigger it by hand from the **Actions** tab.
+On GitHub, go to **Settings → Pages** and under **Source** choose
+**GitHub Actions**.
 
-If you ever need to check or change it, the setting lives under
-**Settings → Pages → Source**, which should read **GitHub Actions**.
+This step has to be done by hand, once. The workflow cannot do it for you:
+creating a Pages site needs repo-admin rights, and the `GITHUB_TOKEN` that
+Actions runs with only has permission to *publish* to a Pages site that already
+exists. Until it is set, `configure-pages` fails with
+`Get Pages site failed … Not Found` and the deploy job is skipped.
+
+After that it is automatic: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+type-checks, builds and publishes on every push to `main`. Re-run the last
+failed run from the **Actions** tab to publish immediately, without a new commit.
 
 ### About the base path
 
