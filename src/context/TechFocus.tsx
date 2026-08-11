@@ -25,7 +25,6 @@ type TechFocusValue = {
   hover: (tech: string | null) => void
   /** Click to pin, click again to release. */
   togglePin: (tech: string) => void
-  clear: () => void
   /** Case-insensitive membership test against a project's stack. */
   matches: (stack: string[]) => boolean
   /** How many projects use this technology. */
@@ -67,23 +66,17 @@ export function TechFocusProvider({ children }: { children: ReactNode }) {
     setHovered(null)
   }, [])
 
-  const clear = useCallback(() => {
-    setPinned(null)
-    setHovered(null)
-  }, [])
-
   const value = useMemo<TechFocusValue>(
     () => ({
       active,
       isFiltering: active !== null,
       hover,
       togglePin,
-      clear,
       matches: (stack) =>
         active !== null && stack.some((t) => norm(t) === norm(active)),
       projectCount: (tech) => counts.get(norm(tech)) ?? 0,
     }),
-    [active, hover, togglePin, clear, counts],
+    [active, hover, togglePin, counts],
   )
 
   return <TechFocusContext.Provider value={value}>{children}</TechFocusContext.Provider>

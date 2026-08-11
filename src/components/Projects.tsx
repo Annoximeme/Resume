@@ -34,11 +34,6 @@ export function Projects() {
   // Restores focus to the card that opened the dialog when it closes.
   const opener = useRef<HTMLElement | null>(null)
 
-  // Featured items lead, regardless of their order in the content file.
-  const ordered = [...projects].sort(
-    (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)),
-  )
-
   const close = useCallback(() => {
     withViewTransition(() => setOpen(null))
   }, [])
@@ -58,12 +53,26 @@ export function Projects() {
     opener.current = null
   }, [open])
 
+  // Nothing to list and nothing to show alongside it. This sits below the
+  // hooks on purpose: an early return above them changes how many run.
+  if (projects.length === 0) return null
+
+  // Featured items lead, regardless of their order in the content file.
+  const ordered = [...projects].sort(
+    (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)),
+  )
+
   return (
     <Section
       id="projects"
-      eyebrow="04_projects"
       title="Things I have built"
-      intro="Each one is deployed and the source is public. Open one for the detail."
+      intro={
+        <>
+          Each one is deployed and the source is public.{' '}
+          {/* There is nothing to open on paper — the URLs are printed instead. */}
+          <span data-print="hide">Open one for the detail.</span>
+        </>
+      }
     >
       <div className={styles.grid} data-print="expand-links" data-note="projectCard">
         {ordered.map((project) => {

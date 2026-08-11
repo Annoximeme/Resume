@@ -30,9 +30,9 @@ export const annotations: Record<string, Annotation> = {
       'The bar under the header is a CSS scroll-driven animation: animation-timeline: scroll(root block). The browser runs it off the main thread, so it cannot stutter while React is busy, and browsers without support simply show no bar.',
   },
   reveal: {
-    title: 'Sections fade in from a scroll timeline',
+    title: 'Sections rise in from a scroll timeline',
     body:
-      'Also pure CSS, using animation-timeline: view(). The whole effect lives inside an @supports block on purpose: the hidden starting state is only ever applied by a browser that can also animate it back, so an unsupported browser shows the content rather than hiding it forever.',
+      'Also pure CSS, using animation-timeline: view(). It moves each section rather than fading it, and that is deliberate: an earlier version animated opacity, which left everything below the fold at zero contrast until you scrolled to it. Lighthouse called it, correctly. The whole effect also lives inside an @supports block, so the starting state is only ever applied by a browser that can animate it back.',
   },
   skills: {
     title: 'Skills are cross-referenced with the projects',
@@ -52,17 +52,17 @@ export const annotations: Record<string, Annotation> = {
   numeral: {
     title: 'One deliberate break in the grid',
     body:
-      'The oversized outlined numeral is the only element allowed to escape the container gutter. Breaking a grid once reads as intentional; breaking it repeatedly reads as an accident.',
+      'The oversized outlined numeral is the only element allowed to escape the container gutter, and it drifts against the scroll on its own view timeline so the rail reads as sitting behind the content. Breaking a grid once reads as intentional; breaking it repeatedly reads as an accident.',
   },
   palette: {
     title: 'Two hues with separate jobs',
     body:
-      'Terracotta is voice — headings, links, buttons. Teal is data — timestamps and skill tags. Every pair is checked against WCAG AA by a script that parses the token file, and it runs in CI, so a colour change that hurts legibility fails the build rather than reaching a visitor.',
+      'Indigo is voice — headings, links, buttons. Cyan is data — timestamps, counts and skill tags. Both are written in oklch, where lightness is perceptually uniform, so the light and dark ramps can be reasoned about instead of eyeballed. Every pair is checked against WCAG AA by a script that parses the token file and runs in CI, so a colour that hurts legibility fails the build rather than reaching a visitor.',
   },
   fonts: {
     title: 'Self-hosted variable fonts',
     body:
-      'Two typefaces, subset to Latin and served as variable woff2, so one file covers every weight. Nothing is fetched from a font CDN. The page makes no external requests at all, which keeps it fast and means it leaks nothing about who is reading it.',
+      'Three typefaces with three jobs — a display face for personality, a sans for reading, a mono for anything the machine is saying — each subset to Latin and served as a variable woff2, so one file covers every weight. Nothing is fetched from a font CDN. The page makes no external requests at all, which keeps it fast and means it leaks nothing about who is reading it.',
   },
   print: {
     title: 'This page is also a PDF',

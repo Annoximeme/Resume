@@ -97,6 +97,10 @@
 
   --measure: 66ch;
   --page-max: 1240px;
+  /* Space between the container's content and the window edge. Anything that
+     deliberately breaks out of the container measures its escape against
+     this, so nothing can be clipped by the viewport instead. */
+  --gutter: clamp(var(--s-4), 4vw, var(--s-7));
   /* Width of the sticky heading rail in the two-column section layout. */
   --rail: 17rem;
 

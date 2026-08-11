@@ -1,7 +1,16 @@
+/* The container decides the column count, not the viewport: this grid sits
+   inside the content column of a two-column page, so a viewport media query
+   would be measuring the wrong box. */
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
   gap: var(--s-4);
+}
+
+/* A project with a screenshot has something worth the full width. Text-only
+   cards are short enough to sit two-up beside each other. */
+.card:has(.thumb) {
+  grid-column: 1 / -1;
 }
 
 .card {
@@ -407,5 +416,25 @@ button.chip:hover {
 
   .openButton::after {
     content: none;
+  }
+
+  /* On paper the link's URL is written out after it, and it needs to be free
+     to wrap. Left as a flex item it cannot break, so a long GitHub URL runs
+     off the edge of the card and is clipped. */
+  .actions {
+    display: block;
+  }
+
+  .action {
+    display: inline;
+    margin-right: var(--s-4);
+  }
+
+  .action svg {
+    /* No longer a flex sibling: it has to sit on the text baseline and carry
+       its own gap, or it lands on a line of its own above the label. */
+    display: inline-block;
+    margin-right: 0.3em;
+    vertical-align: -0.15em;
   }
 }

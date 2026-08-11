@@ -59,7 +59,6 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow="06_contact"
       title="Let’s talk"
       intro={
         profile.availableForWork
@@ -118,20 +117,22 @@ export function Contact() {
           <p className={styles.factValue}>{profile.responseTime}</p>
         </div>
 
-        <div className={styles.fact}>
-          <p className={styles.factLabel}>Languages</p>
-          <ul className={styles.langs}>
-            {languages.map((lang) => (
-              <li key={lang.name} className={styles.lang}>
-                <span className={styles.langName}>{lang.name}</span>
-                <span className={styles.langLevel}>{lang.level}</span>
-                <span className={styles.langBar} aria-hidden="true">
-                  <span style={{ width: `${lang.strength}%` }} />
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {languages.length > 0 && (
+          <div className={styles.fact}>
+            <p className={styles.factLabel}>Languages</p>
+            <ul className={styles.langs}>
+              {languages.map((lang) => (
+                <li key={lang.name} className={styles.lang}>
+                  <span className={styles.langName}>{lang.name}</span>
+                  <span className={styles.langLevel}>{lang.level}</span>
+                  <span className={styles.langBar} aria-hidden="true">
+                    <span style={{ width: `${lang.strength}%` }} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className={styles.fact} data-span="wide">
           <p className={styles.factLabel}>Looking for</p>

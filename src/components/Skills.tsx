@@ -6,12 +6,19 @@ import styles from './Skills.module.css'
 export function Skills() {
   const { active, isFiltering, hover, togglePin, projectCount } = useTechFocus()
 
+  if (skills.length === 0) return null
+
   return (
     <Section
       id="skills"
-      eyebrow="02_skills"
       title="What I work with"
-      intro="The number beside each skill is how many projects used it. Hover one to pick those projects out."
+      intro={
+        <>
+          The number beside each skill is how many projects used it.{' '}
+          {/* Nothing to hover on a printout. */}
+          <span data-print="hide">Hover one to pick those projects out.</span>
+        </>
+      }
     >
       <div className={styles.grid} data-note="skills">
         {skills.map((group) => (

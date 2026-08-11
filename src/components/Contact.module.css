@@ -235,3 +235,16 @@
   color: var(--c-accent);
   font-family: var(--font-mono);
 }
+
+@media print {
+  /* The accent wash and the corner glow are screen decoration; on paper they
+     come out as grey smudges behind the address. */
+  .panel {
+    background: none;
+    border-color: #bbb;
+  }
+
+  .panel::after {
+    display: none;
+  }
+}

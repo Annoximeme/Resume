@@ -233,7 +233,7 @@
 
 .mobileMenu a {
   display: block;
-  padding: var(--s-4) clamp(var(--s-4), 4vw, var(--s-7));
+  padding: var(--s-4) var(--gutter);
   border-bottom: 1px solid var(--c-border);
   color: var(--c-text-muted);
   font-size: var(--t-md);

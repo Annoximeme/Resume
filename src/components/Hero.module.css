@@ -173,6 +173,12 @@
   letter-spacing: -0.015em;
 }
 
+.where {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-3);
+}
+
 .sep {
   color: var(--c-border-strong);
   font-weight: 300;

@@ -1,23 +1,30 @@
 import type { ReactNode } from 'react'
+import { VISIBLE_SECTION_IDS } from '../content/sections'
 import styles from './Section.module.css'
 
 type Props = {
   id: string
-  /** Small label above the heading, e.g. "01 / Experience". */
-  eyebrow?: string
   title: string
-  /** Optional sentence under the heading. */
-  intro?: string
+  /** Optional sentence under the heading. Takes markup so a part of it can be
+      dropped from the printed version. */
+  intro?: ReactNode
   children: ReactNode
 }
 
-/** Pulls the leading number out of "03 / Experience" for the ghost numeral. */
-function leadingNumber(eyebrow?: string) {
-  return eyebrow?.match(/^\s*(\d+)/)?.[1] ?? null
+/**
+ * The label above each heading — `02_skills` — is the section's position on
+ * the page, not a number typed into the component. Empty an array in the
+ * content file and the sections below it renumber themselves instead of
+ * leaving a gap where one used to be.
+ */
+function numberOf(id: string) {
+  const index = VISIBLE_SECTION_IDS.indexOf(id)
+  return index === -1 ? null : String(index + 1).padStart(2, '0')
 }
 
-export function Section({ id, eyebrow, title, intro, children }: Props) {
-  const numeral = leadingNumber(eyebrow)
+export function Section({ id, title, intro, children }: Props) {
+  const numeral = numberOf(id)
+  const eyebrow = numeral && `${numeral}_${id}`
 
   return (
     <section id={id} className="section reveal">

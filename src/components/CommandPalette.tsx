@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Icon, type IconName } from './Icon'
-import { NAV_ITEMS } from './Header'
+import { VISIBLE_SECTIONS } from '../content/sections'
 import { profile, projects, site } from '../content/resume'
 import { downloadJsonResume } from '../content/jsonResume'
 import styles from './CommandPalette.module.css'
@@ -90,7 +90,7 @@ export function CommandPalette({
   }, [])
 
   const commands = useMemo<Command[]>(() => {
-    const nav: Command[] = NAV_ITEMS.map((item) => ({
+    const nav: Command[] = VISIBLE_SECTIONS.map((item) => ({
       id: `go-${item.id}`,
       label: item.label,
       icon: 'link',

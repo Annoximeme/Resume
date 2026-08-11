@@ -31,7 +31,11 @@
 .numeral {
   position: absolute;
   top: -0.35em;
-  left: -0.44em;
+  /* Escapes the container gutter, but never the window: between 60rem and the
+     page's max width the gutter is thin, and a numeral sliced off by the
+     viewport edge reads as a mistake rather than a deliberate break. max() of
+     two negative lengths keeps whichever is closer to zero. */
+  left: max(-0.44em, calc(var(--gutter) * -0.7));
   z-index: -1;
   font-family: var(--font-mono);
   font-size: clamp(6.5rem, 12vw, 11rem);

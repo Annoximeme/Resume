@@ -3,19 +3,8 @@ import { Icon } from './Icon'
 import { useScrollSpy } from '../hooks/useScrollSpy'
 import type { Theme } from '../hooks/useTheme'
 import { profile } from '../content/resume'
+import { VISIBLE_SECTIONS, VISIBLE_SECTION_IDS } from '../content/sections'
 import styles from './Header.module.css'
-
-export const NAV_ITEMS = [
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'education', label: 'Education' },
-  { id: 'contact', label: 'Contact' },
-] as const
-
-// Hoisted so its identity is stable: useScrollSpy keys its effect on it.
-const NAV_IDS: string[] = NAV_ITEMS.map((item) => item.id)
 
 type Props = {
   theme: Theme
@@ -26,7 +15,7 @@ type Props = {
 export function Header({ theme, onToggleTheme }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const active = useScrollSpy(NAV_IDS)
+  const active = useScrollSpy(VISIBLE_SECTION_IDS)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -72,7 +61,7 @@ export function Header({ theme, onToggleTheme }: Props) {
 
         <nav className={styles.nav} aria-label="Sections">
           <ul className={styles.navList}>
-            {NAV_ITEMS.map((item) => (
+            {VISIBLE_SECTIONS.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
@@ -144,7 +133,7 @@ export function Header({ theme, onToggleTheme }: Props) {
         hidden={!menuOpen}
       >
         <ul>
-          {NAV_ITEMS.map((item) => (
+          {VISIBLE_SECTIONS.map((item) => (
             <li key={item.id}>
               <a href={`#${item.id}`} onClick={() => setMenuOpen(false)}>
                 {item.label}

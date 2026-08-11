@@ -5,8 +5,10 @@ import { experience } from '../content/resume'
 import styles from './Experience.module.css'
 
 export function Experience() {
+  if (experience.length === 0) return null
+
   return (
-    <Section id="experience" eyebrow="03_experience" title="Where I have worked">
+    <Section id="experience" title="Where I have worked">
       <CareerStrip />
 
       <ol className={styles.timeline} data-note="reveal">

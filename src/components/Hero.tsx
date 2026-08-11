@@ -24,13 +24,18 @@ export function Hero() {
             <VariableName>{profile.name}</VariableName>
           </h1>
 
+          {/* The separator belongs to the location, not to the line: on a
+              narrow screen the two wrap together instead of leaving a slash
+              hanging off the end of the title. */}
           <p className={styles.role}>
             {profile.title}
-            <span className={styles.sep} aria-hidden="true">
-              /
+            <span className={styles.where}>
+              <span className={styles.sep} aria-hidden="true">
+                /
+              </span>
+              <span className={styles.location}>{profile.location}</span>
+              <span className={styles.caret} aria-hidden="true" />
             </span>
-            <span className={styles.location}>{profile.location}</span>
-            <span className={styles.caret} aria-hidden="true" />
           </p>
 
           <p className={styles.pitch}>{profile.pitch}</p>
