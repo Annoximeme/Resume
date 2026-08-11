@@ -37,6 +37,28 @@ export type Project = {
   repoUrl?: string
   /** Marks the project as the lead item, rendered larger and first. */
   featured?: boolean
+  /** Year or range, shown on the card. */
+  year?: string
+  /** Your part, if the project was not all yours. */
+  role?: string
+  /**
+   * Screenshot filename in public/shots/. A card without one falls back to a
+   * text-only layout, so this is safe to leave out until you have an image.
+   * `npm run shots` captures them from each project's demoUrl.
+   */
+  image?: string
+  imageAlt?: string
+  /**
+   * Case-study detail, shown when the card is opened. Three questions worth
+   * answering: what was actually hard, what you did about it, and what came
+   * out the other end. The last one is the section most people skip and the
+   * one that reads as experience rather than enthusiasm.
+   */
+  problem?: string
+  approach?: string
+  outcome?: string
+  /** Hard numbers, shown as a row in the detail view. */
+  metrics?: { label: string; value: string }[]
 }
 
 export type SkillGroup = {
@@ -165,17 +187,72 @@ export const experience: Job[] = [
 /* For a first dev job these matter more than the experience section. */
 
 export const projects: Project[] = [
+  /*
+   * The only entry here that is real. Everything below it is a template.
+   * Written in the first person like the rest of the site: read it, make it
+   * sound like you, and cut anything you would not say in an interview.
+   */
+  {
+    name: 'This site',
+    tagline: 'A resume that has to meet the standard it claims.',
+    year: '2026',
+    role: 'Design and build',
+    image: 'this-site.jpg',
+    imageAlt: 'The homepage of this site, dark theme',
+    description:
+      'A single-page portfolio built with React, TypeScript and Vite, and ' +
+      'deployed to GitHub Pages by a workflow that refuses to publish work ' +
+      'that fails its own checks.',
+    problem:
+      'Claiming to care about performance and accessibility is free, and every ' +
+      'portfolio does it. I wanted the claims on this page to be things a ' +
+      'reviewer could verify without taking my word for anything.',
+    approach:
+      'Anything assertable is enforced. A script parses the colour tokens, ' +
+      'converts each oklch value to linear sRGB and checks all 30 pairs that ' +
+      'matter against WCAG AA; it runs in CI, so a colour that hurts ' +
+      'legibility fails the build instead of reaching a visitor. CI then ' +
+      'audits the deployed build with Lighthouse and writes the scores to a ' +
+      'file the page reads, so the numbers shown are measured rather than ' +
+      'typed in. The downloadable PDF is rendered from the same print ' +
+      'stylesheet as the page, so it cannot drift.',
+    outcome:
+      'The reveal animations were the useful failure. They faded each section ' +
+      'in on scroll, which meant everything below the fold sat at zero ' +
+      'contrast until you scrolled to it: an accessibility failure and a bad ' +
+      'way to treat a resume. Lighthouse caught it, and the fix was to animate ' +
+      'position instead of opacity. The audit paid for itself the first time ' +
+      'it ran.',
+    metrics: [
+      { label: 'Lighthouse', value: '100 ×4' },
+      { label: 'External requests', value: '0' },
+      { label: 'Colour pairs checked', value: '30' },
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'CSS Modules', 'GitHub Actions'],
+    demoUrl: 'https://annoximeme.github.io/Resume/',
+    repoUrl: 'https://github.com/Annoximeme/Resume',
+    featured: true,
+  },
   {
     name: 'Project One',
     tagline: 'The one-line version of what it does.',
+    year: 'Year',
     description:
       'What problem it solves and the interesting part of how you solved it. ' +
       'Name the hard bit: the caching, the offline sync, the drag-and-drop, ' +
       'because that is what a reviewer is scanning for.',
+    problem: 'What was actually hard about this? Not what it does: what fought back.',
+    approach: 'What you did about it, and which trade-off you accepted.',
+    outcome:
+      'What came out the other end, and what you would do differently now. ' +
+      'Almost nobody writes that last part, which is exactly why it is worth writing.',
+    metrics: [
+      { label: 'Users', value: '—' },
+      { label: 'Load time', value: '—' },
+    ],
     stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
     demoUrl: 'https://example.com',
     repoUrl: 'https://github.com/Annoximeme/project-one',
-    featured: true,
   },
   {
     name: 'Project Two',

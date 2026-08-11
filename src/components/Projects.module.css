@@ -51,6 +51,12 @@
   border-color: color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
 }
 
+/* The thumbnail sits flush to the card edge, so the accent rule has to clear
+   it or it would be painted over the image. */
+.card[data-featured='true'] .thumb {
+  border-top-left-radius: 0;
+}
+
 .card[data-featured='true']::after {
   content: '';
   position: absolute;
@@ -63,6 +69,47 @@
     var(--c-accent),
     color-mix(in srgb, var(--c-accent) 20%, transparent)
   );
+}
+
+/* ── Thumbnail ──────────────────────────────────────────────────────────── */
+
+.thumb {
+  display: block;
+  margin: calc(clamp(var(--s-4), 3vw, var(--s-6)) * -1);
+  margin-bottom: var(--s-5);
+  border-bottom: 1px solid var(--c-border);
+  overflow: hidden;
+  background: var(--c-bg-sunken);
+}
+
+.thumb img {
+  width: 100%;
+  height: auto;
+  /* Crops to a letterbox so a tall page still reads as a card image. */
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+  object-position: top center;
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    opacity var(--dur) var(--ease-out);
+  opacity: 0.92;
+}
+
+.card:hover .thumb img {
+  transform: scale(1.015);
+  opacity: 1;
+}
+
+/* On the featured card the image earns more room. */
+.card[data-featured='true'] .thumb img {
+  aspect-ratio: 16 / 7;
+}
+
+.year {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
 }
 
 /* ── Cross-reference states ─────────────────────────────────────────────── */
@@ -250,9 +297,52 @@ button.chip:hover {
 }
 
 .dialogBody {
-  margin-top: var(--s-4);
+  margin-top: var(--s-3);
   color: var(--c-text-muted);
   max-width: var(--measure);
+}
+
+.dialogShot {
+  width: 100%;
+  height: auto;
+  margin-top: var(--s-5);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+}
+
+/* ── Case study ─────────────────────────────────────────────────────────── */
+
+.caseBlock {
+  margin-top: var(--s-5);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+  padding: var(--s-4);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-bg-sunken);
+}
+
+.metrics li {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  color: var(--c-tech);
+  letter-spacing: -0.02em;
+}
+
+.metricLabel {
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
 }
 
 .dialogSub {
@@ -307,6 +397,11 @@ button.chip:hover {
   }
 
   .dialog {
+    display: none;
+  }
+
+  /* A screenshot of the site is redundant on a printout of the site. */
+  .thumb {
     display: none;
   }
 

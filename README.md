@@ -22,6 +22,7 @@ npm run dev      # http://localhost:5173
 | `npm run og`       | Regenerate the social preview image                   |
 | `npm run github`   | Refresh the GitHub activity snapshot                  |
 | `npm run pdf`      | Render `dist/resume.pdf` from a running preview       |
+| `npm run shots`    | Capture project screenshots into `public/shots/`      |
 
 ## Editing the content
 
@@ -39,6 +40,23 @@ complain if a field is missing, and the page updates as you save.
 | `projects`   | Project cards (`featured: true` leads)            |
 | `education`  | Education and courses                             |
 | `site`       | Page title, meta description, footer note         |
+
+### Projects
+
+Each project takes an optional case study — `problem`, `approach`, `outcome`
+and a `metrics` row — shown when the card is opened. The third one is the
+section most people skip, and the one that reads as experience rather than
+enthusiasm: say what you would do differently now.
+
+Cards can carry a screenshot. Give a project an `image` filename and a real
+`demoUrl`, then run `npm run shots` to capture it into `public/shots/`. Shots
+are committed, so a deploy never depends on somebody else's site being up when
+CI runs, and a project without one degrades to a text-only card. Placeholder
+hosts like `example.com` are skipped rather than photographed.
+
+Only one entry in there is real: this site. The rest are templates, and no
+amount of design compensates for "Project One". Replacing them is worth more
+than everything else in this file.
 
 Delete an entry and it disappears. Empty an array and the section renders empty.
 To drop a section entirely, remove it from [`src/App.tsx`](src/App.tsx) and from

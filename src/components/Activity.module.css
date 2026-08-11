@@ -4,9 +4,12 @@
   margin-top: var(--s-6);
 }
 
+/* auto-fit rather than a fixed pair: when only one of the two panels has data
+   (no GitHub snapshot yet, or no CI metrics) the survivor fills the row
+   instead of sitting orphaned at half width. */
 @media (min-width: 52rem) {
   .wrap {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
     align-items: start;
   }
 }

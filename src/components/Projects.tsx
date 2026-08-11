@@ -21,6 +21,8 @@ function withViewTransition(update: () => void) {
   doc.startViewTransition(update)
 }
 
+const shot = (file: string) => `${import.meta.env.BASE_URL}shots/${file}`
+
 /** Stable, CSS-safe name to pair a card with the dialog it expands into. */
 const transitionName = (name: string) =>
   `project-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
@@ -81,6 +83,26 @@ export function Projects() {
                   open?.name === project.name ? 'none' : transitionName(project.name),
               }}
             >
+              {project.image && (
+                <a
+                  className={styles.thumb}
+                  href={project.demoUrl ?? project.repoUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                >
+                  <img
+                    src={shot(project.image)}
+                    alt=""
+                    width={1600}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              )}
+
               <div className={styles.cardHead}>
                 <h3 className={styles.name}>
                   <button
@@ -96,6 +118,7 @@ export function Projects() {
                   </button>
                 </h3>
                 {project.featured && <span className={styles.flag}>Featured</span>}
+                {project.year && <span className={styles.year}>{project.year}</span>}
               </div>
 
               <p className={styles.tagline}>{project.tagline}</p>
@@ -173,10 +196,50 @@ export function Projects() {
               <Icon name="close" />
             </button>
 
-            <p className={styles.dialogEyebrow}>Project</p>
+            <p className={styles.dialogEyebrow}>
+              Project{open.year ? ` · ${open.year}` : ''}
+              {open.role ? ` · ${open.role}` : ''}
+            </p>
             <h3 className={styles.dialogTitle}>{open.name}</h3>
             <p className={styles.tagline}>{open.tagline}</p>
+
+            {open.image && (
+              <img
+                className={styles.dialogShot}
+                src={shot(open.image)}
+                alt={open.imageAlt ?? ''}
+                width={1600}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+
             <p className={styles.dialogBody}>{open.description}</p>
+
+            {open.metrics && open.metrics.length > 0 && (
+              <ul className={styles.metrics}>
+                {open.metrics.map((m) => (
+                  <li key={m.label}>
+                    <span className={styles.metricValue}>{m.value}</span>
+                    <span className={styles.metricLabel}>{m.label}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {([
+              ['The problem', open.problem],
+              ['What I did', open.approach],
+              ['How it turned out', open.outcome],
+            ] as const).map(([heading, body]) =>
+              body ? (
+                <div key={heading} className={styles.caseBlock}>
+                  <h4 className={styles.dialogSub}>{heading}</h4>
+                  <p className={styles.dialogBody}>{body}</p>
+                </div>
+              ) : null,
+            )}
 
             <h4 className={styles.dialogSub}>Built with</h4>
             <ul className={styles.stack}>

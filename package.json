@@ -11,7 +11,8 @@
     "contrast": "node scripts/check-contrast.mjs",
     "og": "node scripts/make-og.mjs",
     "pdf": "node scripts/make-pdf.mjs",
-    "github": "node scripts/fetch-github.mjs"
+    "github": "node scripts/fetch-github.mjs",
+    "shots": "node scripts/make-shots.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
