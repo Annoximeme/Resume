@@ -10,3 +10,72 @@
 .prose > p:first-child {
   color: var(--c-text);
 }
+
+/* ── Right now ──────────────────────────────────────────────────────────── */
+
+/*
+ * A short, dated "what I am doing at the moment". Cheap to keep current and
+ * it says more about momentum than another paragraph of prose would.
+ */
+.now {
+  margin-top: var(--s-6);
+  padding: var(--s-5);
+  border: 1px solid var(--c-border);
+  border-left: 2px solid var(--c-accent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--c-bg-raised) 55%, transparent);
+}
+
+.nowHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+.nowTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--c-text-faint);
+}
+
+.nowDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--c-accent);
+}
+
+.nowMeta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}
+
+.nowList {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.nowList li {
+  position: relative;
+  padding-left: var(--s-5);
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+}
+
+.nowList li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  color: var(--c-accent);
+}

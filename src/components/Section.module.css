@@ -125,6 +125,25 @@
   text-wrap: balance;
 }
 
+.anchor {
+  display: inline-block;
+  margin-left: 0.3em;
+  font-family: var(--font-mono);
+  font-size: 0.6em;
+  color: var(--c-accent);
+  opacity: 0;
+  transform: translateX(-0.2em);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.header:hover .anchor,
+.anchor:focus-visible {
+  opacity: 1;
+  transform: none;
+}
+
 .intro {
   margin-top: var(--s-3);
   color: var(--c-text-muted);

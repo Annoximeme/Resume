@@ -31,7 +31,11 @@ export function toJsonResume() {
       email: profile.email,
       url: site.url,
       summary: [profile.pitch, ...about].join('\n\n'),
-      location: { region: profile.location },
+      location: {
+        city: profile.city,
+        region: profile.region,
+        countryCode: profile.countryCode,
+      },
       profiles: links
         .filter((link) => !link.href.startsWith('mailto:'))
         .map((link) => ({

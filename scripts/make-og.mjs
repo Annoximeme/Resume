@@ -20,9 +20,27 @@ const display = b64('public/fonts/BricolageGrotesque-var.woff2')
 const body = b64('public/fonts/InstrumentSans-var.woff2')
 const portrait = b64('public/portrait.jpg')
 
-const NAME = 'Gianni Goossens'
-const TITLE = 'Front-End Developer'
-const PITCH = 'React and TypeScript. Fast, accessible interfaces that hold up outside the demo.'
+/*
+ * Pulled out of the content file rather than restated here. The card carried a
+ * hardcoded "Belgium" that survived a move to Antwerp, which is exactly the
+ * drift this avoids. A regex is enough: these are all plain string literals or
+ * concatenations of them, and it keeps the script free of a TypeScript build.
+ */
+const content = readFileSync(fileURLToPath(new URL('src/content/resume.ts', root)), 'utf8')
+
+const field = (name, fallback) => {
+  // Grabs 'a' + 'b' + 'c' as well as a single quoted string.
+  const match = new RegExp(`\\b${name}:\\s*((?:'(?:[^'\\\\]|\\\\.)*'\\s*\\+?\\s*)+)`).exec(content)
+  if (!match) return fallback
+  const parts = match[1].match(/'(?:[^'\\]|\\.)*'/g) ?? []
+  return parts.map((p) => p.slice(1, -1).replace(/\\'/g, "'")).join('') || fallback
+}
+
+const NAME = field('name', 'Gianni Goossens')
+const TITLE = field('title', 'Front-End Developer')
+const LOCATION = field('location', 'Belgium')
+const BADGE = field('availabilityNote', 'Open to work')
+const PITCH = field('pitch', '')
 
 const html = `<!doctype html>
 <html><head><meta charset="utf-8"><style>
@@ -111,9 +129,9 @@ const html = `<!doctype html>
   <div class="glow"></div>
   <div class="dots"></div>
   <div class="text">
-    <div class="badge">Open to junior / mid front-end roles</div>
+    <div class="badge">${BADGE}</div>
     <h1>${NAME}</h1>
-    <p class="role">${TITLE}<span>/</span><em>Belgium</em></p>
+    <p class="role">${TITLE}<span>/</span><em>${LOCATION}</em></p>
     <p class="pitch">${PITCH}</p>
   </div>
   <div class="portrait"><img src="data:image/jpeg;base64,${portrait}" alt=""></div>

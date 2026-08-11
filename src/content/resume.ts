@@ -93,7 +93,7 @@ export const profile = {
     'I build fast, accessible web interfaces that hold up outside the demo. ' +
     'Currently focused on React and TypeScript, and looking for a team where ' +
     'I can grow into full-stack work.',
-  location: 'Belgium',
+  location: 'Antwerp region, Belgium',
   /**
    * Portrait shown in the hero. Swap the image by replacing
    * `public/portrait.jpg`. No code change needed. Set `portrait` to null to
@@ -118,18 +118,33 @@ export const profile = {
    */
   lookingFor: [
     'Junior to mid front-end, React and TypeScript',
-    'Belgium or remote within CET ± 2',
+    'Antwerp region, or remote within CET ± 2',
     'Full-time, available immediately',
+  ],
+  /** Structured for the JSON Resume export and the page's JSON-LD. */
+  city: 'Antwerp',
+  region: 'Flanders',
+  countryCode: 'BE',
+}
+
+/* ── Now ─────────────────────────────────────────────────────────────────── */
+/* What you are actually doing at the moment. Two or three lines, and worth
+   keeping current: a stale "now" is worse than none. */
+
+export const now = {
+  updated: '2026-08',
+  items: [
+    'Building this site, and whatever it needs next.',
+    'Working through the parts of TypeScript I have been avoiding: generics and narrowing.',
+    'Reading up on the WCAG 2.2 additions before the EAA deadline bites.',
   ],
 }
 
 /* ── Languages ───────────────────────────────────────────────────────────── */
-/* CHECK THESE. They are a guess from a Belgian address, not a fact about you. */
 
 export const languages: Language[] = [
-  { name: 'Dutch', level: 'Native', strength: 100 },
-  { name: 'English', level: 'Fluent', strength: 90 },
-  { name: 'French', level: 'Conversational', strength: 55 },
+  { name: 'Dutch', level: 'Fluent', strength: 100 },
+  { name: 'English', level: 'Fluent', strength: 100 },
 ]
 
 /* ── How to reach you ────────────────────────────────────────────────────── */

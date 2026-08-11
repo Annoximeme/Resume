@@ -74,9 +74,13 @@ Four things live outside that file:
 4. `public/fonts/` holds the three variable fonts and their OFL licences. The
    licences have to ship with the fonts, so don't delete them.
 
-`profile` also carries `timezone`, `responseTime` and `lookingFor`, which feed
-the contact block. **Check `languages` before you publish** — the values in
-there are a guess from a Belgian address, not a fact about you.
+`profile` also carries `timezone`, `responseTime`, `lookingFor` and structured
+`city` / `region` / `countryCode`, which feed the contact block, the JSON
+export and the page's JSON-LD. The `now` export drives the "Right now" block.
+
+The social card is generated from this file too: `npm run og` reads the name,
+title, location, pitch and availability line straight out of it, so the card
+cannot drift from the page.
 
 ## Colours
 
@@ -205,6 +209,16 @@ portrait above the text.
 **Accessibility.** Skip link, visible focus rings, labelled icon buttons,
 semantic landmarks, `prefers-reduced-motion` honoured throughout, and the
 contrast check above.
+
+**A "Right now" block** in About: three dated lines on what you are actually
+doing. Cheap to keep current and it says more about momentum than another
+paragraph would. A stale one is worse than none, so it shows its own date.
+
+**Deploy provenance** in the footer: the commit the live page was built from,
+linked to GitHub, read from the same CI file as the Lighthouse scores so the
+two can never disagree. Absent locally, where there is no deploy to describe.
+
+**Section anchors.** Hovering a section heading reveals a `#` link to it.
 
 **Keyboard shortcuts** on `?`, plus single keys for the things worth reaching
 quickly: `g` top, `b` build notes, `t` theme, `p` print. Single keys are

@@ -7,8 +7,9 @@
 .inner {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
-  gap: var(--s-3);
+  gap: var(--s-3) var(--s-5);
   font-size: var(--t-sm);
   color: var(--c-text-faint);
 }
@@ -52,4 +53,38 @@
 .linkButton:hover,
 .linkButton[aria-pressed='true'] {
   border-bottom-color: var(--c-tech);
+}
+
+/* ── Deploy provenance ──────────────────────────────────────────────────── */
+
+.build {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+}
+
+.commit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--c-tech);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.commit:hover {
+  border-bottom-color: var(--c-tech);
+}
+
+.commitDot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--c-positive);
+}
+
+.built {
+  color: var(--c-text-faint);
 }

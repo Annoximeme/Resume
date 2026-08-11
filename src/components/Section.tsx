@@ -36,7 +36,15 @@ export function Section({ id, eyebrow, title, intro, children }: Props) {
               {eyebrow}
             </p>
           )}
-          <h2 className={styles.title}>{title}</h2>
+          <h2 className={styles.title}>
+            {title}
+            {/* A link to the section itself. Reveals on hover or keyboard
+                focus, so it is reachable but never in the way. */}
+            <a className={styles.anchor} href={`#${id}`} data-print="hide">
+              <span aria-hidden="true">#</span>
+              <span className="visually-hidden">Link to this section</span>
+            </a>
+          </h2>
           {intro && <p className={styles.intro}>{intro}</p>}
         </header>
         <div className={styles.content}>{children}</div>

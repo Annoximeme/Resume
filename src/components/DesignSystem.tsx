@@ -268,9 +268,31 @@ export function DesignSystem() {
             </div>
           </div>
           <p className={styles.note}>
-            Both are subset to Latin, self-hosted as woff2, and licensed under
-            the SIL Open Font License. The page makes no external requests.
+            All three are subset to Latin, self-hosted as woff2, and licensed
+            under the SIL Open Font License. The page makes no external
+            requests.
           </p>
+        </section>
+
+        <section className={styles.block}>
+          <h2 className={styles.blockTitle}>Colophon</h2>
+          <dl className={styles.colophon}>
+            {[
+              ['Framework', 'React 19, TypeScript, Vite'],
+              ['Styling', 'CSS Modules and custom properties, no framework'],
+              ['Colour', 'oklch tokens, WCAG AA enforced in CI'],
+              ['Type', 'Bricolage Grotesque, Instrument Sans, JetBrains Mono'],
+              ['Motion', 'CSS scroll timelines and View Transitions'],
+              ['Hosting', 'GitHub Pages, deployed by GitHub Actions'],
+              ['Checks', 'tsc, contrast script, Lighthouse, Playwright'],
+              ['Dependencies', 'react and react-dom. That is the whole list.'],
+            ].map(([term, value]) => (
+              <div key={term} className={styles.colophonRow}>
+                <dt className={styles.colophonTerm}>{term}</dt>
+                <dd className={styles.colophonValue}>{value}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </div>
     </main>
