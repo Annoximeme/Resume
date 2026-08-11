@@ -9,7 +9,7 @@ export function Skills() {
   return (
     <Section
       id="skills"
-      eyebrow="02 / Skills"
+      eyebrow="02_skills"
       title="What I work with"
       intro="The number beside each skill is how many projects used it. Hover one to pick those projects out."
     >

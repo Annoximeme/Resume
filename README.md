@@ -52,7 +52,7 @@ Four things live outside that file:
 3. `public/portrait.jpg` is the hero photo. Replace the file to change it, and
    keep it square since it's cropped to 1:1. Set `profile.portrait` to `null` to
    remove the photo and let the text run full width.
-4. `public/fonts/` holds the two variable fonts and their OFL licences. The
+4. `public/fonts/` holds the three variable fonts and their OFL licences. The
    licences have to ship with the fonts, so don't delete them.
 
 ## Colours
@@ -134,11 +134,18 @@ no project uses simply isn't interactive.
 inside a native `<dialog>` so focus trapping, Escape and inertness are the
 browser's job. Browsers without view transitions just open the dialog.
 
-**Typography.** Bricolage Grotesque for display, Instrument Sans for text. Both
-self-hosted as Latin-subset variable woff2 and preloaded, so one file covers
-every weight and the axes are available to animate. Which is what the wordmark
-does: each letter of the name interpolates along the real `wght` and `wdth` axes
-by distance from the pointer.
+**Typography.** Three faces with three jobs: Bricolage Grotesque is the display
+voice, Instrument Sans does the reading, and JetBrains Mono is anything the
+machine is saying — navigation, section labels, timestamps, counts, the caret.
+All three are self-hosted as Latin-subset variable woff2 and preloaded, so one
+file covers every weight and the axes are available to animate. Which is what
+the wordmark does: each letter of the name interpolates along the real `wght`
+and `wdth` axes by distance from the pointer.
+
+Splitting the voices is what makes the page read as a developer's rather than a
+designer's. Section labels are rendered as source comments (`// 03_experience`),
+the gutter numerals are mono, the nav is lowercase mono, and the ground is
+ruled graph paper rather than a decorative dot field.
 
 **The portrait** is a 1-bit ordered (Bayer) dither computed on a canvas at load,
 cross-fading to the photograph on hover or focus. The two sliders under it are

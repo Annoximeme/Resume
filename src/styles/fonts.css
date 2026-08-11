@@ -5,6 +5,11 @@
  *
  *   Bricolage Grotesque: display. Axes opsz 12-96, wght 200-800, wdth 75-100.
  *   Instrument Sans:     body/UI. Axes wdth 75-100, wght 400-700.
+ *   JetBrains Mono:      machine voice. Axis wght 100-800.
+ *
+ * Three faces with three jobs: the display face is personality, the sans does
+ * the reading, and the mono is anything the computer is saying — labels,
+ * timestamps, counts, code.
  *
  * Licences ship alongside the files in public/fonts/ as the OFL requires.
  */
@@ -34,6 +39,14 @@
  * shifts the text and the page visibly jumps. These overrides scale the local
  * fallback so its line boxes match, making the swap almost invisible.
  */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-var.woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'Instrument Fallback';
   src: local('Helvetica Neue'), local('Arial'), local('Roboto');

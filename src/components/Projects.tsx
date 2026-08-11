@@ -59,7 +59,7 @@ export function Projects() {
   return (
     <Section
       id="projects"
-      eyebrow="04 / Projects"
+      eyebrow="04_projects"
       title="Things I have built"
       intro="Each one is deployed and the source is public. Open one for the detail."
     >

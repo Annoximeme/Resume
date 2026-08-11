@@ -105,9 +105,10 @@
   border-radius: var(--radius-full);
   background: var(--c-positive-soft);
   color: var(--c-positive);
+  font-family: var(--font-mono);
   font-size: var(--t-xs);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .dot {
@@ -179,9 +180,39 @@
 
 .location {
   color: var(--c-text-faint);
-  font-size: var(--t-md);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
   font-weight: 400;
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Block caret, as a terminal would draw it. */
+.caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  translate: 0 0.14em;
+  background: var(--c-accent);
+  animation: blink 1.15s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* A caret that never stops moving is exactly what reduced-motion is for. */
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+    opacity: 0.55;
+  }
 }
 
 .pitch {
@@ -285,7 +316,8 @@
   }
 
   .glow,
-  .portraitWrap::before {
+  .portraitWrap::before,
+  .caret {
     display: none;
   }
 

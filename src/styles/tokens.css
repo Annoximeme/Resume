@@ -67,8 +67,8 @@
     ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Instrument Sans', 'Instrument Fallback', ui-sans-serif, system-ui,
     -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, 'Liberation Mono', monospace;
 
   /* Fluid type scale: clamp(min, preferred, max) */
   --t-xs: 0.75rem;

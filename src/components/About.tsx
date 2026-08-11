@@ -4,7 +4,7 @@ import styles from './About.module.css'
 
 export function About() {
   return (
-    <Section id="about" eyebrow="01 / About" title="A bit about me">
+    <Section id="about" eyebrow="01_about" title="A bit about me">
       <div className={styles.prose} data-note="fonts">
         {about.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>

@@ -21,7 +21,7 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow="06 / Contact"
+      eyebrow="06_contact"
       title="Let’s talk"
       intro={
         profile.availableForWork

@@ -4,7 +4,7 @@ import styles from './Education.module.css'
 
 export function Education() {
   return (
-    <Section id="education" eyebrow="05 / Education" title="How I learned it">
+    <Section id="education" eyebrow="05_education" title="How I learned it">
       <ul className={styles.list} data-note="palette">
         {education.map((entry) => (
           <li key={`${entry.institution}-${entry.qualification}`} className={styles.item}>

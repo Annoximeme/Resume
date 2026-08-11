@@ -28,7 +28,14 @@ export function Section({ id, eyebrow, title, intro, children }: Props) {
               {numeral}
             </span>
           )}
-          {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+          {eyebrow && (
+            <p className={styles.eyebrow}>
+              <span className={styles.slash} aria-hidden="true">
+                //
+              </span>
+              {eyebrow}
+            </p>
+          )}
           <h2 className={styles.title}>{title}</h2>
           {intro && <p className={styles.intro}>{intro}</p>}
         </header>

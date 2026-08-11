@@ -33,12 +33,11 @@
   top: -0.35em;
   left: -0.44em;
   z-index: -1;
-  font-family: var(--font-display);
-  font-size: clamp(7rem, 13vw, 12rem);
+  font-family: var(--font-mono);
+  font-size: clamp(6.5rem, 12vw, 11rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.05em;
-  font-variation-settings: 'opsz' 96, 'wdth' 88;
+  letter-spacing: -0.06em;
   color: transparent;
   -webkit-text-stroke: 1px var(--c-border);
   user-select: none;
@@ -56,14 +55,21 @@
    already sticky (and so positioned), and below it the numeral is hidden.
    Adding `position: relative` here would override that sticky rule. */
 
+/* The "//" that turns the label into a source comment. */
+.slash {
+  color: color-mix(in srgb, var(--c-accent) 55%, transparent);
+  font-weight: 500;
+}
+
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: var(--s-3);
+  gap: var(--s-2);
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  /* Lowercase and tightly tracked: this is meant to read as a line of source,
+     and source does not shout in letterspaced caps. */
+  letter-spacing: -0.01em;
   color: var(--c-accent);
   margin-bottom: var(--s-4);
 }

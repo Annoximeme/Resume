@@ -30,6 +30,7 @@ export function Hero() {
               /
             </span>
             <span className={styles.location}>{profile.location}</span>
+            <span className={styles.caret} aria-hidden="true" />
           </p>
 
           <p className={styles.pitch}>{profile.pitch}</p>
