@@ -80,17 +80,63 @@
   transform: translateY(-4px);
 }
 
-/* Accent wash bleeding in from the top-left, clipped to the section. */
+/*
+ * Two soft blobs behind the title, one in each accent hue, drifting slowly
+ * past each other. The movement is transform-only on two pseudo-elements, so
+ * it runs on the compositor and never touches layout or paint; the point is
+ * that the ground under the name is never quite the same colour twice, not
+ * that anybody notices it moving.
+ */
 .glow {
   position: absolute;
   inset: -40% -20% auto -25%;
   height: 90%;
+  pointer-events: none;
+}
+
+.glow::before,
+.glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.glow::before {
   background: radial-gradient(
     50% 55% at 28% 42%,
-    color-mix(in srgb, var(--c-accent) 20%, transparent),
+    color-mix(in srgb, var(--c-accent) 22%, transparent),
     transparent 72%
   );
-  pointer-events: none;
+  animation: drift-a 34s ease-in-out infinite alternate;
+}
+
+.glow::after {
+  background: radial-gradient(
+    42% 48% at 62% 58%,
+    color-mix(in srgb, var(--c-tech) 17%, transparent),
+    transparent 70%
+  );
+  animation: drift-b 46s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate3d(7%, 5%, 0) scale(1.12);
+  }
+}
+
+@keyframes drift-b {
+  to {
+    transform: translate3d(-9%, -4%, 0) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow::before,
+  .glow::after {
+    animation: none;
+  }
 }
 
 /* ── Availability badge ─────────────────────────────────────────────────── */

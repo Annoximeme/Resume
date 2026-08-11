@@ -200,9 +200,11 @@
   color: var(--c-text-faint);
 }
 
-/* The shortcut is the real entry point; below a laptop there is no keyboard
-   to press it with, so the hint would only take up room. */
-@media (max-width: 46rem) {
+/* The shortcut is the real entry point; the hint is only an advertisement for
+   it. Between the nav breakpoint and a comfortable laptop the bar is carrying
+   a brand, six links and four controls, and this is the one that gives way —
+   dropping it below 58rem is what stops the row overflowing there. */
+@media (max-width: 58rem) {
   .paletteHint {
     display: none;
   }

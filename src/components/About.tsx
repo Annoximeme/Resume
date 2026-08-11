@@ -1,4 +1,5 @@
 import { Section } from './Section'
+import { CodeCard } from './CodeCard'
 import { about, now } from '../content/resume'
 import styles from './About.module.css'
 
@@ -21,6 +22,8 @@ export function About() {
           <p key={i}>{paragraph}</p>
         ))}
       </div>
+
+      <CodeCard />
 
       {now.items.length > 0 && (
         <aside className={styles.now}>

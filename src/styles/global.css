@@ -362,3 +362,58 @@ button {
     word-break: break-all;
   }
 }
+
+/*
+ * Pointer-tracked edge light.
+ *
+ * Any element marked data-glow gets a gradient hairline that brightens where
+ * the cursor is. The coordinates come from useCardGlow, which writes --gx/--gy
+ * on the card under the pointer; everything else is one composited pseudo.
+ *
+ * The mask is what makes it a border rather than a wash: the gradient is
+ * painted over the whole box, then the box's own content area is punched out
+ * of it, leaving only the one-pixel padding ring.
+ */
+[data-glow] {
+  position: relative;
+}
+
+[data-glow]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    14rem 14rem at var(--gx, 50%) var(--gy, 0%),
+    var(--c-accent),
+    color-mix(in srgb, var(--c-tech) 60%, transparent) 40%,
+    transparent 72%
+  );
+  /* Prefixed first, standard last: each shorthand resets its own -composite
+     longhand, so the standard pair has to be the one that lands. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+[data-glow]:hover::before {
+  opacity: 1;
+}
+
+/* Decoration with a cost and no meaning: not worth a frame on a phone, and
+   not worth anything at all on paper. */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce), print {
+  [data-glow]::before {
+    display: none;
+  }
+}

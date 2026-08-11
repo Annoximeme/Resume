@@ -81,6 +81,7 @@ export function Projects() {
             <article
               key={project.name}
               className={styles.card}
+              data-glow
               data-featured={Boolean(project.featured)}
               data-dim={isFiltering && !isMatch}
               data-match={isFiltering && isMatch}

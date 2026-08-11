@@ -16,6 +16,7 @@ import { TechFocusProvider } from './context/TechFocus'
 import { useTheme } from './hooks/useTheme'
 import { useAccent } from './hooks/useAccent'
 import { usePointerSpotlight } from './hooks/usePointerSpotlight'
+import { useCardGlow } from './hooks/useCardGlow'
 
 /**
  * Hash-based routing, deliberately. The site is two pages; a router dependency
@@ -43,6 +44,7 @@ export function App() {
   const [annotating, setAnnotating] = useState(false)
 
   usePointerSpotlight()
+  useCardGlow()
 
   const toggleAnnotations = useCallback(() => setAnnotating((v) => !v), [])
 

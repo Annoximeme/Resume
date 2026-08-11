@@ -217,6 +217,24 @@ masked to a circle that follows the pointer, so the page reads as a surface
 being lit rather than a flat image. It costs one mask position per frame and
 never runs without a fine pointer or under reduced motion.
 
+**Card edges light up too.** Anything marked `data-glow` gets a gradient
+hairline that brightens where the cursor is over it. One delegated
+`pointermove` listener for the whole page rather than one per card, and it
+reads layout once when the pointer enters a card rather than on every move —
+the move handler only writes two custom properties. The border itself is a
+masked pseudo-element, so it composites.
+
+**The hero ground drifts.** Two soft blobs, one in each accent hue, on long
+transform-only animations behind the title. The colour under the name is never
+quite the same twice; nobody is meant to notice it moving.
+
+**A snippet of the resume as code** in About, built from typed tokens rather
+than a string run through a highlighter, so the colouring is right by
+construction. Every value is read from the content file — the `stack` line is
+the technologies the project list actually uses most, counted — so it cannot
+claim anything the rest of the page does not. It uses the same two accent hues
+as everything else, which means it re-colours with the accent.
+
 **Motion** comes from CSS scroll timelines rather than JavaScript: the reading
 progress bar in the header and the reveal on every section. No
 IntersectionObserver, nothing on the main thread. The reveal sits entirely

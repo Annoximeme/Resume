@@ -64,6 +64,11 @@ export const annotations: Record<string, Annotation> = {
     body:
       'Three typefaces with three jobs — a display face for personality, a sans for reading, a mono for anything the machine is saying — each subset to Latin and served as a variable woff2, so one file covers every weight. Nothing is fetched from a font CDN. The page makes no external requests at all, which keeps it fast and means it leaks nothing about who is reading it.',
   },
+  codeCard: {
+    title: 'The snippet is not a picture of code',
+    body:
+      'Every value in it is read out of the same content file the rest of the page renders from, so it cannot claim anything the page does not — the stack line is the technologies the project list actually uses most, counted. There is no syntax highlighter either: the lines are built from typed tokens rather than written as a string and parsed back, which makes the colouring right by construction instead of right as far as a regex can tell. Copy gives you the text those same tokens produce.',
+  },
   print: {
     title: 'This page is also a PDF',
     body:

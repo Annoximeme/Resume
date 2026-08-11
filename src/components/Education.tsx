@@ -9,7 +9,7 @@ export function Education() {
     <Section id="education" title="How I learned it">
       <ul className={styles.list} data-note="palette">
         {education.map((entry) => (
-          <li key={`${entry.institution}-${entry.qualification}`} className={styles.item}>
+          <li key={`${entry.institution}-${entry.qualification}`} className={styles.item} data-glow>
             <p className={styles.period}>
               {entry.start} — {entry.end}
             </p>

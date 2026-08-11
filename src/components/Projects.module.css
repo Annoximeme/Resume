@@ -29,30 +29,11 @@
     background-color var(--dur) var(--ease-out);
 }
 
-/* Accent sheen that only appears on hover, wiping in from the left. */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(
-    120deg,
-    color-mix(in srgb, var(--c-accent) 10%, transparent),
-    transparent 55%
-  );
-  transition: opacity var(--dur) var(--ease-out);
-}
-
 .card:hover {
   transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
   background: var(--c-bg-raised);
   box-shadow: var(--shadow-lg);
-}
-
-.card:hover::before {
-  opacity: 1;
 }
 
 /* The featured project gets a permanent accent edge on its left side. */
@@ -400,7 +381,6 @@ button.chip:hover {
     filter: none !important;
   }
 
-  .card::before,
   .card::after {
     display: none;
   }

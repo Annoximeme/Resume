@@ -14,6 +14,7 @@ export type IconName =
   | 'close'
   | 'print'
   | 'droplet'
+  | 'check'
 
 /**
  * Inline single-path icons. Bundled rather than fetched so the page has no
@@ -36,6 +37,7 @@ const paths: Record<IconName, string> = {
     'M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12 19 17.6 17.6 19 12 13.4 6.4 19 5 17.6 10.6 12 5 6.4 6.4 5Z',
   print:
     'M7 3h10v4H7V3ZM5 8h14a2 2 0 0 1 2 2v6h-4v5H7v-5H3v-6a2 2 0 0 1 2-2Zm4 8v3h6v-3H9Zm8-4.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z',
+  check: 'M9.6 16.2 4.8 11.4l1.4-1.4 3.4 3.4 8.2-8.2 1.4 1.4-9.6 9.6Z',
   // A droplet, for the accent picker: the one control that changes hue.
   droplet:
     'M12 2.2c.35 0 .68.18.86.48l4.1 6.7a8.2 8.2 0 0 1 1.29 4.35A6.25 6.25 0 0 1 12 20a6.25 6.25 0 0 1-6.25-6.27c0-1.53.45-3.03 1.29-4.35l4.1-6.7c.18-.3.51-.48.86-.48Zm0 3-3.25 5.3a6.2 6.2 0 0 0-1 3.23A4.25 4.25 0 0 0 12 18a4.25 4.25 0 0 0 4.25-4.27 6.2 6.2 0 0 0-1-3.23L12 5.2Z'
