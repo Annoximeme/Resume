@@ -37,7 +37,7 @@ const field = (name, fallback) => {
 }
 
 const NAME = field('name', 'Gianni Goossens')
-const TITLE = field('title', 'Front-End Developer')
+const TITLE = field('title', 'Full-Stack Developer')
 const LOCATION = field('location', 'Belgium')
 const BADGE = field('availabilityNote', 'Open to work')
 const PITCH = field('pitch', '')

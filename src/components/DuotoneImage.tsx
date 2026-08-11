@@ -100,29 +100,85 @@ export function DuotoneImage({ src, alt, className, legend = false }: Props) {
     }
 
     /*
-     * Four stops rather than two. A straight shadow-to-highlight interpolation
-     * runs through the midpoint of the two endpoints, which for a dark ink and
-     * a light ground is a dead grey — the tones that carry a face all land in
-     * it. Routing the quarter-tones through the two accents keeps the midrange
-     * coloured, which is the whole point of a duotone.
+     * Four palette colours, ordered by their own luminance rather than by the
+     * job they do.
+     *
+     * Role order does not survive a theme switch: --c-text is near-black on
+     * the light theme and near-white on the dark one, so a ramp that puts it
+     * at the shadow end inverts the photograph the moment the theme flips —
+     * which is exactly what the first version of this did. Sorting by measured
+     * luminance, and seating each colour at the luminance it actually has,
+     * gives a monotonic ramp in either theme. The mapping it describes is
+     * simply: replace each grey with the palette colour of the same lightness.
      */
-    const stops: [number, Rgb][] = [
-      [0, resolve('--c-text', probe, ctx)],
-      [0.36, resolve('--c-accent', probe, ctx)],
-      [0.72, resolve('--c-tech', probe, ctx)],
-      [1, resolve('--c-bg-raised', probe, ctx)],
-    ]
+    const lum = ([r, g, b]: Rgb) => {
+      const lin = (c: number) => {
+        const s = c / 255
+        return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
+      }
+      return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    }
+
+    const palette = (
+      [
+        ['--c-text', 1],
+        ['--c-accent', 0],
+        ['--c-tech', 0],
+        ['--c-bg-raised', 1],
+      ] as const
+    )
+      // The flag marks the neutral endpoints, which keep their full weight;
+      // the accents are pulled back below.
+      .map(([token, neutral]) => {
+        const rgb = resolve(token, probe, ctx)
+        return { rgb, neutral: neutral === 1, l: lum(rgb) }
+      })
+      .sort((a, b) => a.l - b.l)
 
     document.body.removeChild(probe)
+
+    const lo = palette[0].l
+    const hi = palette[palette.length - 1].l
+    const span = hi - lo || 1
+
+    /*
+     * How far the accent stops are allowed to pull the midtones off neutral.
+     * At full strength the two accents posterise the face into flat bands of
+     * colour; a little over a third reads as a tint on a photograph, which is
+     * what a duotone is meant to look like.
+     */
+    const TINT = 0.38
+
+    const stops: [number, Rgb][] = palette.map((entry) => {
+      const t = (entry.l - lo) / span
+      if (entry.neutral) return [t, entry.rgb]
+      // The grey this tone would have been, interpolated between the two
+      // neutral endpoints, then blended back toward the accent.
+      const a = palette[0].rgb
+      const b = palette[palette.length - 1].rgb
+      const grey: Rgb = [
+        a[0] + (b[0] - a[0]) * t,
+        a[1] + (b[1] - a[1]) * t,
+        a[2] + (b[2] - a[2]) * t,
+      ]
+      return [
+        t,
+        [
+          grey[0] + (entry.rgb[0] - grey[0]) * TINT,
+          grey[1] + (entry.rgb[1] - grey[1]) * TINT,
+          grey[2] + (entry.rgb[2] - grey[2]) * TINT,
+        ],
+      ]
+    })
 
     const next: Rgb[] = []
     for (let i = 0; i < 256; i++) {
       const t = i / 255
-      let hi = 1
-      while (hi < stops.length - 1 && stops[hi][0] < t) hi++
-      const [t0, c0] = stops[hi - 1]
-      const [t1, c1] = stops[hi]
-      const k = t1 === t0 ? 0 : (t - t0) / (t1 - t0)
+      let idx = 1
+      while (idx < stops.length - 1 && stops[idx][0] < t) idx++
+      const [t0, c0] = stops[idx - 1]
+      const [t1, c1] = stops[idx]
+      const k = t1 === t0 ? 0 : Math.max(0, Math.min(1, (t - t0) / (t1 - t0)))
       next.push([
         c0[0] + (c1[0] - c0[0]) * k,
         c0[1] + (c1[1] - c0[1]) * k,

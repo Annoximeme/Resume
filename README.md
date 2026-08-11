@@ -19,6 +19,7 @@ npm run dev      # http://localhost:5173
 | `npm run preview`  | Serve the built `dist` folder                         |
 | `npm run lint`     | Type-check only                                       |
 | `npm run contrast` | Check every colour pair against WCAG AA               |
+| `npm run contrast:rendered` | Check text against the pixels behind it (needs a running preview) |
 | `npm run og`       | Regenerate the social preview image                   |
 | `npm run github`   | Refresh the GitHub activity snapshot                  |
 | `npm run pdf`      | Render `dist/resume.pdf` from a running preview       |
@@ -132,6 +133,41 @@ fails the build and tells you which pair broke. It also fails if an accent is
 named in `accents.ts` with no block in the token file, or the reverse, since
 either one would be a control that silently does nothing.
 
+### Contrast as rendered
+
+`npm run contrast:rendered` is the other half, and it needs a running preview.
+The token check compares `--c-text` against `--c-bg`; the page puts a dot
+lattice, a film grain and a drifting ambient wash *between* those two, and none
+of them appear in the token file. A pair can measure 17.5:1 in the palette and
+land well under it on screen — which is exactly what happened when the ambient
+wash was first turned up, with the token check staying green throughout.
+
+So this one measures pixels. It loads the built site, hides the glyphs,
+photographs the page, and compares each run of text against the background
+actually behind it. Four things it has to get right, all learned the hard way:
+
+- **Colours are resolved through a canvas, never parsed.** Chrome returns
+  computed colours in the syntax they were authored in, so this stylesheet's
+  arrive as `oklch(0.77 0.012 265)`. A regex pulling numbers out of that reads
+  `0.77, 0.012, 265` as RGB bytes.
+- **Text runs are measured with a `Range`, not element boxes.** A box includes
+  its padding, its rounded corners where the page shows through, and any
+  sibling decoration inside it.
+- **Runs are clipped to their element's box**, or the `visually-hidden` helper
+  reports a full-size rect for text nobody can see.
+- **Occluded runs are skipped.** Text under the sticky header is photographed
+  with the header over it. Every element is sampled at several scroll offsets,
+  so dropping the occluded pass costs no coverage.
+
+It measures a 4×4 average rather than the worst pixel. A single lattice dot
+behind a glyph does lower the ratio there, but nobody reads a pixel, and
+worst-pixel flags every textured background ever drawn.
+
+It runs in CI against the built site and blocks the deploy, because unreadable
+text is not a cosmetic problem. It caught two things the token check could not:
+`--c-text-faint` had 11% of headroom and the ground was spending all of it, and
+`--c-tech` was doing the same.
+
 If you add a surface colour, add its pairs to that script. The list is the
 whole safety net: `--c-bg-sunken` was missing from it once, and a palette
 shipped with 4.19:1 text in the footer as a result. If you want a lighter grey than it allows,
@@ -197,9 +233,19 @@ designer's. Section labels are rendered as source comments (`// 03_experience`),
 the gutter numerals are mono, the nav is lowercase mono, and the ground is
 ruled graph paper rather than a decorative dot field.
 
-**The portrait** is a 1-bit ordered (Bayer) dither computed on a canvas at load,
-cross-fading to the photograph on hover or focus. The two sliders under it are
-the actual inputs to that loop, not a simulation of them.
+**The portrait** is a duotone, mapped on a canvas at load and cross-fading to
+the photograph on hover or focus. Each pixel's luminance is looked up in a
+256-step ramp built from the palette itself, read out of the live stylesheet,
+so the photograph re-tones when the theme or the accent changes instead of
+sitting on top of the palette as an unrelated image.
+
+The stops are ordered by measured luminance rather than by the job each colour
+does. Role order doesn't survive a theme switch — `--c-text` is near-black on
+one theme and near-white on the other — so a ramp that seats it at the shadow
+end inverts the photograph the moment the theme flips. Sorting by luminance
+and seating each colour at the lightness it actually has gives a monotonic
+ramp either way, and the accents are pulled back toward neutral so the result
+reads as a tint on a photograph rather than a poster.
 
 **A living design system** at `#/system`, linked from the footer. Colours, type
 scale and spacing are read from the running stylesheet, and the contrast figures

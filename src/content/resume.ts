@@ -87,12 +87,12 @@ export type Education = {
 export const profile = {
   name: 'Gianni Goossens',
   /** One line under your name. Keep it short; it is the first thing read. */
-  title: 'Front-End Developer',
+  title: 'Full-Stack Developer',
   /** The pitch. Two or three sentences, written as you would say it out loud. */
   pitch:
-    'I build fast, accessible web interfaces that hold up outside the demo. ' +
-    'Currently focused on React and TypeScript, and looking for a team where ' +
-    'I can grow into full-stack work.',
+    'I build web applications end to end — the interface, the API behind it, ' +
+    'and the schema behind that. React and TypeScript on the front, Node and ' +
+    'Postgres on the back, and a bias toward things that hold up outside the demo.',
   location: 'Antwerp region, Belgium',
   /**
    * Portrait shown in the hero. Swap the image by replacing
@@ -103,7 +103,7 @@ export const profile = {
   portraitAlt: 'Gianni Goossens',
   /** Set to false when you are not looking. Hides the badge in the header. */
   availableForWork: true,
-  availabilityNote: 'Open to junior / mid front-end roles',
+  availabilityNote: 'Open to junior / mid full-stack roles',
   email: 'goossensgianni@gmail.com',
   /**
    * IANA zone, used to show visitors your local time so they know whether
@@ -117,7 +117,7 @@ export const profile = {
    * arrangement, the location and when you can start.
    */
   lookingFor: [
-    'Junior to mid front-end, React and TypeScript',
+    'Junior to mid full-stack, TypeScript across the stack',
     'Antwerp region, or remote within CET ± 2',
     'Full-time, available immediately',
   ],
@@ -136,6 +136,7 @@ export const now = {
   items: [
     'Building this site, and whatever it needs next.',
     'Working through the parts of TypeScript I have been avoiding: generics and narrowing.',
+    'Getting properly comfortable with Postgres query plans rather than guessing at indexes.',
     'Reading up on the WCAG 2.2 additions before the EAA deadline bites.',
   ],
 }
@@ -164,13 +165,16 @@ export const about: string[] = [
     'you change something, you reload, you see whether you were right. That loop ' +
     'is what got me building and what keeps me reading documentation on weekends.',
   'Most of what I know is self-taught and project-driven: I pick something I ' +
-    'actually want to exist, build it end to end, and learn whatever the build ' +
-    'demands. That has meant layout and state management, but also the parts ' +
-    'people skip: keyboard navigation, sensible loading states, and making the ' +
-    'thing work on a phone with a bad connection.',
-  "I'm looking for a first (or next) role on a team that reviews each other's " +
-    'code and cares whether the end result is good. I would rather be the least ' +
-    'experienced person in a strong room than the opposite.',
+    'actually want to exist and build the whole thing, because the interesting ' +
+    'part is usually the seam. Working both sides means the API gets designed ' +
+    'around what the screen actually needs, and the schema around what the API ' +
+    'actually asks for, rather than each one being handed down and worked around.',
+  'The parts people skip are the ones I care about on either side: keyboard ' +
+    'navigation and sensible loading states on the front, and on the back the ' +
+    'migrations, the indexes and the error paths that only show up under load.',
+  "I'm looking for a role on a team that reviews each other's code and cares " +
+    'whether the end result is good. I would rather be the least experienced ' +
+    'person in a strong room than the opposite.',
 ]
 
 /* ── Skills ──────────────────────────────────────────────────────────────── */

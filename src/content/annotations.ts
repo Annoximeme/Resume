@@ -20,9 +20,9 @@ export const annotations: Record<string, Annotation> = {
       'Each letter interpolates along the typeface’s real wght and wdth axes by its distance from the pointer. Bricolage Grotesque is a variable font, so this is the outline itself changing shape, not a weight swap or a transform. It is disabled under prefers-reduced-motion and on touch devices, where there is no pointer to follow.',
   },
   portrait: {
-    title: 'A 1-bit dither, computed in the browser',
+    title: 'The photograph is toned by the page it sits on',
     body:
-      'The photo is drawn to a canvas at low resolution, then each pixel is thresholded against a 4x4 Bayer matrix to make it pure black or white. The sliders underneath are the actual inputs to that loop. Hovering cross-fades back to the photograph.',
+      'Every pixel\u2019s luminance is looked up in a 256-step ramp built from the palette itself \u2014 the page\u2019s ink, both accent hues, its lightest surface \u2014 read out of the live stylesheet rather than written down here. Switch the theme or the accent and the portrait re-tones with everything else. The stops are ordered by measured luminance rather than by the job each colour does, because role order does not survive a theme switch: the ink is near-black on one theme and near-white on the other, and seating it at the shadow end inverted the photograph. Nothing is discarded \u2014 all 256 levels survive \u2014 so the face stays legible in a way a threshold cannot manage. The strip below is five stops sampled out of the same ramp the pixels went through. Hover for the untouched photo.',
   },
   progress: {
     title: 'Reading progress with no JavaScript',
@@ -72,6 +72,6 @@ export const annotations: Record<string, Annotation> = {
   print: {
     title: 'This page is also a PDF',
     body:
-      'A print stylesheet strips the navigation, drops the effects, restores the photograph over the dither and writes link URLs out in full. The same stylesheet is rendered by headless Chrome in CI to produce the downloadable resume, so the file can never drift from the site.',
+      'A print stylesheet strips the navigation, drops the effects, restores the untoned photograph and writes link URLs out in full. The same stylesheet is rendered by headless Chrome in CI to produce the downloadable resume, so the file can never drift from the site.',
   },
 }
