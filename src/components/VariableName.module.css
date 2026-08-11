@@ -1,0 +1,40 @@
+.wrap {
+  display: block;
+}
+
+.letter {
+  display: inline-block;
+  /* Matches the "far from pointer" end of the range, so the wordmark is
+     deliberate before the pointer arrives — and on touch devices, where the
+     effect never runs at all, this is the only state anyone sees. */
+  font-variation-settings: 'wght' 480, 'wdth' 94, 'opsz' 96;
+  transition: font-variation-settings var(--dur) var(--ease-out);
+  will-change: font-variation-settings;
+}
+
+/* Spaces must not collapse, and must not be animated. */
+.space {
+  display: inline-block;
+  white-space: pre;
+}
+
+/*
+ * Once the pointer is driving the axes, the transition would fight the
+ * per-frame updates and lag behind. The hover state hands control over.
+ */
+.wrap:hover .letter {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter {
+    font-variation-settings: 'wght' 700, 'wdth' 100, 'opsz' 96;
+    transition: none;
+  }
+}
+
+@media print {
+  .letter {
+    font-variation-settings: 'wght' 700, 'wdth' 100;
+  }
+}

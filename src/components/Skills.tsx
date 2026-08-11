@@ -1,25 +1,65 @@
 import { Section } from './Section'
 import { skills } from '../content/resume'
+import { useTechFocus } from '../context/TechFocus'
 import styles from './Skills.module.css'
 
 export function Skills() {
+  const { active, isFiltering, hover, togglePin, projectCount } = useTechFocus()
+
   return (
     <Section
       id="skills"
       eyebrow="02 / Skills"
       title="What I work with"
-      intro="Tools I have actually shipped something with — not everything I have ever opened."
+      intro="The number beside each skill is how many projects used it. Hover one to pick those projects out."
     >
       <div className={styles.grid}>
         {skills.map((group) => (
           <div key={group.title} className={styles.group}>
             <h3 className={styles.groupTitle}>{group.title}</h3>
             <ul className={styles.tags}>
-              {group.items.map((item) => (
-                <li key={item} className={styles.tag}>
-                  {item}
-                </li>
-              ))}
+              {group.items.map((item) => {
+                const count = projectCount(item)
+                const isActive = active !== null && active.toLowerCase() === item.toLowerCase()
+
+                // A skill with no matching project is not interactive — there
+                // is nothing for it to reveal.
+                if (count === 0) {
+                  return (
+                    <li key={item}>
+                      <span className={styles.tag} data-dim={isFiltering}>
+                        {item}
+                      </span>
+                    </li>
+                  )
+                }
+
+                return (
+                  <li key={item}>
+                    <button
+                      type="button"
+                      className={styles.tag}
+                      data-linked="true"
+                      data-active={isActive}
+                      data-dim={isFiltering && !isActive}
+                      aria-pressed={isActive}
+                      onMouseEnter={() => hover(item)}
+                      onMouseLeave={() => hover(null)}
+                      onFocus={() => hover(item)}
+                      onBlur={() => hover(null)}
+                      onClick={() => togglePin(item)}
+                    >
+                      {item}
+                      <span className={styles.count} aria-hidden="true">
+                        {count}
+                      </span>
+                      <span className="visually-hidden">
+                        {` — used in ${count} project${count === 1 ? '' : 's'}`}
+                      </span>
+                    </button>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}

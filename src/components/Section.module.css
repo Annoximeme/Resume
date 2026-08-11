@@ -23,6 +23,39 @@
   }
 }
 
+/*
+ * The one deliberate break in the grid: an oversized ghost numeral that
+ * escapes the rail to the left. It is the only element allowed outside the
+ * container's gutter, which is what makes it read as intentional.
+ */
+.numeral {
+  position: absolute;
+  top: -0.35em;
+  left: -0.44em;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 13vw, 12rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variation-settings: 'opsz' 96, 'wdth' 88;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--c-border);
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 60rem) {
+  /* No rail to escape from on narrow screens, so it would just collide. */
+  .numeral {
+    display: none;
+  }
+}
+
+/* No positioning context is declared here on purpose: above 60rem .header is
+   already sticky (and so positioned), and below it the numeral is hidden.
+   Adding `position: relative` here would override that sticky rule. */
+
 .eyebrow {
   display: flex;
   align-items: center;

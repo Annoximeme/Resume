@@ -1,4 +1,6 @@
 import { Icon } from './Icon'
+import { DitheredImage } from './DitheredImage'
+import { VariableName } from './VariableName'
 import { profile, links } from '../content/resume'
 import styles from './Hero.module.css'
 
@@ -18,7 +20,9 @@ export function Hero() {
             </p>
           )}
 
-          <h1 className={styles.name}>{profile.name}</h1>
+          <h1 className={styles.name}>
+            <VariableName>{profile.name}</VariableName>
+          </h1>
 
           <p className={styles.role}>
             {profile.title}
@@ -60,16 +64,10 @@ export function Hero() {
 
         {profile.portrait && (
           <div className={styles.portraitWrap}>
-            <img
+            <DitheredImage
               className={styles.portrait}
               src={asset(profile.portrait)}
               alt={profile.portraitAlt}
-              width={1024}
-              height={1024}
-              // Above the fold: load it eagerly and give it priority.
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
             />
           </div>
         )}

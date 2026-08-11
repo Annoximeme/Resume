@@ -67,23 +67,17 @@
   position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border-radius: var(--radius-lg);
   border: 1px solid var(--c-border);
   box-shadow: var(--shadow-lg);
-  /* The photo is already black and white; this keeps any replacement
-     consistent with it, and warms it very slightly toward the accent. */
-  filter: grayscale(1) contrast(1.04);
+  overflow: hidden;
   transition:
     transform var(--dur) var(--ease-out),
-    box-shadow var(--dur) var(--ease-out),
-    filter var(--dur) var(--ease-out);
+    box-shadow var(--dur) var(--ease-out);
 }
 
 .portraitWrap:hover .portrait {
   transform: translateY(-4px);
-  filter: grayscale(0.55) contrast(1.02);
-  box-shadow: var(--shadow-lg);
 }
 
 /* Accent wash bleeding in from the top-left, clipped to the section. */
@@ -302,6 +296,7 @@
 
   .portrait {
     box-shadow: none;
+    transform: none;
   }
 
   /* Gradient text prints as nothing — force a solid colour. */

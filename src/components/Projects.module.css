@@ -65,6 +65,22 @@
   );
 }
 
+/* ── Cross-reference states ─────────────────────────────────────────────── */
+
+/* A project that does not use the focused technology recedes. */
+.card[data-dim='true'] {
+  opacity: 0.32;
+  filter: saturate(0.5);
+}
+
+/* One that does gets pulled forward. */
+.card[data-match='true'] {
+  border-color: color-mix(in srgb, var(--c-tech) 55%, var(--c-border));
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 3px color-mix(in srgb, var(--c-tech) 14%, transparent);
+}
+
 .cardHead {
   display: flex;
   align-items: center;
@@ -75,6 +91,40 @@
 .name {
   font-size: var(--t-lg);
   letter-spacing: -0.02em;
+}
+
+/* The title doubles as the control that opens the detail view. */
+.openButton {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.openButton::after {
+  content: '↗';
+  font-size: 0.7em;
+  opacity: 0;
+  transform: translate(-4px, 2px);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.openButton:hover,
+.card:hover .openButton {
+  color: var(--c-accent);
+}
+
+.card:hover .openButton::after {
+  opacity: 0.7;
+  transform: none;
 }
 
 .flag {
@@ -109,12 +159,108 @@
   margin-top: var(--s-4);
 }
 
-.stack li {
+.chip {
   padding: 0.1rem var(--s-2);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-sm);
+  background: none;
   font-family: var(--font-mono);
   font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+button.chip {
+  cursor: pointer;
+}
+
+button.chip:hover {
+  border-color: color-mix(in srgb, var(--c-tech) 55%, transparent);
+  background: var(--c-tech-soft);
+  color: var(--c-tech);
+}
+
+/* ── Detail dialog ──────────────────────────────────────────────────────── */
+
+.dialog {
+  padding: 0;
+  border: none;
+  background: none;
+  max-width: min(46rem, 92vw);
+  max-height: 88vh;
+  color: var(--c-text);
+  overflow: visible;
+}
+
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--c-bg-sunken) 72%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  position: relative;
+  padding: clamp(var(--s-5), 4vw, var(--s-7));
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: var(--c-bg-raised);
+  box-shadow: var(--shadow-lg);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.05rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-bg);
+  color: var(--c-text-muted);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+  color: var(--c-text);
+  border-color: var(--c-border-control);
+}
+
+.dialogEyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: var(--s-3);
+}
+
+.dialogTitle {
+  font-size: var(--t-xl);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--s-2);
+}
+
+.dialogBody {
+  margin-top: var(--s-4);
+  color: var(--c-text-muted);
+  max-width: var(--measure);
+}
+
+.dialogSub {
+  margin-top: var(--s-6);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--c-text-faint);
 }
 
@@ -149,10 +295,22 @@
   .card {
     background: none;
     break-inside: avoid;
+    /* Named elements confuse print layout, and dimming must never reach paper. */
+    view-transition-name: none !important;
+    opacity: 1 !important;
+    filter: none !important;
   }
 
   .card::before,
   .card::after {
     display: none;
+  }
+
+  .dialog {
+    display: none;
+  }
+
+  .openButton::after {
+    content: none;
   }
 }

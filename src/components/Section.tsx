@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { useReveal } from '../hooks/useReveal'
 import styles from './Section.module.css'
 
 type Props = {
@@ -12,13 +11,23 @@ type Props = {
   children: ReactNode
 }
 
+/** Pulls the leading number out of "03 / Experience" for the ghost numeral. */
+function leadingNumber(eyebrow?: string) {
+  return eyebrow?.match(/^\s*(\d+)/)?.[1] ?? null
+}
+
 export function Section({ id, eyebrow, title, intro, children }: Props) {
-  const ref = useReveal<HTMLElement>()
+  const numeral = leadingNumber(eyebrow)
 
   return (
-    <section id={id} ref={ref} className="section reveal">
+    <section id={id} className="section reveal">
       <div className={`container ${styles.grid}`}>
         <header className={styles.header}>
+          {numeral && (
+            <span className={styles.numeral} aria-hidden="true">
+              {numeral}
+            </span>
+          )}
           {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
           <h2 className={styles.title}>{title}</h2>
           {intro && <p className={styles.intro}>{intro}</p>}

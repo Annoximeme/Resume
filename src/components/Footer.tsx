@@ -8,7 +8,12 @@ export function Footer() {
         <p>
           © {new Date().getFullYear()} {profile.name}
         </p>
-        <p className={styles.note}>{site.footerNote}</p>
+        <p className={styles.note}>
+          {site.footerNote}{' '}
+          <a className={styles.link} href="#/system" data-print="hide">
+            Design system
+          </a>
+        </p>
       </div>
     </footer>
   )

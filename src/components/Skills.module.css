@@ -49,20 +49,52 @@
 }
 
 .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
   padding: 0.3rem var(--s-3);
   border: 1px solid var(--c-border);
   border-radius: var(--radius-full);
   background: color-mix(in srgb, var(--c-bg-raised) 60%, transparent);
+  font: inherit;
   font-size: var(--t-sm);
   color: var(--c-text-muted);
+  cursor: default;
   transition:
     border-color var(--dur-fast) var(--ease-out),
     color var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) var(--ease-out);
+    background-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
-.tag:hover {
-  border-color: color-mix(in srgb, var(--c-tech) 45%, transparent);
+/* Only tags that actually link to a project invite a click. */
+.tag[data-linked='true'] {
+  cursor: pointer;
+}
+
+.tag[data-linked='true']:hover,
+.tag[data-active='true'] {
+  border-color: color-mix(in srgb, var(--c-tech) 55%, transparent);
   background: var(--c-tech-soft);
   color: var(--c-tech);
+}
+
+/* Everything not currently in focus recedes rather than disappearing. */
+.tag[data-dim='true'] {
+  opacity: 0.38;
+}
+
+/* The number of projects using this skill — evidence attached to the claim. */
+.count {
+  display: grid;
+  place-items: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--c-tech) 16%, transparent);
+  color: var(--c-tech);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
 }

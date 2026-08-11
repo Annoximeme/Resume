@@ -22,3 +22,13 @@
     text-align: left;
   }
 }
+
+.link {
+  color: var(--c-accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.link:hover {
+  border-bottom-color: var(--c-accent);
+}

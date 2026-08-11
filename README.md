@@ -50,7 +50,7 @@ empty. Sections you do not want at all can be removed from
 [`src/App.tsx`](src/App.tsx) and from `NAV_ITEMS` in
 [`src/components/Header.tsx`](src/components/Header.tsx).
 
-### Three things that are *not* in the content file
+### Four things that are *not* in the content file
 
 1. **`index.html`** — the `<title>`, description, Open Graph and JSON-LD tags.
    Search engines and social previews read these before any JavaScript runs, so
@@ -59,6 +59,8 @@ empty. Sections you do not want at all can be removed from
 3. **`public/portrait.jpg`** — the hero photo. Replace the file to change the
    picture; keep it square, since it is cropped to a 1:1 frame. Setting
    `profile.portrait` to `null` removes it and lets the text run full width.
+4. **`public/fonts/`** — the two variable fonts and their OFL licences. The
+   licences must ship with the fonts; do not delete them.
 
 ### Changing the colours
 
@@ -132,12 +134,37 @@ If you move to a **custom domain** or rename the repo to
   rail on the left and stays put while its content scrolls past, so you always
   know which part of the resume you are reading. Collapses to one column on
   narrow screens.
-- **Reading-progress bar** in the header, driven by a CSS scroll-timeline —
-  no JavaScript, no main-thread work, and simply absent where unsupported.
+- **Skills cross-reference the projects.** Every skill carries the number of
+  projects that used it, and hovering one picks those projects out while the
+  rest recede — it works from either side, so a project's stack chips highlight
+  the matching skill too. Click to pin the selection. The link is derived from
+  the `stack` arrays already in the content file, so it stays true as you edit
+  them, and a skill no project uses is simply not interactive.
+- **Project detail views** that morph out of their card using the View
+  Transitions API, in a native `<dialog>` so focus trapping, Escape and
+  inertness are the browser's job rather than reimplemented. Browsers without
+  view transitions just open the dialog.
+- **A cursor-reactive wordmark.** Each letter of the name interpolates along
+  the font's real `wght` and `wdth` axes by distance from the pointer. It is
+  the typeface deforming, not a transform.
+- **A dithered portrait** — a 1-bit ordered (Bayer) dither computed on a canvas
+  at load, cross-fading to the photograph on hover or focus.
+- **A living design system** at [`#/system`](#/system), linked from the footer.
+  Colours, type scale and spacing are read from the running stylesheet, and the
+  contrast figures are computed in your browser from the colours actually
+  rendered — switch theme and they recalculate.
+- **Reading-progress bar** in the header and **scroll-reveal on every section**,
+  both driven by CSS scroll timelines — no JavaScript, no main-thread work, and
+  no IntersectionObserver. The reveal lives entirely inside `@supports`, so a
+  browser that cannot animate it never gets the hidden starting state either.
 - **Responsive** — one column on phones with a slide-down menu and the portrait
   stacked above the text, two columns from 60rem up.
+- **Typography** — Bricolage Grotesque for display and Instrument Sans for
+  text, both self-hosted as Latin-subset variable woff2 and preloaded. Variable
+  means one file covers every weight, and the axes are available to animate.
 - **No external requests** — no font CDN, no icon library, no analytics. Icons
-  are inline SVG, so the page renders identically offline.
+  are inline SVG and fonts are local, so the page renders identically offline
+  and leaks nothing about who visits it.
 
 ---
 
