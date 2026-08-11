@@ -1,5 +1,5 @@
 import { Icon } from './Icon'
-import { DitheredImage } from './DitheredImage'
+import { DuotoneImage } from './DuotoneImage'
 import { VariableName } from './VariableName'
 import { profile, links } from '../content/resume'
 import styles from './Hero.module.css'
@@ -70,8 +70,8 @@ export function Hero() {
 
         {profile.portrait && (
           <div className={styles.portraitWrap} data-note="portrait">
-            <DitheredImage
-              controls
+            <DuotoneImage
+              legend
               className={styles.portrait}
               src={asset(profile.portrait)}
               alt={profile.portraitAlt}

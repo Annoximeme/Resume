@@ -58,6 +58,15 @@ jobs:
           npx vite preview --port 4173 --host 127.0.0.1 &
           npx wait-on http://127.0.0.1:4173/${{ github.event.repository.name }}/ -t 60000
 
+      # The token check above compares --c-text against --c-bg. This one
+      # photographs the built page and measures the pixels actually painted
+      # behind every run of text, which is the only way to catch the dot
+      # lattice, the grain and the ambient wash — none of which appear in the
+      # token file. It blocks the deploy, because unreadable text is not a
+      # cosmetic problem.
+      - name: Check contrast as rendered
+        run: npm run contrast:rendered -- http://127.0.0.1:4173/${{ github.event.repository.name }}/
+
       # Renders the print stylesheet, so the download can never drift from the
       # page. Failing here should not block a deploy of the site itself.
       - name: Generate resume.pdf

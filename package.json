@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "tsc -b --noEmit",
     "contrast": "node scripts/check-contrast.mjs",
+    "contrast:rendered": "node scripts/check-rendered-contrast.mjs",
     "og": "node scripts/make-og.mjs",
     "pdf": "node scripts/make-pdf.mjs",
     "github": "node scripts/fetch-github.mjs",

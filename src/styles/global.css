@@ -26,8 +26,17 @@ body {
 }
 
 /*
- * Graph paper. Ruled rather than dotted, which reads as a technical drawing
- * surface instead of decorative texture. Fixed so it stays put while the
+ * A staggered dot lattice.
+ *
+ * This was a ruled square grid. Continuous lines lay a great deal of ink over
+ * the page and every one of them runs edge to edge behind the text, which is
+ * what made the ground compete with the words on it. Dots put down a fraction
+ * of the ink for the same sense of a measured surface, and offsetting every
+ * other row by half a cell breaks the square reading — the eye picks up a
+ * hexagonal packing instead of a wireframe.
+ *
+ * Two layers, each a radial gradient tiled at the same size, the second
+ * shifted by half a cell in both directions. Fixed, so it stays put while the
  * content scrolls across it.
  */
 body::before {
@@ -37,17 +46,20 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--c-text) 7%, transparent) 1px,
-      transparent 1px
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--c-text) 9%, transparent) 1.15px,
+      transparent 1.15px
     ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--c-text) 7%, transparent) 1px,
-      transparent 1px
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--c-text) 9%, transparent) 1.15px,
+      transparent 1.15px
     );
-  background-size: 88px 88px;
+  background-position:
+    0 0,
+    19px 19px;
+  background-size: 38px 38px;
   /*
    * Framed at the left and right margins, and not faded downward.
    *
@@ -91,12 +103,19 @@ body::before {
   will-change: transform;
 }
 
+/*
+ * Deliberately faint. An earlier pass ran these at 13% and 11% and the ground
+ * started competing with the text sitting on it — the token contrast check
+ * could not see it, because it measures --c-text against --c-bg and this layer
+ * sits between the two. scripts/check-rendered-contrast.mjs samples the pixels
+ * actually painted behind the text, which is what these values are set by.
+ */
 .ambient::before {
   top: -26vmax;
   left: -20vmax;
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--c-accent) 13%, transparent),
+    color-mix(in srgb, var(--c-accent) 6%, transparent),
     transparent 64%
   );
 }
@@ -106,7 +125,7 @@ body::before {
   right: -22vmax;
   background: radial-gradient(
     circle,
-    color-mix(in srgb, var(--c-tech) 11%, transparent),
+    color-mix(in srgb, var(--c-tech) 5%, transparent),
     transparent 64%
   );
 }
@@ -183,17 +202,20 @@ body::after {
   opacity: 0;
   transition: opacity var(--dur-slow) var(--ease-out);
   background-image:
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--c-accent) 34%, transparent) 1px,
-      transparent 1px
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--c-accent) 55%, transparent) 1.15px,
+      transparent 1.15px
     ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--c-accent) 34%, transparent) 1px,
-      transparent 1px
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--c-accent) 55%, transparent) 1.15px,
+      transparent 1.15px
     );
-  background-size: 88px 88px;
+  background-position:
+    0 0,
+    19px 19px;
+  background-size: 38px 38px;
   mask-image: radial-gradient(
     circle 15rem at var(--spot-x, 50%) var(--spot-y, 50%),
     #000 0%,

@@ -47,7 +47,9 @@
    */
   --l-accent: 0.52;
   --l-accent-hover: 0.45;
-  --l-tech: 0.512;
+  /* 0.512 measured 5.43:1 nominally and 4.46:1 as rendered — the ambient
+     wash spends roughly a fifth of the ratio, and that left none. */
+  --l-tech: 0.462;
 }
 
 :root {
@@ -64,7 +66,12 @@
   --c-border-control: oklch(0.63 0.012 265);
   --c-text: oklch(0.19 0.012 265);
   --c-text-muted: oklch(0.45 0.012 265);
-  --c-text-faint: oklch(0.532 0.013 265);
+  /* Sits at 5.8:1 against the page rather than the 4.99:1 it used to. The
+     token check only ever saw that 4.99 and called it a pass, but the dot
+     lattice, the grain and the ambient wash all sit between this and --c-bg,
+     and they were spending the entire 11% of headroom it had. Measured by
+     scripts/check-rendered-contrast.mjs, which looks at pixels. */
+  --c-text-faint: oklch(0.492 0.013 265);
 
   /* Accent: electric indigo. High chroma against near-neutral greys is what
      makes the palette read as current rather than earthy. */
@@ -251,7 +258,6 @@
   --h-tech: 196;
   --l-accent: 0.5;
   --l-accent-hover: 0.435;
-  --l-tech: 0.487;
 }
 
 [data-accent='teal'] {
