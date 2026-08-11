@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Icon, type IconName } from './Icon'
 import { NAV_ITEMS } from './Header'
 import { profile, projects, site } from '../content/resume'
+import { downloadJsonResume } from '../content/jsonResume'
 import styles from './CommandPalette.module.css'
 
 type Command = {
@@ -149,6 +150,31 @@ export function CommandPalette({
         run: () => {
           window.open(`${import.meta.env.BASE_URL}resume.pdf`, '_blank', 'noopener')
           setOpen(false)
+        },
+      },
+      {
+        id: 'json',
+        label: 'Download resume as JSON',
+        hint: 'JSON Resume schema, built from the same content',
+        icon: 'file',
+        group: 'Actions',
+        run: () => {
+          downloadJsonResume()
+          setOpen(false)
+        },
+      },
+      {
+        id: 'shortcuts',
+        label: 'Show keyboard shortcuts',
+        hint: 'Or press ?',
+        icon: 'link',
+        group: 'Actions',
+        run: () => {
+          setOpen(false)
+          window.setTimeout(
+            () => window.dispatchEvent(new CustomEvent('open-shortcuts')),
+            120,
+          )
         },
       },
       {

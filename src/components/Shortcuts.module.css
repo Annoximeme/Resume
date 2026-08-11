@@ -1,0 +1,94 @@
+.dialog {
+  padding: 0;
+  border: none;
+  background: none;
+  width: min(42rem, 92vw);
+  color: var(--c-text);
+}
+
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--c-bg-sunken) 72%, transparent);
+  backdrop-filter: blur(5px);
+}
+
+.panel {
+  padding: clamp(var(--s-5), 4vw, var(--s-7));
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--c-bg-raised);
+  box-shadow: var(--shadow-lg);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-accent);
+  margin-bottom: var(--s-2);
+}
+
+.title {
+  font-size: var(--t-xl);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--s-6);
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--s-6);
+}
+
+.groupTitle {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  font-weight: 500;
+  margin-bottom: var(--s-3);
+}
+
+.list {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  font-size: var(--t-sm);
+}
+
+.keys {
+  display: inline-flex;
+  gap: 0.2rem;
+  flex: none;
+}
+
+.keys kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--c-border-strong);
+  /* The thicker bottom edge is what makes a box read as a key. */
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text);
+}
+
+.label {
+  color: var(--c-text-muted);
+}
+
+.foot {
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--c-border);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+}

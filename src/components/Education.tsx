@@ -11,11 +11,9 @@ export function Education() {
             <p className={styles.period}>
               {entry.start} — {entry.end}
             </p>
-            <div>
-              <h3 className={styles.qualification}>{entry.qualification}</h3>
-              <p className={styles.institution}>{entry.institution}</p>
-              {entry.detail && <p className={styles.detail}>{entry.detail}</p>}
-            </div>
+            <h3 className={styles.qualification}>{entry.qualification}</h3>
+            <p className={styles.institution}>{entry.institution}</p>
+            {entry.detail && <p className={styles.detail}>{entry.detail}</p>}
           </li>
         ))}
       </ul>

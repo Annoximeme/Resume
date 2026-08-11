@@ -11,6 +11,7 @@ import { Footer } from './components/Footer'
 import { DesignSystem } from './components/DesignSystem'
 import { CommandPalette } from './components/CommandPalette'
 import { AnnotationLayer } from './components/AnnotationLayer'
+import { Shortcuts } from './components/Shortcuts'
 import { TechFocusProvider } from './context/TechFocus'
 import { useTheme } from './hooks/useTheme'
 import { usePointerSpotlight } from './hooks/usePointerSpotlight'
@@ -85,6 +86,8 @@ export function App() {
         annotating={annotating}
         onToggleAnnotations={toggleAnnotations}
       />
+
+      <Shortcuts onToggleTheme={toggleTheme} onToggleAnnotations={toggleAnnotations} />
 
       <AnnotationLayer active={annotating && !isSystem} onClose={() => setAnnotating(false)} />
     </TechFocusProvider>

@@ -1,40 +1,65 @@
+/*
+ * Cards with a marker rail rather than two sparse rows. The section carried
+ * the least on the page and read as an afterthought; giving each entry an
+ * enclosure and a status dot puts it on the same footing as everything else.
+ */
 .list {
   display: grid;
-  gap: var(--s-5);
-  max-width: 52rem;
+  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
 }
 
 .item {
-  display: grid;
-  grid-template-columns: 10rem 1fr;
-  gap: var(--s-5);
-  padding-bottom: var(--s-5);
-  border-bottom: 1px solid var(--c-border);
+  position: relative;
+  padding: var(--s-5) var(--s-5) var(--s-5) var(--s-6);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--c-bg-raised) 55%, transparent);
+  transition:
+    border-color var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
 }
 
-.list > .item:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
+.item:hover {
+  border-color: var(--c-border-strong);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 40rem) {
-  .item {
-    grid-template-columns: 1fr;
-    gap: var(--s-2);
-  }
+/* The rail, and a dot marking where the entry sits on it. */
+.item::before {
+  content: '';
+  position: absolute;
+  left: var(--s-4);
+  top: var(--s-5);
+  bottom: var(--s-5);
+  width: 1px;
+  background: var(--c-border);
+}
+
+.item::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--s-4) - 0.21rem);
+  top: calc(var(--s-5) + 0.42rem);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 2px solid var(--c-tech);
 }
 
 .period {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--c-tech);
-  padding-top: 0.35rem;
+  margin-bottom: var(--s-2);
 }
 
 .qualification {
   font-size: var(--t-md);
+  letter-spacing: -0.015em;
 }
 
 .institution {
@@ -45,7 +70,20 @@
 }
 
 .detail {
-  margin-top: var(--s-2);
+  margin-top: var(--s-3);
   color: var(--c-text-muted);
   font-size: var(--t-sm);
+}
+
+@media print {
+  .list {
+    grid-template-columns: 1fr;
+    gap: var(--s-3);
+  }
+
+  .item {
+    padding: 0 0 0 var(--s-5);
+    border: none;
+    background: none;
+  }
 }

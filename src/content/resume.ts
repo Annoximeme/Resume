@@ -66,6 +66,14 @@ export type SkillGroup = {
   items: string[]
 }
 
+export type Language = {
+  name: string
+  /** How well, in your own words. Shown verbatim. */
+  level: string
+  /** 0-100, drives the bar. Be honest; an interview will find out. */
+  strength: number
+}
+
 export type Education = {
   qualification: string
   institution: string
@@ -97,7 +105,32 @@ export const profile = {
   availableForWork: true,
   availabilityNote: 'Open to junior / mid front-end roles',
   email: 'goossensgianni@gmail.com',
+  /**
+   * IANA zone, used to show visitors your local time so they know whether
+   * they are about to email you at 3am. Full list: `Intl.supportedValuesOf`.
+   */
+  timezone: 'Europe/Brussels',
+  /** Honest, not aspirational. Better to under-promise here. */
+  responseTime: 'Usually within a day',
+  /**
+   * The specifics a recruiter screens on. Vagueness costs you: say the
+   * arrangement, the location and when you can start.
+   */
+  lookingFor: [
+    'Junior to mid front-end, React and TypeScript',
+    'Belgium or remote within CET ± 2',
+    'Full-time, available immediately',
+  ],
 }
+
+/* ── Languages ───────────────────────────────────────────────────────────── */
+/* CHECK THESE. They are a guess from a Belgian address, not a fact about you. */
+
+export const languages: Language[] = [
+  { name: 'Dutch', level: 'Native', strength: 100 },
+  { name: 'English', level: 'Fluent', strength: 90 },
+  { name: 'French', level: 'Conversational', strength: 55 },
+]
 
 /* ── How to reach you ────────────────────────────────────────────────────── */
 

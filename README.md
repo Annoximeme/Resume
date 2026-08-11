@@ -39,6 +39,7 @@ complain if a field is missing, and the page updates as you save.
 | `experience` | Timeline of roles                                 |
 | `projects`   | Project cards (`featured: true` leads)            |
 | `education`  | Education and courses                             |
+| `languages`  | Spoken languages and proficiency (contact block)  |
 | `site`       | Page title, meta description, footer note         |
 
 ### Projects
@@ -72,6 +73,10 @@ Four things live outside that file:
    remove the photo and let the text run full width.
 4. `public/fonts/` holds the three variable fonts and their OFL licences. The
    licences have to ship with the fonts, so don't delete them.
+
+`profile` also carries `timezone`, `responseTime` and `lookingFor`, which feed
+the contact block. **Check `languages` before you publish** — the values in
+there are a guess from a Belgian address, not a fact about you.
 
 ## Colours
 
@@ -200,6 +205,19 @@ portrait above the text.
 **Accessibility.** Skip link, visible focus rings, labelled icon buttons,
 semantic landmarks, `prefers-reduced-motion` honoured throughout, and the
 contrast check above.
+
+**Keyboard shortcuts** on `?`, plus single keys for the things worth reaching
+quickly: `g` top, `b` build notes, `t` theme, `p` print. Single keys are
+ignored while you are typing or while a dialog owns the keyboard.
+
+**A machine-readable resume.** "Download resume as JSON" in the palette emits
+the [JSON Resume](https://jsonresume.org) schema, built from the same exported
+objects the page renders, so it cannot drift from what is on screen.
+
+**The contact block answers what a recruiter actually screens on**: where you
+are and what time it is there right now (green dot only during hours when a
+reply is plausible), how fast you reply, language proficiency, and the
+specifics — arrangement, location, availability.
 
 **A command palette** on Cmd/Ctrl-K. Jump to a section, open a project, switch
 theme, copy the email, download the PDF. Matches are ranked rather than just

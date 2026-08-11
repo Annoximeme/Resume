@@ -107,3 +107,131 @@
     margin-left: 0;
   }
 }
+
+/* ── Facts grid ─────────────────────────────────────────────────────────── */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 1px;
+  margin-top: var(--s-5);
+  /* The gap is the rule: one background behind a 1px-gapped grid draws every
+     divider without a border on each cell fighting the next. */
+  background: var(--c-border);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.fact {
+  padding: var(--s-5);
+  background: var(--c-bg);
+}
+
+.fact[data-span='wide'] {
+  grid-column: 1 / -1;
+}
+
+.factLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  margin-bottom: var(--s-3);
+}
+
+.factValue {
+  font-size: var(--t-md);
+  color: var(--c-text);
+}
+
+/* ── Local clock ────────────────────────────────────────────────────────── */
+
+.clock {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-sm);
+  color: var(--c-text-faint);
+}
+
+.clockDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--c-border-strong);
+}
+
+/* Green only during hours when a reply is plausible. */
+.clock[data-awake='true'] .clockDot {
+  background: var(--c-positive);
+}
+
+/* ── Languages ──────────────────────────────────────────────────────────── */
+
+.langs {
+  display: grid;
+  gap: var(--s-2);
+}
+
+/* Name and level share the top line, the bar spans underneath both. */
+.lang {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.35rem var(--s-3);
+  font-size: var(--t-sm);
+}
+
+.langName {
+  color: var(--c-text);
+}
+
+.langBar {
+  grid-column: 1 / -1;
+  height: 0.3rem;
+  margin-bottom: var(--s-2);
+  border-radius: var(--radius-full);
+  background: var(--c-bg-sunken);
+  overflow: hidden;
+}
+
+.langBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(to right, var(--c-tech), var(--c-accent));
+}
+
+.langLevel {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-faint);
+  text-align: right;
+}
+
+/* ── Looking for ────────────────────────────────────────────────────────── */
+
+.wants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+}
+
+.wants li {
+  position: relative;
+  padding-left: var(--s-4);
+  font-size: var(--t-sm);
+  color: var(--c-text-muted);
+}
+
+.wants li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--c-accent);
+  font-family: var(--font-mono);
+}
